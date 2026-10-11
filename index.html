@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A Different Story DWI School</title>
+<meta name="description" content="TDLR-licensed DWI Education (12-hour) and DWI Intervention (32-hour) classes in Waco, Texas. Enroll and pay online.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Libre+Baskerville:wght@700&display=swap">
+<style>
+/* Layout: modeled on the Alamo Center reference, in the Trustworthy Blue palette. Navy contact bar, white sticky header, dark hero,
+   grey badge strip, orange-bordered cards, a centered 4-step "made simple" row, an orange review band.
+   Deliberately single (light) theme to match the reference; every color is set explicitly. */
+:root{
+  --primary:#1D4ED8;     /* CTAs, links, key actions */
+  --primary-hover:#1E40AF;
+  --teal:#0F766E;        /* icons, highlights, accents */
+  --gold:#EAB308;        /* badges, highlights */
+  --rust:var(--primary); --rust-dark:var(--primary-hover);
+  --orange:var(--primary); --orange-dark:var(--primary-hover);
+  --ink:#0F172A;
+  --body:#475569;
+  --muted:#64748B;
+  --grey:#F7FAFC;
+  --white:#FFFFFF;
+  --hero:#0F172A;
+  --line:#CBD5E1;
+  --ph-bg:#fff1b8; --ph-fg:#6b4d00;
+  --font:"Poppins", "Segoe UI", Arial, sans-serif;
+  --font-logo:"Libre Baskerville", Georgia, "Times New Roman", serif;
+  --gutter:clamp(16px,4vw,48px);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:110px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--white);color:var(--body);font:16px/1.7 var(--font)}
+img{max-width:100%}
+a{color:var(--rust)}
+:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+h1,h2,h3{font-family:var(--font);color:var(--ink);line-height:1.2;text-wrap:balance;margin:0;font-weight:700}
+h2{font-size:clamp(1.8rem,3.6vw,2.6rem)}
+h3{font-size:1.3rem;font-weight:600}
+p{margin:0}
+.wrap{max-width:1200px;margin:0 auto;padding-inline:var(--gutter)}
+.center{text-align:center}
+.ph{background:var(--ph-bg);color:var(--ph-fg);border-radius:4px;padding:0 .35em;font-weight:600;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.btn{display:inline-flex;align-items:center;gap:10px;border:0;border-radius:4px;padding:16px 28px;font:600 1rem/1 var(--font);text-transform:uppercase;letter-spacing:.02em;text-decoration:none;cursor:pointer;color:var(--white);background:var(--orange);transition:background .15s}
+.btn:hover{background:var(--orange-dark)}
+.btn.rust{background:var(--teal)}
+.btn.rust:hover{background:#0b5e58}
+.btn .arr{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--white);color:inherit;font-size:.8rem;line-height:1}
+.btn.rust .arr{color:var(--teal)} .btn .arr{color:var(--orange)}
+.btn.full{width:100%;justify-content:center}
+
+/* Draft note */
+.draftnote{background:var(--ph-bg);color:var(--ph-fg);font-size:.85rem;padding-block:8px}
+
+/* Top contact bar */
+.topbar{background:var(--hero);color:var(--white);font-size:.95rem}
+.topbar .wrap{display:flex;justify-content:flex-end;gap:36px;flex-wrap:wrap;padding-block:10px}
+.topbar span{display:inline-flex;align-items:center;gap:8px}
+.topbar svg{color:var(--gold);flex:none}
+.topbar b{font-weight:700}
+.topbar .ph{background:var(--gold);color:var(--ink)}
+@media (max-width:640px){.topbar .wrap{justify-content:center;gap:6px 20px;font-size:.85rem}}
+
+/* Header */
+.header{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--white);box-shadow:0 6px 14px rgba(0,0,0,.18)}
+.header .wrap{display:flex;align-items:center;gap:24px;min-height:84px;padding-block:10px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;margin-right:auto}
+.logo span{font:700 1.45rem/1 var(--font-logo);color:var(--rust);letter-spacing:.04em;text-transform:uppercase}
+.nav{display:flex;gap:26px;flex-wrap:wrap}
+.nav a{color:var(--ink);text-decoration:none;font-weight:500;font-size:1rem;padding-block:6px;border-bottom:3px solid transparent}
+.nav a:hover,.nav a.on{border-color:var(--ink)}
+.header .btn{text-transform:none;font-size:1.05rem;padding:14px 22px}
+
+@media (max-width:480px){.logo span{font-size:1.05rem}.header .btn{padding:11px 14px;font-size:.92rem}}
+
+/* Hero */
+.hero{--hero-img:url("Media/hero-classroom.jpg");background:linear-gradient(90deg,rgba(15,23,42,.86) 0%,rgba(15,23,42,.62) 45%,rgba(15,23,42,.12) 100%),var(--hero-img) right center/cover no-repeat,var(--hero);color:var(--white);padding-block:clamp(64px,9vw,120px);overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,760px);gap:40px;align-items:center}
+@media (max-width:700px){.hero{background-image:linear-gradient(rgba(15,23,42,.8),rgba(15,23,42,.72)),var(--hero-img)!important}}
+.hero h1{text-shadow:0 2px 18px rgba(15,23,42,.5);color:var(--white);font-size:clamp(2.4rem,5.4vw,4.3rem);font-weight:700;line-height:1.15}
+.hero .intro{font-size:clamp(1.05rem,1.6vw,1.35rem);margin-top:26px}
+.hero .intro b{font-weight:700}
+.hero .kicker{color:var(--gold);font-weight:700;text-transform:uppercase;font-size:clamp(1.05rem,1.8vw,1.45rem);margin-top:18px;line-height:1.35}
+.hero .sub{font-size:clamp(1rem,1.5vw,1.25rem);margin-top:18px;color:#CBD5E1}
+.hero .ctas{display:flex;gap:20px;flex-wrap:wrap;margin-top:34px}
+.hero .ph{background:var(--gold);color:var(--ink)}
+.hero-art{display:grid;place-items:center}
+.hero-art svg{width:100%;max-width:420px;height:auto}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.hero-art{display:none}}
+
+/* Badge strip */
+.badges{background:var(--grey);padding-block:36px}
+.badges .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;align-items:center}
+.badge{display:grid;justify-items:center;gap:10px;text-align:center}
+.badge svg{width:96px;height:96px}
+.badge b{color:var(--ink);font-size:1.05rem;line-height:1.3}
+.badge small{color:var(--muted);font-size:.85rem;display:block}
+@media (max-width:800px){.badges .wrap{grid-template-columns:1fr 1fr}}
+
+section{padding-block:clamp(60px,8vw,100px)}
+.sec-title{display:grid;gap:14px;margin-bottom:48px}
+.sec-title p{max-width:68ch;font-size:1.05rem}
+.sec-title.center p{margin-inline:auto}
+.orange-title{color:var(--teal)}
+.grey{background:var(--grey)}
+
+/* Program cards */
+.cards2{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.card{border:1px solid var(--line);border-radius:10px;padding:32px;background:var(--white);display:flex;flex-direction:column;gap:16px;min-width:0}
+.num{display:inline-grid;place-items:center;min-width:76px;height:78px;padding-inline:14px;background:var(--orange);color:var(--white);font:800 2.6rem/1 var(--font);border-radius:4px;align-self:flex-start}
+.card .hours{display:flex;align-items:center;gap:14px}
+.card .hours span{font-weight:600;color:var(--ink);line-height:1.3}
+.card ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.card .meta{border-top:1px solid var(--line);padding-top:14px;margin-top:auto;display:grid;gap:4px;font-size:.95rem}
+.card .meta b{color:var(--ink)}
+@media (max-width:820px){.cards2{grid-template-columns:1fr}}
+
+/* Dotted verify cards */
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.dotted{background-image:radial-gradient(#E2E8F0 1.5px,transparent 1.5px);background-size:22px 22px;background-color:var(--white)}
+.cards3 .card h3{font-size:1.6rem;font-weight:600}
+@media (max-width:900px){.cards3{grid-template-columns:1fr}}
+
+/* Steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;list-style:none;padding:0;margin:0}
+.steps li{display:grid;justify-items:center;text-align:center;gap:14px;align-content:start}
+.steps svg{width:110px;height:90px}
+.steps h3{font-size:1.4rem}
+@media (max-width:900px){.steps{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.steps{grid-template-columns:1fr}}
+
+/* Tables */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--white)}
+table{border-collapse:collapse;width:100%;min-width:560px}
+th,td{text-align:left;padding:15px 20px;border-bottom:1px solid var(--line)}
+th{background:var(--rust);color:var(--white);font-weight:600;font-size:.92rem}
+tr:last-child td{border-bottom:0}
+tbody tr:nth-child(even){background:#F7FAFC}
+.open{display:inline-block;background:#CCFBF1;color:var(--teal);font-weight:600;font-size:.82rem;border-radius:999px;padding:3px 12px}
+.note{font-size:.88rem;color:var(--muted);margin-top:12px}
+
+/* Fees */
+.price{font:800 3rem/1 var(--font);color:var(--rust)}
+
+/* Reviews band */
+.reviews{background:linear-gradient(180deg,#1D4ED8 0%,#1E40AF 55%,#0F172A 100%)}
+.reviews h2{color:var(--white)}
+.rgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.review{background:var(--white);border-radius:8px;padding:22px;display:grid;gap:12px;align-content:start;box-shadow:0 2px 6px rgba(0,0,0,.12);min-width:0}
+.review .who{display:flex;align-items:center;gap:12px}
+.avatar{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;color:var(--white);font-size:1.4rem;flex:none;background:#94A3B8}
+.review .who b{display:block;color:#1a56c4;font-weight:600}
+.review .who small{color:var(--muted)}
+.stars{color:var(--gold);letter-spacing:4px;font-size:1.2rem;line-height:1}
+.review p{color:var(--body)}
+.rsummary{display:flex;justify-content:center;align-items:center;gap:20px 32px;flex-wrap:wrap;margin:-20px 0 34px;color:var(--white)}
+.rsummary > div{display:flex;align-items:center;gap:12px}
+.rscore{font:700 2.2rem/1 var(--font)}
+.rsummary small{color:#CBD5E1;font-size:.95rem}
+.carousel{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center}
+.viewport{overflow:hidden;min-width:0}
+.track{display:flex;transition:transform .6s ease}
+@media (prefers-reduced-motion: reduce){.track{transition:none}}
+.track .review{flex:0 0 calc((100% - 44px)/3);margin-right:22px;min-height:230px}
+@media (max-width:1000px){.track .review{flex-basis:calc((100% - 28px)/3);margin-right:14px;padding:16px}.track .review .src{display:none}.track .avatar{width:40px;height:40px;font-size:1.1rem}}
+@media (max-width:640px){.track .review{flex-basis:100%}.carousel{grid-template-columns:1fr}.cnav{display:none}}
+.cnav{width:44px;height:44px;border-radius:50%;border:0;background:var(--white);color:var(--primary);font:600 1.8rem/1 var(--font);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.cnav:hover{background:#EFF6FF}
+.dots{display:flex;justify-content:center;gap:10px;margin-top:26px}
+.dots button{width:11px;height:11px;border-radius:50%;border:0;padding:0;background:rgba(255,255,255,.4);cursor:pointer}
+.dots button[aria-current="true"]{background:var(--gold);width:26px;border-radius:6px}
+.review .src{margin-left:auto;font-size:.75rem;color:var(--muted);font-weight:500}
+.review.ph-card{border:2px dashed #94A3B8;background:var(--white)}
+@media (max-width:1000px){.rgrid{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.rgrid{grid-template-columns:1fr}}
+
+/* Requirements */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+.cols > div{min-width:0;display:grid;gap:18px;align-content:start}
+.checks{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.checks li{display:grid;grid-template-columns:26px 1fr;gap:10px}
+.checks li::before{content:"✔";color:var(--teal);font-weight:700;font-size:1.1rem}
+@media (max-width:820px){.cols{grid-template-columns:1fr;gap:40px}}
+
+/* Enroll */
+.enroll{display:grid;grid-template-columns:1fr 1.5fr;gap:48px;align-items:start}
+.enroll aside{display:grid;gap:16px;min-width:0}
+form{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:clamp(20px,3vw,34px);display:grid;gap:20px;min-width:0}
+fieldset{border:0;margin:0;padding:0;display:grid;gap:14px;grid-template-columns:1fr 1fr}
+legend{font-weight:700;color:var(--ink);font-size:1.1rem;margin-bottom:6px;padding:0}
+.f{display:grid;gap:6px;min-width:0}
+.f.full{grid-column:1/-1}
+label{font-weight:500;font-size:.92rem;color:var(--ink)}
+input,select{font:inherit;font-size:1rem;color:var(--ink);background:var(--white);border:1px solid var(--line);border-radius:4px;padding:.65em .8em;width:100%}
+input:focus,select:focus{outline:2px solid var(--orange);border-color:var(--orange)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;grid-column:1/-1}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt label{display:grid;gap:2px;border:2px solid var(--line);border-radius:6px;padding:14px 16px;cursor:pointer;height:100%;font-weight:600}
+.opt label span{font-weight:400;color:var(--muted);font-size:.85rem}
+.opt input:checked + label{border-color:var(--orange);background:#EFF6FF}
+.opt input:focus-visible + label{outline:3px solid var(--orange)}
+.agree{display:grid;grid-template-columns:22px 1fr;gap:10px;font-size:.9rem;font-weight:400;color:var(--body)}
+.agree input{width:18px;height:18px;margin-top:3px}
+.total{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line);padding-top:16px;gap:12px;flex-wrap:wrap;color:var(--ink);font-weight:600}
+.total b{font:800 1.9rem var(--font);color:var(--rust)}
+.formmsg{border-radius:6px;padding:14px 16px;background:#EFF6FF;color:var(--ink);font-size:.95rem}
+@media (max-width:900px){.enroll{grid-template-columns:1fr}}
+@media (max-width:560px){fieldset,.opts{grid-template-columns:1fr}}
+
+/* FAQ */
+.faq{display:grid;gap:12px;max-width:900px;margin-inline:auto}
+details{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:6px;padding:0 22px}
+summary{cursor:pointer;font-weight:600;color:var(--ink);padding:18px 0;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.4rem;line-height:1;color:var(--primary)}
+details[open] summary::after{content:"–"}
+details p{padding-bottom:18px}
+
+/* Contact + footer */
+.contact{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.contact > div{border:1px solid var(--line);background:var(--white);border-radius:10px;padding:26px;display:grid;gap:6px;align-content:start;text-align:center;min-width:0}
+.contact h3{color:var(--teal);font-size:1rem;text-transform:uppercase;letter-spacing:.06em}
+.contact p{font-weight:600;color:var(--ink);font-size:1.1rem;overflow-wrap:anywhere}
+@media (max-width:820px){.contact{grid-template-columns:1fr}}
+footer{background:var(--hero);color:#CBD5E1;padding-block:52px;font-size:.9rem}
+footer .wrap{display:grid;gap:22px}
+footer .logo span{color:var(--white)}
+footer a{color:var(--white)}
+footer .tdlr{border:1px solid #334155;border-radius:8px;padding:18px;max-width:820px}
+footer .ph{background:var(--gold);color:var(--ink)}
+
+/* Menu */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.nav{gap:20px}
+.nav a{font-size:.95rem}
+.menu-btn{display:none;background:none;border:0;padding:10px;cursor:pointer;flex-direction:column;gap:5px}
+.menu-btn span{display:block;width:26px;height:3px;border-radius:2px;background:var(--ink)}
+@media (max-width:1100px){
+  .nav{display:none;order:5;width:100%;flex-direction:column;gap:0;padding-bottom:8px}
+  .nav.is-open{display:flex}
+  .header .nav{align-items:stretch}
+  .header .nav a.pay{margin-block:10px;text-align:center}
+  .nav a{padding:12px 4px;border-bottom:1px solid var(--line)}
+  .nav a.on{border-color:var(--line);color:var(--primary)}
+  .menu-btn{display:flex;order:4}
+}
+.nav a.pay{background:var(--primary);color:var(--white);border:0;border-radius:4px;padding:10px 16px;font-weight:600}
+.nav a.pay:hover{background:var(--primary-hover)}
+.nav a.pay.on{color:var(--white)}
+.nav{align-items:center}
+.eyebrow{font-weight:600;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+
+/* About */
+.about{display:grid;grid-template-columns:1.3fr 1fr;gap:56px;align-items:start}
+.about-text{display:grid;gap:18px;min-width:0}
+.about-card{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:30px;display:grid;gap:10px;justify-items:center;text-align:center;min-width:0}
+.portrait svg{width:120px;height:120px}
+.about-card .role{color:var(--teal);font-weight:600}
+.values{display:grid;gap:10px;width:100%;margin-top:10px;text-align:left}
+.values div{display:grid;border-top:1px solid var(--line);padding-top:10px}
+.values b{color:var(--ink)}
+.values span{font-size:.92rem}
+@media (max-width:880px){.about{grid-template-columns:1fr}}
+
+/* Online */
+.online{display:grid;grid-template-columns:1fr 1.2fr;gap:56px;align-items:center}
+.online-text{display:grid;gap:18px;justify-items:start;min-width:0}
+.online-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.ocard{border:1px solid var(--line);border-radius:10px;padding:22px;display:grid;gap:8px;align-content:start;background:var(--white);min-width:0}
+.ocard svg{width:44px;height:44px}
+.ocard h3{font-size:1.1rem}
+.ocard p{font-size:.94rem}
+@media (max-width:880px){.online{grid-template-columns:1fr}}
+@media (max-width:480px){.online-grid{grid-template-columns:1fr}}
+
+/* Pay balance */
+.paybal{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:22px;display:grid;gap:10px}
+.paybal h3{font-size:1.15rem}
+
+/* Location */
+.loc{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;align-items:stretch}
+.map{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--line);min-height:320px}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.maplabel{position:absolute;left:16px;bottom:16px;right:16px}
+.locinfo{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:26px;display:grid;gap:16px;align-content:start;min-width:0}
+.locinfo h3{color:var(--teal);font-size:.85rem;text-transform:uppercase;letter-spacing:.08em}
+.locinfo p{color:var(--ink);font-weight:600;overflow-wrap:anywhere}
+.locinfo .note{font-weight:400}
+@media (max-width:880px){.loc{grid-template-columns:1fr}}
+
+/* FAQ with office photo */
+.faq-photo{--faq-img:url("Media/faq-office.jpg");background:linear-gradient(90deg,rgba(15,23,42,.55) 0%,rgba(15,23,42,.15) 55%,rgba(15,23,42,0) 100%),var(--faq-img) right center/cover no-repeat,#0F172A}
+.faq-photo .sec-title{text-align:left;max-width:640px}
+.faq-photo h2{color:var(--white)}
+.faq-photo .faq{margin-inline:0;max-width:640px}
+.faq-photo details{background:rgba(15,23,42,.38);border:0;border-radius:8px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.faq-photo details[open]{background:rgba(15,23,42,.55)}
+.faq-photo summary{color:var(--white)}
+.faq-photo summary::after{color:var(--gold)}
+.faq-photo details p{color:#E2E8F0}
+@media (max-width:900px){.faq-photo{background:linear-gradient(rgba(15,23,42,.82),rgba(15,23,42,.82)),var(--faq-img) 70% center/cover no-repeat,#0F172A}.faq-photo .faq,.faq-photo .sec-title{max-width:none}}
+
+/* Made Simple with soft light background */
+.how-photo{background:url("Media/bg-soft-light.jpg") center/cover no-repeat,#13265a}
+.how-photo .orange-title,.how-photo h3{color:var(--white)}
+.how-photo .steps p{color:#DBEAFE}
+.how-photo .steps svg path{fill:var(--gold)}
+
+/* About with wave background */
+.about-photo{background:linear-gradient(90deg,rgba(255,255,255,.82) 0%,rgba(255,255,255,.7) 45%,rgba(255,255,255,0) 62%),url("Media/about-wave.jpg") center/cover no-repeat,#F7FAFC}
+.about-photo .about-card{box-shadow:0 10px 30px rgba(15,23,42,.12)}
+@media (max-width:880px){.about-photo{background:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.55)),url("Media/about-wave.jpg") 70% center/cover no-repeat,#F7FAFC}}
+
+/* Services with light background */
+.services-photo{background:url("Media/bg-road.jpg") center/cover no-repeat,#13265a}
+.services-photo .sec-title h2{color:var(--white)}
+.services-photo .sec-title p{color:#DBEAFE}
+.services-photo .sec-title .eyebrow{color:var(--gold)}
+.card .hours .num{color:var(--white)}
+.services-photo .card{border:0;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+
+/* Enroll & Pay with light wave background */
+.pay-photo{background:linear-gradient(90deg,rgba(255,255,255,.8) 0%,rgba(255,255,255,.6) 40%,rgba(255,255,255,0) 60%),url("Media/payment-light.jpg") center/cover no-repeat,#F7FAFC}
+.pay-photo form{border:0;box-shadow:0 20px 50px rgba(15,23,42,.15)}
+.pay-photo .paybal{border:0;box-shadow:0 10px 30px rgba(15,23,42,.10)}
+
+/* Online Course with light background */
+.online-photo{background:linear-gradient(rgba(11,22,56,.3),rgba(11,22,56,.3)),url("Media/online-classroom.jpg") center/cover no-repeat,#13265a}
+.online-photo .online-text h2{color:var(--white)}
+.online-photo .online-text .eyebrow{color:var(--gold)}
+.online-photo .online-text p{color:#DBEAFE}
+.online-photo .ocard{border:0;box-shadow:0 10px 30px rgba(15,23,42,.10)}
+
+/* Before You Pay with wave background */
+.verify-photo{background:url("Media/verify-wave.jpg") center/cover no-repeat,#F7FAFC}
+.verify-photo .card{border:0;box-shadow:0 10px 30px rgba(15,23,42,.12)}
+
+/* class schedule background */
+.schedule-photo{background:linear-gradient(rgba(11,22,56,.45),rgba(11,22,56,.45)),url("Media/schedule-classroom.jpg") center/cover no-repeat,#13265a}
+.schedule-photo h2{color:var(--white)}
+.schedule-photo .sec-title p,.schedule-photo .wrap > p{color:#DBEAFE}
+.schedule-photo .tbl{box-shadow:0 10px 30px rgba(0,0,0,.3)}
+
+/* what to bring background */
+.bring-photo{background:linear-gradient(270deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,.35) 30%,rgba(255,255,255,0) 55%),url("Media/verify-wave.jpg") center/cover no-repeat,#F7FAFC}
+.bring-photo .tbl{box-shadow:0 10px 30px rgba(15,23,42,.12)}
+.bring-photo .tbl{background:var(--white);border-radius:10px}
+.bring-photo .tbl td{color:var(--ink)}
+
+/* testimonials background */
+.reviews-photo{background:linear-gradient(rgba(11,22,56,.5),rgba(11,22,56,.5)),url("Media/reviews-desk.jpg") center/cover no-repeat,#13265a}
+.reviews-photo .review{box-shadow:0 10px 30px rgba(0,0,0,.3)}
+
+/* login */
+.nav a.login{border:2px solid var(--primary);color:var(--primary);border-radius:4px;padding:8px 16px;font-weight:600}
+.nav a.login:hover{background:#EFF6FF;border-color:var(--primary-hover)}
+@media (max-width:1100px){.header .nav a.login{margin-block:4px 10px;text-align:center}}
+.login-dlg{border:0;border-radius:12px;padding:0;width:min(420px,calc(100% - 32px));box-shadow:0 20px 60px rgba(15,23,42,.35);color:var(--ink)}
+.login-dlg::backdrop{background:rgba(15,23,42,.6)}
+.login-dlg .lhead{background:linear-gradient(135deg,#1D4ED8,#1E40AF);color:#fff;padding:22px 24px;position:relative}
+.login-dlg .lhead h2{color:#fff;font-size:1.5rem;margin:0}
+.login-dlg .lhead p{color:#DBEAFE;margin:4px 0 0;font-size:.95rem}
+.login-dlg .lclose{position:absolute;top:12px;right:14px;background:none;border:0;color:#fff;font-size:1.6rem;cursor:pointer;line-height:1}
+.lbody{padding:22px 24px 24px;display:grid;gap:14px}
+.lbody label{display:grid;gap:6px;font-weight:600;font-size:.95rem}
+.lbody input{padding:12px;border:1px solid var(--line);border-radius:6px;font:1rem var(--font)}
+.lbody input[type=checkbox]{width:18px;height:18px;padding:0;margin:0}
+.lbody .lrow label{display:flex;align-items:center;gap:8px;font-weight:400}
+.lbody input:focus{outline:2px solid var(--primary);outline-offset:1px}
+.lbody .lrow{display:flex;justify-content:space-between;align-items:center;font-size:.9rem}
+.lbody .lrow a{color:var(--primary)}
+.lbody .btn{width:100%;justify-content:center}
+.lmsg{font-size:.92rem;padding:10px 12px;border-radius:6px;background:#FEF9C3;color:#713F12;display:none}
+.lmsg.show{display:block}
+
+/* demo account pages */
+.acct{position:fixed;inset:0;z-index:200;background:#F1F5F9;overflow-y:auto;color:var(--ink)}
+.acct[hidden]{display:none}
+.acct-demo{background:var(--gold);color:#422006;font-size:.9rem;padding:8px 16px;text-align:center}
+.acct-demo b{font-weight:700}
+.acct-top{background:#fff;border-bottom:1px solid var(--line)}
+.acct-top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:14px;flex-wrap:wrap}
+.acct-top .who{display:flex;align-items:center;gap:10px;font-weight:600}
+.acct-top .av{width:38px;height:38px;border-radius:50%;background:var(--primary);color:#fff;display:grid;place-items:center;font-weight:700}
+.acct-actions{display:flex;gap:10px;flex-wrap:wrap}
+.acct-actions button{border:2px solid var(--primary);background:#fff;color:var(--primary);border-radius:4px;padding:8px 14px;font:600 .9rem var(--font);cursor:pointer}
+.acct-actions button.solid{background:var(--primary);color:#fff}
+.acct-main{padding-block:32px 60px}
+.acct-main h1{font-size:clamp(1.6rem,3vw,2.2rem);margin:0 0 4px}
+.acct-main .sub{color:var(--body);margin:0 0 26px}
+.agrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.apanel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px;display:grid;gap:10px;align-content:start}
+.apanel h3{margin:0;font-size:1.1rem}
+.apanel .lbl{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+.apanel p{margin:0;color:var(--body)}
+.pill{display:inline-block;padding:4px 10px;border-radius:999px;font-size:.8rem;font-weight:600}
+.pill.ok{background:#CCFBF1;color:#115E59}.pill.wait{background:#FEF3C7;color:#92400E}.pill.no{background:#E2E8F0;color:#334155}
+.steps-v{list-style:none;padding:0;margin:4px 0 0;display:grid;gap:10px}
+.steps-v li{display:flex;gap:10px;align-items:center;color:var(--body)}
+.steps-v li::before{content:"";width:18px;height:18px;border-radius:50%;border:2px solid #94A3B8;flex:none}
+.steps-v li.done::before{background:var(--teal);border-color:var(--teal)}
+.steps-v li.done{color:var(--ink)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:22px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px}
+.stat b{display:block;font-size:1.9rem;color:var(--ink)}
+.stat span{color:var(--body);font-size:.9rem}
+.atable{background:#fff;border:1px solid var(--line);border-radius:10px;overflow-x:auto;margin-top:22px}
+.atable h3{margin:0;padding:18px 20px 6px;font-size:1.1rem}
+.atable table{width:100%;border-collapse:collapse;min-width:560px}
+.atable th,.atable td{text-align:left;padding:12px 20px;border-top:1px solid var(--line);font-size:.95rem}
+.atable th{background:#F8FAFC;color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.05em}
+.bar{height:8px;background:#E2E8F0;border-radius:4px;overflow:hidden;width:120px;display:inline-block;vertical-align:middle;margin-right:8px}
+.bar i{display:block;height:100%;background:var(--primary)}
+.acct-tools{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.acct-tools button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:10px 14px;font:600 .9rem var(--font);color:var(--ink);cursor:pointer}
+
+/* student page background */
+.acct.student-bg{background:linear-gradient(rgba(11,22,56,.35),rgba(11,22,56,.35)),url("Media/student-bg.jpg") center/cover no-repeat fixed,#13265a}
+.acct.student-bg .acct-main h1{color:var(--white)}
+.acct.student-bg .acct-main .sub{color:#DBEAFE}
+.acct.student-bg .apanel{border:0;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+
+/* admin page background */
+.acct.admin-bg{background:linear-gradient(rgba(11,22,56,.25),rgba(11,22,56,.25)),url("Media/admin-bg.jpg") center/cover no-repeat fixed,#13265a}
+.acct.admin-bg .acct-main h1{color:var(--white)}
+.acct.admin-bg .acct-main .sub{color:#DBEAFE}
+.acct.admin-bg .stat,.acct.admin-bg .atable{border:0;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.acct.admin-bg .acct-tools button{border:0}
+</style>
+</head>
+<body>
+
+<div class="draftnote" role="note"><div class="wrap"><b>Draft preview.</b> Highlighted items like <span class="ph">this</span> are placeholders waiting on details from Glenn.</div></div>
+
+<div class="topbar">
+  <div class="wrap">
+    <span><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>Call: <b><span class="ph">(254) ___-____</span></b></span>
+    <span><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm9 7.2L4 7.3V8l8 5 8-5v-.7z"/></svg>Email: <b><span class="ph">info@adifferentstory___.com</span></b></span>
+  </div>
+</div>
+
+<header class="header">
+  <div class="wrap">
+    <a class="logo" href="#home" aria-label="A Different Story, home">
+      <svg width="46" height="46" viewBox="0 0 48 48" aria-hidden="true">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3B82F6"/><stop offset="1" stop-color="#1D4ED8"/></linearGradient></defs>
+        <path d="M24 13C19 9 11 8.5 4 10v27c7-1.5 15-1 20 3z" fill="url(#lg)"/>
+        <path d="M24 13c5-4 13-4.5 20-3v27c-7-1.5-15-1-20 3z" fill="#0F766E"/>
+        <path d="M24 13v27" stroke="#ffffff" stroke-width="1.5"/>
+        <path d="M30 31c2-6 6-10 10-12" stroke="#EAB308" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      </svg>
+      <span>A Different Story</span>
+    </a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mainnav" id="menuBtn"><span></span><span></span><span></span><b class="sr">Menu</b></button>
+    <nav class="nav" id="mainnav" aria-label="Main">
+      <a class="on" href="#home">Home</a>
+      <a href="#about">About Us</a>
+      <a href="#services">Services</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#online">Online Course</a>
+      <a class="pay" href="#payment">Make Payment</a>
+      <a href="#location">Location</a>
+      <a class="login" href="#login" id="loginOpen">Log In</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="hero" id="home">
+  <div class="wrap">
+    <div>
+      <h1>Need a DWI Class in Waco, Texas?</h1>
+      <p class="intro"><b>A Different Story</b> is your local, state-licensed school for <b>DWI Education and DWI Intervention</b>.</p>
+      <p class="kicker">TDLR licensed · DWI Education &amp; DWI Intervention classes</p>
+      <p class="sub">We help you meet your court and probation requirements, protect your driver license, and move forward with respect and without judgment.</p>
+      <p class="kicker">Your next chapter starts here</p>
+      <div class="ctas">
+        <a class="btn" href="#payment">Enroll &amp; Pay Online <span class="arr">➜</span></a>
+        <a class="btn rust" href="#services">Which Class Do I Need? <span class="arr">➜</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="badges">
+  <div class="wrap">
+    <div class="badge">
+      <svg viewBox="0 0 96 96" aria-hidden="true"><path d="M48 6l34 12v26c0 22-14 38-34 46C28 82 14 66 14 44V18z" fill="#1D4ED8"/><path d="M48 14l26 9v21c0 17-10 29-26 36-16-7-26-19-26-36V23z" fill="#ffffff"/><text x="48" y="54" text-anchor="middle" font-family="Poppins, Arial" font-weight="800" font-size="17" fill="#1D4ED8">TDLR</text></svg>
+      <b>TDLR Licensed<small>Provider <span class="ph">#_____</span></small></b>
+    </div>
+    <div class="badge">
+      <svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="42" fill="#0F766E"/><rect x="28" y="44" width="40" height="28" rx="4" fill="#fff"/><path d="M36 44v-8a12 12 0 0 1 24 0v8" stroke="#fff" stroke-width="6" fill="none"/><circle cx="48" cy="57" r="4" fill="#0F766E"/></svg>
+      <b>Secure Online Payment<small>Credit and debit cards</small></b>
+    </div>
+    <div class="badge">
+      <svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="42" fill="#1E40AF"/><path d="M48 22a16 16 0 0 0-16 16c0 12 16 32 16 32s16-20 16-32a16 16 0 0 0-16-16z" fill="#EAB308"/><circle cx="48" cy="38" r="6" fill="#1E40AF"/></svg>
+      <b>Local to Waco<small>McLennan County and surrounding</small></b>
+    </div>
+    <div class="badge">
+      <svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="42" fill="#EAB308"/><rect x="26" y="24" width="44" height="50" rx="4" fill="#fff"/><path d="M34 38h28M34 48h28M34 58h16" stroke="#94A3B8" stroke-width="4" stroke-linecap="round"/><circle cx="62" cy="66" r="10" fill="#0F766E"/><path d="M57 66l4 4 6-7" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+      <b>State Certificate<small>Sent to court, probation or attorney</small></b>
+    </div>
+  </div>
+</div>
+
+<section class="how-photo" id="how">
+  <div class="wrap">
+    <div class="sec-title center"><h2 class="orange-title">Your Court Ordered Class Made Simple</h2></div>
+    <ol class="steps">
+      <li><svg viewBox="0 0 110 90" aria-hidden="true"><path d="M8 52c10-4 18 2 28 22C52 40 76 14 104 4 80 22 56 50 40 86 30 72 20 60 8 52z" fill="#0F766E"/></svg><h3>Choose Your Class</h3><p>Pick DWI Education or DWI Intervention and a class date that works for you.</p></li>
+      <li><svg viewBox="0 0 110 90" aria-hidden="true"><path d="M8 52c10-4 18 2 28 22C52 40 76 14 104 4 80 22 56 50 40 86 30 72 20 60 8 52z" fill="#0F766E"/></svg><h3>Enroll &amp; Pay Online</h3><p>Fill out the short form and pay securely by card. You'll get a confirmation email with your class details.</p></li>
+      <li><svg viewBox="0 0 110 90" aria-hidden="true"><path d="M8 52c10-4 18 2 28 22C52 40 76 14 104 4 80 22 56 50 40 86 30 72 20 60 8 52z" fill="#0F766E"/></svg><h3>Complete Your Class</h3><p>Bring your photo ID, arrive on time and take part. Every hour counts toward the state requirement.</p></li>
+      <li><svg viewBox="0 0 110 90" aria-hidden="true"><path d="M8 52c10-4 18 2 28 22C52 40 76 14 104 4 80 22 56 50 40 86 30 72 20 60 8 52z" fill="#0F766E"/></svg><h3>Receive Your Certificate</h3><p>We issue your official state certificate and can send a copy to your court, probation officer or attorney.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="about-photo" id="about">
+  <div class="wrap about">
+    <div class="about-text">
+      <p class="eyebrow">About Us</p>
+      <h2>Why We're Called A Different Story</h2>
+      <p>A DWI arrest can feel like it defines you. We don't believe it does. A Different Story was founded in Waco by <span class="ph">Glenn [last name]</span> to give people a respectful, judgment-free place to complete their court-ordered classes and start writing their next chapter.</p>
+      <p><span class="ph">A few sentences about your background: years of experience, certifications, and why you opened the school.</span></p>
+      <ul class="checks">
+        <li><span>Licensed by the Texas Department of Licensing and Regulation (TDLR)</span></li>
+        <li><span>Instructors trained and certified for DWI Education and DWI Intervention</span></li>
+        <li><span>Small classes, so you get real attention and real answers</span></li>
+        <li><span>Locally owned and rooted in the Waco community</span></li>
+      </ul>
+    </div>
+    <div class="about-card">
+      <div class="portrait" aria-hidden="true"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="60" fill="#DBEAFE"/><circle cx="60" cy="48" r="22" fill="#93C5FD"/><path d="M20 108c6-24 22-34 40-34s34 10 40 34" fill="#93C5FD"/></svg></div>
+      <h3><span class="ph">Glenn [last name]</span></h3>
+      <p class="role">Founder &amp; Lead Instructor</p>
+      <p><span class="ph">Short instructor bio and photo</span></p>
+      <div class="values">
+        <div><b>Respect</b><span>No lectures, no shaming.</span></div>
+        <div><b>Clarity</b><span>Straight answers about your requirements.</span></div>
+        <div><b>Forward</b><span>Tools to make better choices.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="services-photo" id="services">
+  <div class="wrap">
+    <div class="sec-title center">
+      <p class="eyebrow">Services</p>
+      <h2>Court Ordered DWI Classes</h2>
+      <p>Not sure which class you need? Check your court order or probation paperwork. It names the program. If it doesn't, call us and we'll help you figure it out.</p>
+    </div>
+    <div class="cards2">
+      <article class="card dotted">
+        <div class="hours"><span class="num">12</span><span>HOURS<br>3 sessions of 4 hours</span></div>
+        <h3 style="font-size:1.7rem">DWI Education Program</h3>
+        <p>For a first DWI or Obstruction of a Highway conviction with community supervision (probation or deferred adjudication). Also required by DPS to reinstate a suspended Texas driver license. Many people take it before their court date.</p>
+        <ul>
+          <li>Texas DWI laws and penalties for a first offense</li>
+          <li>How alcohol and other drugs affect driving</li>
+          <li>Blood alcohol content (BAC) and how it's calculated</li>
+          <li>The real costs of a DWI, financial and personal</li>
+          <li>Recognizing a problem and where to get help</li>
+          <li>Decision making and planning ahead</li>
+        </ul>
+        <div class="meta"><span><b>Deadline:</b> usually within 180 days of being placed on probation</span><span><b>Fee:</b> <span class="ph">$___</span></span></div>
+        <a class="btn full" href="#payment">Enroll Now <span class="arr">➜</span></a>
+      </article>
+      <article class="card dotted">
+        <div class="hours"><span class="num">32</span><span>HOURS<br><span class="ph">__ sessions</span></span></div>
+        <h3 style="font-size:1.7rem">DWI Intervention Program</h3>
+        <p>For a second or later DWI, often called the Repeat Offender program. It goes deeper than the Education class, with small-group work focused on understanding your patterns and building a plan so this doesn't happen again.</p>
+        <ul>
+          <li>Intake interview before your first session</li>
+          <li>Small-group sessions led by a TDLR-licensed instructor</li>
+          <li>Alcohol and drug use, relapse and recovery</li>
+          <li>Personal action plan and community support resources</li>
+          <li>Texas laws for repeat offenses</li>
+        </ul>
+        <div class="meta"><span><b>Deadline:</b> usually within 180 days of being placed on probation</span><span><b>Fee:</b> <span class="ph">$___</span></span></div>
+        <a class="btn full" href="#payment">Enroll Now <span class="arr">➜</span></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="schedule-photo" id="schedule">
+  <div class="wrap">
+    <div class="sec-title center">
+      <h2>Class Schedule &amp; Fees</h2>
+      <p>You must attend every session of the class you sign up for. Seats are limited, so enroll early.</p>
+    </div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Class</th><th>Dates</th><th>Time</th><th>Fee</th><th>Seats</th></tr></thead>
+        <tbody>
+          <tr><td>DWI Education</td><td><span class="ph">Mon–Wed, Nov 2–4</span></td><td><span class="ph">6:00–10:00 pm</span></td><td><span class="ph">$___</span></td><td><span class="open">Open</span></td></tr>
+          <tr><td>DWI Education</td><td><span class="ph">Sat, Nov 14, 21, 28</span></td><td><span class="ph">9:00 am–1:00 pm</span></td><td><span class="ph">$___</span></td><td><span class="open">Open</span></td></tr>
+          <tr><td>DWI Intervention</td><td><span class="ph">Tue &amp; Thu, starts Nov 3</span></td><td><span class="ph">6:00–9:00 pm</span></td><td><span class="ph">$___</span></td><td><span class="open">Open</span></td></tr>
+          <tr><td>DWI Education</td><td><span class="ph">Mon–Wed, Dec 7–9</span></td><td><span class="ph">6:00–10:00 pm</span></td><td><span class="ph">$___</span></td><td><span class="open">Open</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Example dates shown until the real schedule is set. Fee includes class materials and your state certificate. Refunds and transfers: <span class="ph">refund and reschedule policy</span>.</p>
+  </div>
+</section>
+
+<section class="bring-photo" id="requirements">
+  <div class="wrap cols">
+    <div>
+      <h2>What to Bring &amp; Expect</h2>
+      <ul class="checks">
+        <li><span>A valid photo ID (driver license, state ID or passport) at every session.</span></li>
+        <li><span>Your court order or probation paperwork, if you have it, so your certificate has the right case details.</span></li>
+        <li><span>Arrive on time. Late arrivals and missed sessions can't be counted, and you may need to re-enroll.</span></li>
+        <li><span>Come sober. Anyone who appears impaired will be dismissed from class.</span></li>
+        <li><span>Take part in discussions and pass the course test with <span class="ph">70%</span> or higher.</span></li>
+        <li><span>Phones silenced and put away during class.</span></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Why the Deadline Matters</h2>
+      <p>If you are placed on probation for a DWI, Texas law generally requires you to finish the program within 180 days. If you don't, DPS can suspend or revoke your driver license, and it stays suspended until you complete the class. Only the court that handled your case can grant an extension, so talk to your attorney or probation officer if you're short on time.</p>
+      <div class="tbl">
+        <table style="min-width:420px">
+          <thead><tr><th>Offense</th><th>License suspension</th></tr></thead>
+          <tbody>
+            <tr><td>1st DWI</td><td>90 days – 1 year</td></tr>
+            <tr><td>2nd DWI within 10 years</td><td>180 days – 2 years</td></tr>
+            <tr><td>2nd DWI within 5 years</td><td>1 – 2 years</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">General information only, not legal advice. Your court order decides what applies to you.</p>
+    </div>
+  </div>
+</section>
+
+<section class="reviews reviews-photo" id="testimonials">
+  <div class="wrap">
+    <div class="sec-title center"><p class="eyebrow" style="color:#EAB308">Testimonials</p><h2>What Our Students Say</h2></div>
+    <div class="rsummary">
+      <div><span class="rscore" id="rScore">5.0</span><span class="stars" aria-hidden="true">★★★★★</span><small id="rCount">Google reviews</small></div>
+      <a class="btn rust" id="leaveReview" href="#" target="_blank" rel="noopener">Leave Us a Google Review <span class="arr">➜</span></a>
+    </div>
+    <div class="carousel" id="carousel" aria-roledescription="carousel" aria-label="Student reviews">
+      <button class="cnav prev" type="button" id="rPrev" aria-label="Previous reviews">‹</button>
+      <div class="viewport"><div class="track" id="rTrack"></div></div>
+      <button class="cnav next" type="button" id="rNext" aria-label="Next reviews">›</button>
+    </div>
+    <div class="dots" id="rDots"></div>
+  </div>
+</section>
+
+<section class="verify-photo" id="verify">
+  <div class="wrap">
+    <div class="sec-title">
+      <h2>3 Things to Check Before You Pay Anyone</h2>
+      <p>Some online sellers offer DWI classes that aren't licensed by the Texas Department of Licensing and Regulation (TDLR). A class from an unlicensed provider may not count for your court or your license. Here's how to protect yourself.</p>
+    </div>
+    <div class="cards3">
+      <article class="card dotted">
+        <span class="num">01</span>
+        <h3>Verify the TDLR License</h3>
+        <p>Every DWI program in Texas must be licensed by TDLR. Look up any provider on the TDLR website before you pay. Our provider number is <span class="ph">#_____</span>.</p>
+        <a class="btn full" href="https://www.tdlr.texas.gov/LicenseSearch/" target="_blank" rel="noopener">Verify Now <span class="arr">➜</span></a>
+      </article>
+      <article class="card dotted">
+        <span class="num">02</span>
+        <h3>Speak to a Real Person</h3>
+        <p>A trustworthy school has a real phone number, a real address and people who answer. Call us at <span class="ph">(254) ___-____</span> with any question before you enroll.</p>
+      </article>
+      <article class="card dotted">
+        <span class="num">03</span>
+        <h3>Read the Reviews</h3>
+        <p>Look for reviews that mention the instructor, the class and how the school handled certificates. Read what our students say above.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="online-photo" id="online">
+  <div class="wrap online">
+    <div class="online-text">
+      <p class="eyebrow">Online Course</p>
+      <h2>Take Your Class Live Online</h2>
+      <p>Can't make it to Waco? Take the same state-approved class live over Zoom with a real instructor, from anywhere in Texas. It counts exactly the same as attending in person.</p>
+      <p class="note"><span class="ph">Confirm which classes you offer online: DWI Education only, or both?</span></p>
+      <a class="btn" href="#payment">Enroll in an Online Class <span class="arr">➜</span></a>
+    </div>
+    <div class="online-grid">
+      <div class="ocard"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="4" y="10" width="28" height="22" rx="4" fill="#1D4ED8"/><path d="M32 18l12-6v24l-12-6z" fill="#0F766E"/><rect x="14" y="36" width="8" height="4" fill="#94A3B8"/></svg><h3>Live on Zoom</h3><p>Instructor-led sessions on a set schedule. Not a recorded video.</p></div>
+      <div class="ocard"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="20" r="10" fill="#1D4ED8"/><circle cx="24" cy="20" r="4" fill="#fff"/><rect x="10" y="34" width="28" height="6" rx="3" fill="#0F766E"/></svg><h3>Camera on</h3><p>Your camera and microphone must stay on for every session.</p></div>
+      <div class="ocard"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 20a26 26 0 0 1 36 0M12 27a17 17 0 0 1 24 0M18 34a8 8 0 0 1 12 0" stroke="#1D4ED8" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="24" cy="40" r="3" fill="#0F766E"/></svg><h3>Strong internet</h3><p>Use a phone, tablet, laptop or computer with a steady connection.</p></div>
+      <div class="ocard"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="18" fill="none" stroke="#1D4ED8" stroke-width="4"/><path d="M12 36L36 12" stroke="#0F766E" stroke-width="4" stroke-linecap="round"/></svg><h3>Never while driving</h3><p>You can't join from a moving vehicle. Find a quiet, private space.</p></div>
+    </div>
+  </div>
+</section>
+<section class="pay-photo" id="payment">
+  <div class="wrap enroll">
+    <aside>
+      <p class="eyebrow">Make Payment</p>
+      <h2>Enroll &amp; Pay Online</h2>
+      <p>Fill out the form and you'll go to a secure checkout to pay by card. We'll email your confirmation and class details.</p>
+      <p>Prefer to enroll by phone? Call <span class="ph">(254) ___-____</span>.</p>
+      <div class="paybal">
+        <h3>Already enrolled?</h3>
+        <p>Pay a remaining balance, a reschedule fee or a replacement certificate.</p>
+        <a class="btn rust full" href="#" id="balanceLink">Pay a Balance <span class="arr">➜</span></a>
+      </div>
+      <p class="note">Your information is used only for your enrollment and state certificate. Payments are processed by <span class="ph">Stripe / Square</span>. We never see or store your card number.</p>
+    </aside>
+    <form id="enrollForm" novalidate>
+      <fieldset>
+        <legend>1. Choose your class</legend>
+        <div class="opts" role="radiogroup" aria-label="Program">
+          <div class="opt"><input type="radio" name="program" id="p-edu" value="education" checked><label for="p-edu">DWI Education<span>12 hours · first offense</span></label></div>
+          <div class="opt"><input type="radio" name="program" id="p-int" value="intervention"><label for="p-int">DWI Intervention<span>32 hours · repeat offense</span></label></div>
+        </div>
+        <div class="f"><label for="format">Class format</label><select id="format" name="format"><option>In person (Waco)</option><option>Live online (Zoom)</option></select></div>
+        <div class="f"><label for="session">Class dates</label><select id="session" name="session" required></select></div>
+      </fieldset>
+      <fieldset>
+        <legend>2. About you</legend>
+        <div class="f"><label for="first">First name</label><input id="first" name="first" autocomplete="given-name" required></div>
+        <div class="f"><label for="last">Last name</label><input id="last" name="last" autocomplete="family-name" required></div>
+        <div class="f"><label for="dob">Date of birth</label><input id="dob" name="dob" type="date" required></div>
+        <div class="f"><label for="dl">Driver license number</label><input id="dl" name="dl" required></div>
+        <div class="f"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+        <div class="f"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel" required></div>
+        <div class="f full"><label for="addr">Mailing address</label><input id="addr" name="addr" autocomplete="street-address" required></div>
+      </fieldset>
+      <fieldset>
+        <legend>3. Your case (optional)</legend>
+        <div class="f"><label for="county">County of conviction</label><input id="county" name="county" placeholder="e.g. McLennan"></div>
+        <div class="f"><label for="cause">Cause / case number</label><input id="cause" name="cause"></div>
+        <div class="f full"><label for="sendto">Send a copy of my certificate to</label><input id="sendto" name="sendto" placeholder="Probation officer or attorney name and email"></div>
+      </fieldset>
+      <label class="agree" for="agree"><input type="checkbox" id="agree" name="agree" required><span>I understand I must attend every session on time with a photo ID, and I agree to the class policies and refund policy.</span></label>
+      <div class="total"><span>Total due today</span><b id="totalAmt">$___</b></div>
+      <button class="btn full" type="submit">Continue to Secure Payment <span class="arr">➜</span></button>
+      <div id="formMsg" class="formmsg" hidden></div>
+    </form>
+  </div>
+</section>
+
+<section class="faq-photo" id="faq">
+  <div class="wrap">
+    <div class="sec-title center"><h2>Frequently Asked Questions</h2></div>
+    <div class="faq">
+      <details><summary>Which class do I need?</summary><p>A first DWI conviction with probation usually requires the 12-hour DWI Education Program. A second or later DWI usually requires the 32-hour DWI Intervention Program. Your court order or probation officer will tell you which one. Call us if you're unsure.</p></details>
+      <details><summary>Is this class approved by the State of Texas?</summary><p>Yes. A Different Story is licensed by the Texas Department of Licensing and Regulation (TDLR) to teach DWI Education and DWI Intervention. Our provider number is <span class="ph">#_____</span>.</p></details>
+      <details><summary>Can I take the class before my court date?</summary><p>Yes. Many people complete DWI Education before going to court. Check with your attorney first to make sure it fits your case.</p></details>
+      <details><summary>Will this class get my suspended license back?</summary><p>Completing the DWI Education Program is what DPS requires to reinstate a license suspended for not finishing it. You may also need to pay a reinstatement fee to DPS. If your license is suspended now, ask the court about an occupational license so you can drive legally in the meantime.</p></details>
+      <details><summary>Are classes in person or online?</summary><p><span class="ph">In person at our Waco location / live online / both</span>.</p></details>
+      <details><summary>What if I miss a session or show up late?</summary><p>State rules require you to complete every hour. If you miss a session or arrive late, you may need to make it up or re-enroll in a later class. <span class="ph">Make-up and transfer fee policy</span>.</p></details>
+      <details><summary>How do I get my certificate?</summary><p>When you finish the class and pass the course test, we issue your state certificate of completion. We can also send a copy to your probation officer or attorney. Just tell us who when you enroll.</p></details>
+      <details><summary>Is the Victim Impact Panel included?</summary><p>No. The Victim Impact Panel (VIP) is a separate requirement that some courts order. <span class="ph">We offer it / we can refer you</span>.</p></details>
+      <details><summary>Can I get a refund?</summary><p><span class="ph">Refund policy</span>.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="grey" id="location">
+  <div class="wrap">
+    <div class="sec-title center">
+      <p class="eyebrow">Location</p>
+      <h2>Find Us in Waco</h2>
+    </div>
+    <div class="loc">
+      <div class="map" role="img" aria-label="Map placeholder for the school location in Waco, Texas">
+        <svg viewBox="0 0 600 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="600" height="360" fill="#E2E8F0"/>
+          <path d="M-20 250C120 210 200 300 330 240S520 150 620 190" stroke="#93C5FD" stroke-width="26" fill="none"/>
+          <g stroke="#FFFFFF" stroke-width="12"><path d="M0 120H600"/><path d="M0 300H600"/><path d="M150 0V360"/><path d="M420 0V360"/></g>
+          <g stroke="#FFFFFF" stroke-width="5"><path d="M0 60H600"/><path d="M0 190H600"/><path d="M60 0V360"/><path d="M270 0V360"/><path d="M520 0V360"/></g>
+          <path d="M300 92a34 34 0 0 0-34 34c0 26 34 66 34 66s34-40 34-66a34 34 0 0 0-34-34z" fill="#1D4ED8"/>
+          <circle cx="300" cy="126" r="12" fill="#FFFFFF"/>
+        </svg>
+        <span class="maplabel"><span class="ph">Google Map of your address goes here</span></span>
+      </div>
+      <div class="locinfo">
+        <div><h3>Address</h3><p><span class="ph">Street address</span><br>Waco, TX <span class="ph">767__</span></p></div>
+        <div><h3>Office Hours</h3><p><span class="ph">Mon–Fri, 9 am–5 pm</span><br><span class="note">Classes run evenings and weekends</span></p></div>
+        <div><h3>Call</h3><p><span class="ph">(254) ___-____</span></p></div>
+        <div><h3>Email</h3><p><span class="ph">info@adifferentstory___.com</span></p></div>
+        <div><h3>Parking</h3><p><span class="ph">Free parking details</span></p></div>
+        <a class="btn full" href="https://www.google.com/maps/search/?api=1&amp;query=Waco%2C+TX" target="_blank" rel="noopener">Get Directions <span class="arr">➜</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="#home"><span>A Different Story</span></a>
+    <p>DWI Education and DWI Intervention classes · Waco, Texas</p>
+    <div class="tdlr">
+      <p>A Different Story is licensed by the Texas Department of Licensing and Regulation, Provider <span class="ph">#_____</span>. Complaints about this program may be directed to the Texas Department of Licensing and Regulation, P.O. Box 12157, Austin, Texas 78711, 1-800-803-9202, <a href="https://www.tdlr.texas.gov" target="_blank" rel="noopener">www.tdlr.texas.gov</a>.</p>
+    </div>
+    <p>© 2026 A Different Story. Information on this site is general and is not legal advice.</p>
+  </div>
+</footer>
+
+
+
+<div class="acct" id="acct" hidden>
+  <div class="acct-demo"><b>Demo preview.</b> Sample data only. Real accounts aren't connected yet.</div>
+  <div class="acct-top"><div class="wrap">
+    <div class="who"><span class="av" id="acctAv">S</span><span id="acctName">Sample Student</span></div>
+    <div class="acct-actions">
+      <button type="button" id="acctSwitch">View as admin</button>
+      <button type="button" class="solid" id="acctBack">Back to website</button>
+      <button type="button" id="acctOut">Log out</button>
+    </div>
+  </div></div>
+
+  <main class="wrap acct-main" id="acctStudent">
+    <h1>Welcome back, <span id="acctFirst">Student</span></h1>
+    <p class="sub">Here's everything about your class in one place.</p>
+    <div class="agrid">
+      <div class="apanel">
+        <span class="lbl">My class</span>
+        <h3>DWI Education (12 hours)</h3>
+        <p>Mon–Wed, Nov 2–4 · 6:00–10:00 pm</p>
+        <p>In person, Waco, TX</p>
+        <span><span class="pill ok">Enrolled</span></span>
+      </div>
+      <div class="apanel">
+        <span class="lbl">Payment</span>
+        <h3>Paid in full</h3>
+        <p>Amount: <span class="ph">$___</span></p>
+        <p>Paid Oct 20 by card</p>
+        <span><span class="pill ok">Receipt emailed</span></span>
+      </div>
+      <div class="apanel">
+        <span class="lbl">Certificate</span>
+        <h3>In progress</h3>
+        <ul class="steps-v">
+          <li class="done">Enrolled</li>
+          <li class="done">Paid</li>
+          <li>Attend all 3 sessions</li>
+          <li>Pass the course test</li>
+          <li>Certificate issued</li>
+        </ul>
+      </div>
+      <div class="apanel">
+        <span class="lbl">Documents</span>
+        <h3>Court order</h3>
+        <p>Upload your court or probation paperwork so your certificate has the right case details.</p>
+        <span><span class="pill wait">Not uploaded</span></span>
+      </div>
+    </div>
+  </main>
+
+  <main class="wrap acct-main" id="acctAdmin" hidden>
+    <h1>Admin dashboard</h1>
+    <p class="sub">Classes, enrollments, payments and certificates.</p>
+    <div class="stats">
+      <div class="stat"><b>18</b><span>Enrollments this month</span></div>
+      <div class="stat"><b>4</b><span>Upcoming classes</span></div>
+      <div class="stat"><b><span class="ph">$_____</span></b><span>Payments this month</span></div>
+      <div class="stat"><b>3</b><span>Certificates to issue</span></div>
+    </div>
+    <div class="atable"><h3>Upcoming classes</h3><table>
+      <thead><tr><th>Class</th><th>Dates</th><th>Seats filled</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>DWI Education</td><td>Mon–Wed, Nov 2–4</td><td><span class="bar"><i style="width:75%"></i></span>12 / 16</td><td><span class="pill ok">Open</span></td></tr>
+        <tr><td>DWI Intervention</td><td>Tue &amp; Thu, starts Nov 3</td><td><span class="bar"><i style="width:50%"></i></span>6 / 12</td><td><span class="pill ok">Open</span></td></tr>
+        <tr><td>DWI Education</td><td>Sat, Nov 14, 21, 28</td><td><span class="bar"><i style="width:100%"></i></span>16 / 16</td><td><span class="pill no">Full</span></td></tr>
+        <tr><td>DWI Education</td><td>Mon–Wed, Dec 7–9</td><td><span class="bar"><i style="width:19%"></i></span>3 / 16</td><td><span class="pill ok">Open</span></td></tr>
+      </tbody></table></div>
+    <div class="atable"><h3>Recent enrollments</h3><table>
+      <thead><tr><th>Student</th><th>Class</th><th>Payment</th><th>Certificate</th></tr></thead>
+      <tbody>
+        <tr><td>Sample Student A</td><td>DWI Education · Nov 2</td><td><span class="pill ok">Paid</span></td><td><span class="pill no">After class</span></td></tr>
+        <tr><td>Sample Student B</td><td>DWI Intervention · Nov 3</td><td><span class="pill wait">Balance due</span></td><td><span class="pill no">After class</span></td></tr>
+        <tr><td>Sample Student C</td><td>DWI Education · Oct 26</td><td><span class="pill ok">Paid</span></td><td><span class="pill wait">Ready to issue</span></td></tr>
+      </tbody></table></div>
+    <div class="acct-tools">
+      <button type="button" class="demo-btn">+ Add a class</button>
+      <button type="button" class="demo-btn">Export roster</button>
+      <button type="button" class="demo-btn">Issue certificates</button>
+      <button type="button" class="demo-btn">Send class reminder</button>
+    </div>
+  </main>
+</div>
+<dialog class="login-dlg" id="loginDlg" aria-labelledby="loginTitle">
+  <div class="lhead">
+    <h2 id="loginTitle">Log In</h2>
+    <p>Access your account at A Different Story.</p>
+    <button class="lclose" type="button" id="loginClose" aria-label="Close">×</button>
+  </div>
+  <form class="lbody" id="loginForm" novalidate>
+    <label>Email<input type="email" name="email" autocomplete="username" required></label>
+    <label>Password<input type="password" name="password" autocomplete="current-password" required></label>
+    <div class="lrow"><label><input type="checkbox" name="remember"> Remember me</label><a href="#" id="forgotLink">Forgot password?</a></div>
+    <div class="lmsg" id="loginMsg" role="status"></div>
+    <button class="btn" type="submit">Log In <span class="arr">➜</span></button>
+  </form>
+</dialog>
+<script>
+/* ===== Settings to fill in before launch ===== */
+const CONFIG = {
+  prices: { education: null, intervention: null },  // e.g. 100 and 350
+  // Payment links from Stripe or Square, one per class. Leave empty to show the preview message.
+  paymentLinks: { education: "", intervention: "" },
+  // Where enrollment details are sent (e.g. a Formspree or Netlify form endpoint).
+  formEndpoint: "",
+  // Payment link for paying a balance or other fees.
+  balanceLink: "",
+  // Paste real Google reviews here (copy them from your Google Business Profile). Leave empty to show placeholders.
+  // Example format: { name: "First L.", when: "2 weeks ago", stars: 5, text: "What the student wrote." },
+  reviews: [],
+  googleReviewLink: "",   // your "Ask for reviews" link from Google Business Profile
+  // Login page from your account provider (e.g. your online course platform). Leave empty until accounts are set up.
+  loginUrl: "",
+  sessions: {
+    education: ["Mon–Wed, Nov 2–4 · 6:00–10:00 pm", "Sat, Nov 14, 21, 28 · 9:00 am–1:00 pm", "Mon–Wed, Dec 7–9 · 6:00–10:00 pm"],
+    intervention: ["Tue & Thu, starts Nov 3 · 6:00–9:00 pm"]
+  }
+};
+
+const form = document.getElementById("enrollForm");
+const sessionSel = document.getElementById("session");
+const totalEl = document.getElementById("totalAmt");
+const msg = document.getElementById("formMsg");
+const program = () => form.querySelector("input[name=program]:checked").value;
+
+function refresh(){
+  const p = program();
+  sessionSel.innerHTML = CONFIG.sessions[p].map(s => `<option>${s}</option>`).join("");
+  const price = CONFIG.prices[p];
+  totalEl.textContent = price ? "$" + price.toFixed(2) : "$___";
+}
+form.querySelectorAll("input[name=program]").forEach(r => r.addEventListener("change", refresh));
+refresh();
+
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  msg.hidden = false;
+  const missing = [...form.querySelectorAll("[required]")].filter(el => el.type === "checkbox" ? !el.checked : !el.value.trim());
+  if (missing.length){
+    const name = missing[0].type === "checkbox" ? "the policy agreement" : form.querySelector(`label[for=${missing[0].id}]`).textContent;
+    msg.textContent = `Please complete ${name} before continuing.`;
+    missing[0].focus();
+    return;
+  }
+  const p = program();
+  const link = CONFIG.paymentLinks[p];
+  if (CONFIG.formEndpoint){
+    try { await fetch(CONFIG.formEndpoint, {method:"POST", body:new FormData(form), headers:{Accept:"application/json"}}); } catch(_) {}
+  }
+  if (link){
+    const url = new URL(link);
+    url.searchParams.set("prefilled_email", form.email.value);
+    window.location.href = url.toString();
+  } else {
+    msg.textContent = "Preview only: online payment isn't connected yet. Once the payment account is set up, this button opens a secure checkout.";
+  }
+});
+const menuBtn=document.getElementById("menuBtn"), nav=document.getElementById("mainnav");
+menuBtn.addEventListener("click",()=>{const o=nav.classList.toggle("is-open");menuBtn.setAttribute("aria-expanded",o)});
+nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{nav.classList.remove("is-open");menuBtn.setAttribute("aria-expanded",false)}));
+const links=[...nav.querySelectorAll("a")];
+if("IntersectionObserver" in window){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle("on",l.getAttribute("href")==="#"+e.target.id))}}),{rootMargin:"-45% 0px -50% 0px"});
+  links.forEach(l=>{const t=document.querySelector(l.getAttribute("href"));if(t)io.observe(t)});
+}
+document.getElementById("balanceLink").addEventListener("click",e=>{if(!CONFIG.balanceLink){e.preventDefault();msg.hidden=false;msg.textContent="Preview only: balance payments aren't connected yet.";msg.scrollIntoView({block:"center"})}else{e.currentTarget.href=CONFIG.balanceLink}});
+/* Rotating reviews */
+(function(){
+  const track=document.getElementById("rTrack"), dotsEl=document.getElementById("rDots");
+  const real=CONFIG.reviews.length>0;
+  const list=real?CONFIG.reviews:Array.from({length:6},(_,i)=>({name:"Student name",when:"Google review",stars:5,text:"",ph:true}));
+  const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  track.innerHTML=list.map((r,i)=>`<article class="review${r.ph?" ph-card":""}" aria-roledescription="slide" aria-label="Review ${i+1} of ${list.length}">
+    <div class="who"><span class="avatar">${r.ph?"?":esc(r.name[0]||"?")}</span><span><b>${esc(r.name)}</b><small>${esc(r.when||"")}</small></span><span class="src">Google</span></div>
+    <div class="stars" aria-label="${r.stars} out of 5 stars">${"★".repeat(r.stars)}${"☆".repeat(5-r.stars)}</div>
+    <p>${r.ph?'<span class="ph">A real student review will appear here</span>':esc(r.text)}</p></article>`).join("");
+  if(real){const avg=list.reduce((a,r)=>a+r.stars,0)/list.length;document.getElementById("rScore").textContent=avg.toFixed(1);document.getElementById("rCount").textContent=`${list.length} Google reviews`;}
+  else{document.getElementById("rScore").hidden=true;document.getElementById("rCount").innerHTML='<span class="ph">Your Google rating</span>';}
+  const lr=document.getElementById("leaveReview");
+  if(CONFIG.googleReviewLink) lr.href=CONFIG.googleReviewLink; else lr.addEventListener("click",e=>e.preventDefault());
+  const perView=()=>innerWidth<=640?1:3;
+  let i=0;
+  const pages=()=>Math.max(1,list.length-perView()+1);
+  function go(n){i=(n+pages())%pages();const card=track.children[0];const step=card.getBoundingClientRect().width+parseFloat(getComputedStyle(card).marginRight);track.style.transform=`translateX(${-i*step}px)`;
+    dotsEl.querySelectorAll("button").forEach((d,k)=>d.setAttribute("aria-current",k===i))}
+  function buildDots(){dotsEl.innerHTML=Array.from({length:pages()},(_,k)=>`<button type="button" aria-label="Show review ${k+1}"></button>`).join("");dotsEl.querySelectorAll("button").forEach((d,k)=>d.onclick=()=>{go(k);restart()});go(Math.min(i,pages()-1))}
+  document.getElementById("rPrev").onclick=()=>{go(i-1);restart()};
+  document.getElementById("rNext").onclick=()=>{go(i+1);restart()};
+  let timer;const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function restart(){clearInterval(timer);if(!reduce)timer=setInterval(()=>go(i+1),5000)}
+  const car=document.getElementById("carousel");car.addEventListener("mouseenter",()=>clearInterval(timer));car.addEventListener("mouseleave",restart);
+  let x0=null;track.addEventListener("touchstart",e=>x0=e.touches[0].clientX,{passive:true});track.addEventListener("touchend",e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40){go(i+(dx<0?1:-1));restart()}x0=null});
+  addEventListener("resize",buildDots);buildDots();restart();
+})();
+
+// Login window
+const loginDlg=document.getElementById("loginDlg"),loginMsg=document.getElementById("loginMsg");
+document.getElementById("loginOpen").addEventListener("click",e=>{e.preventDefault();if(e.currentTarget.textContent==="My Account"){showAcct(false);return}loginMsg.className="lmsg";loginDlg.showModal()});
+document.getElementById("loginClose").addEventListener("click",()=>loginDlg.close());
+loginDlg.addEventListener("click",e=>{if(e.target===loginDlg)loginDlg.close()});
+document.getElementById("forgotLink").addEventListener("click",e=>{e.preventDefault();loginMsg.textContent="Password reset will work once accounts are connected.";loginMsg.className="lmsg show"});
+document.getElementById("loginForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  if(CONFIG.loginUrl){location.href=CONFIG.loginUrl;return}
+  // Demo mode: any email and password opens the sample account pages.
+  // The name comes from the email for now; real accounts will use the student's saved name.
+  const em=(new FormData(e.target).get("email")||"").split("@")[0].split(/[._\-0-9]/)[0];
+  studentName=em?em[0].toUpperCase()+em.slice(1).toLowerCase():"Student";
+  loginDlg.close();showAcct(false);
+});
+const acct=document.getElementById("acct"),acctStudent=document.getElementById("acctStudent"),acctAdmin=document.getElementById("acctAdmin"),acctSwitch=document.getElementById("acctSwitch");
+let studentName="Student";
+function showAcct(admin){
+  document.getElementById("acctFirst").textContent=studentName;
+  acct.hidden=false;document.body.style.overflow="hidden";acct.scrollTop=0;
+  acctStudent.hidden=admin;acctAdmin.hidden=!admin;acct.classList.toggle("student-bg",!admin);acct.classList.toggle("admin-bg",admin);
+  acctSwitch.textContent=admin?"View as student":"View as admin";
+  document.getElementById("acctName").textContent=admin?"Admin (Glenn)":studentName;
+  document.getElementById("acctAv").textContent=admin?"G":studentName[0];
+  document.getElementById("loginOpen").textContent="My Account";
+}
+acctSwitch.addEventListener("click",()=>showAcct(acctStudent.hidden===false));
+document.getElementById("acctBack").addEventListener("click",()=>{acct.hidden=true;document.body.style.overflow=""});
+document.getElementById("acctOut").addEventListener("click",()=>{acct.hidden=true;document.body.style.overflow="";document.getElementById("loginOpen").textContent="Log In";document.getElementById("loginForm").reset()});
+acct.querySelectorAll(".demo-btn").forEach(b=>b.addEventListener("click",()=>{const t=b.textContent;b.textContent="Demo only";b.disabled=true;setTimeout(()=>{b.textContent=t;b.disabled=false},1500)}));
+</script>
+</body>
+</html>
