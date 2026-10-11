@@ -432,6 +432,31 @@ footer .ph{background:var(--gold);color:var(--ink)}
 .acct.admin-bg .acct-main .sub{color:#DBEAFE}
 .acct.admin-bg .stat,.acct.admin-bg .atable{border:0;box-shadow:0 10px 30px rgba(0,0,0,.3)}
 .acct.admin-bg .acct-tools button{border:0}
+
+/* login modes */
+.lbody [class*="m-"]{display:none}
+.lbody[data-mode="login"] .m-login,.lbody[data-mode="signup"] .m-signup,.lbody[data-mode="reset"] .m-reset,.lbody[data-mode="newpass"] .m-newpass{display:grid}
+.lbody .lrow.m-login{display:none}.lbody[data-mode="login"] .lrow.m-login{display:flex}
+.lswitch{margin:0;text-align:center;font-size:.92rem;color:var(--body)}
+.lswitch a{color:var(--primary);font-weight:600}
+.lmsg.ok{background:#CCFBF1;color:#115E59}
+.lmsg.err{background:#FEE2E2;color:#991B1B}
+.lbody .btn[disabled]{opacity:.6;cursor:wait}
+/* real account pages */
+.acct-empty{background:#fff;border-radius:10px;padding:28px;max-width:560px;display:grid;gap:12px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.acct-empty h3{margin:0}
+.apanel .btn{padding:12px 18px;font-size:.9rem;justify-self:start}
+.atable td .act{border:1px solid var(--line);background:#fff;border-radius:6px;padding:5px 9px;font:600 .8rem var(--font);color:var(--primary);cursor:pointer;margin-left:6px}
+.atable td .act:hover{background:#EFF6FF}
+.atable td small{display:block;color:var(--muted)}
+.addclass{background:#fff;border-radius:10px;padding:20px;margin-top:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;align-items:end;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.addclass h3{grid-column:1/-1;margin:0;font-size:1.1rem}
+.addclass label{display:grid;gap:5px;font-size:.85rem;font-weight:600}
+.addclass input,.addclass select{padding:9px;border:1px solid var(--line);border-radius:6px;font:.95rem var(--font)}
+.addclass .btn{padding:11px 16px;font-size:.9rem;justify-content:center}
+.acct-note{color:#DBEAFE;margin-top:14px;font-size:.92rem}
+.enroll-acct{font-size:.92rem;color:var(--body);margin:0 0 10px}
+.enroll-acct a{color:var(--primary);font-weight:600}
 </style>
 </head>
 <body>
@@ -742,6 +767,7 @@ footer .ph{background:var(--gold);color:var(--ink)}
         <div class="f full"><label for="sendto">Send a copy of my certificate to</label><input id="sendto" name="sendto" placeholder="Probation officer or attorney name and email"></div>
       </fieldset>
       <label class="agree" for="agree"><input type="checkbox" id="agree" name="agree" required><span>I understand I must attend every session on time with a photo ID, and I agree to the class policies and refund policy.</span></label>
+      <p class="enroll-acct" id="enrollAcct"></p>
       <div class="total"><span>Total due today</span><b id="totalAmt">$___</b></div>
       <button class="btn full" type="submit">Continue to Secure Payment <span class="arr">➜</span></button>
       <div id="formMsg" class="formmsg" hidden></div>
@@ -894,17 +920,21 @@ footer .ph{background:var(--gold);color:var(--ink)}
 <dialog class="login-dlg" id="loginDlg" aria-labelledby="loginTitle">
   <div class="lhead">
     <h2 id="loginTitle">Log In</h2>
-    <p>Access your account at A Different Story.</p>
+    <p id="loginSub">Access your account at A Different Story.</p>
     <button class="lclose" type="button" id="loginClose" aria-label="Close">×</button>
   </div>
-  <form class="lbody" id="loginForm" novalidate>
-    <label>Email<input type="email" name="email" autocomplete="username" required></label>
-    <label>Password<input type="password" name="password" autocomplete="current-password" required></label>
-    <div class="lrow"><label><input type="checkbox" name="remember"> Remember me</label><a href="#" id="forgotLink">Forgot password?</a></div>
+  <form class="lbody" id="loginForm" novalidate data-mode="login">
+    <label class="m-signup">Full name<input type="text" name="full_name" autocomplete="name"></label>
+    <label class="m-login m-signup m-reset">Email<input type="email" name="email" autocomplete="username"></label>
+    <label class="m-login m-signup m-newpass">Password<input type="password" name="password" autocomplete="current-password" minlength="8"></label>
+    <div class="lrow m-login"><span></span><a href="#" data-go="reset">Forgot password?</a></div>
     <div class="lmsg" id="loginMsg" role="status"></div>
-    <button class="btn" type="submit">Log In <span class="arr">➜</span></button>
+    <button class="btn" type="submit" id="loginSubmit">Log In <span class="arr">➜</span></button>
+    <p class="lswitch m-login">New student? <a href="#" data-go="signup">Create an account</a></p>
+    <p class="lswitch m-signup m-reset">Already have an account? <a href="#" data-go="login">Log in</a></p>
   </form>
 </dialog>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
 /* ===== Settings to fill in before launch ===== */
 const CONFIG = {
@@ -919,8 +949,8 @@ const CONFIG = {
   // Example format: { name: "First L.", when: "2 weeks ago", stars: 5, text: "What the student wrote." },
   reviews: [],
   googleReviewLink: "",   // your "Ask for reviews" link from Google Business Profile
-  // Login page from your account provider (e.g. your online course platform). Leave empty until accounts are set up.
-  loginUrl: "",
+  // Supabase project used for student and admin logins. The publishable key is meant to be public.
+  supabase: { url: "https://prvvivttwebyolfinjjj.supabase.co", key: "sb_publishable_B9SbhkkI6KUYT0bSzuvMew_E6KzV_Pm" },
   sessions: {
     education: ["Mon–Wed, Nov 2–4 · 6:00–10:00 pm", "Sat, Nov 14, 21, 28 · 9:00 am–1:00 pm", "Mon–Wed, Dec 7–9 · 6:00–10:00 pm"],
     intervention: ["Tue & Thu, starts Nov 3 · 6:00–9:00 pm"]
@@ -933,13 +963,13 @@ const totalEl = document.getElementById("totalAmt");
 const msg = document.getElementById("formMsg");
 const program = () => form.querySelector("input[name=program]:checked").value;
 
-function refresh(){
+var refresh = function(){
   const p = program();
   sessionSel.innerHTML = CONFIG.sessions[p].map(s => `<option>${s}</option>`).join("");
   const price = CONFIG.prices[p];
   totalEl.textContent = price ? "$" + price.toFixed(2) : "$___";
-}
-form.querySelectorAll("input[name=program]").forEach(r => r.addEventListener("change", refresh));
+};
+form.querySelectorAll("input[name=program]").forEach(r => r.addEventListener("change", () => refresh()));
 refresh();
 
 form.addEventListener("submit", async e => {
@@ -953,6 +983,7 @@ form.addEventListener("submit", async e => {
     return;
   }
   const p = program();
+  await attachEnrollment();
   const link = CONFIG.paymentLinks[p];
   if (CONFIG.formEndpoint){
     try { await fetch(CONFIG.formEndpoint, {method:"POST", body:new FormData(form), headers:{Accept:"application/json"}}); } catch(_) {}
@@ -1003,36 +1034,252 @@ document.getElementById("balanceLink").addEventListener("click",e=>{if(!CONFIG.b
   addEventListener("resize",buildDots);buildDots();restart();
 })();
 
-// Login window
-const loginDlg=document.getElementById("loginDlg"),loginMsg=document.getElementById("loginMsg");
-document.getElementById("loginOpen").addEventListener("click",e=>{e.preventDefault();if(e.currentTarget.textContent==="My Account"){showAcct(false);return}loginMsg.className="lmsg";loginDlg.showModal()});
+// Login window and account pages.
+// With Supabase connected, accounts are real. If the Supabase library can't load, the demo pages are shown instead.
+const sb=(CONFIG.supabase.url&&window.supabase)?window.supabase.createClient(CONFIG.supabase.url,CONFIG.supabase.key):null;
+const loginDlg=document.getElementById("loginDlg"),loginMsg=document.getElementById("loginMsg"),loginForm=document.getElementById("loginForm");
+const loginOpen=document.getElementById("loginOpen"),loginSubmit=document.getElementById("loginSubmit");
+const acct=document.getElementById("acct"),acctStudent=document.getElementById("acctStudent"),acctAdmin=document.getElementById("acctAdmin"),acctSwitch=document.getElementById("acctSwitch");
+const esc=t=>String(t??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const COURSE={education:"DWI Education (12 hours)",intervention:"DWI Intervention (32 hours)"};
+const MODES={
+  login:{title:"Log In",sub:"Access your account at A Different Story.",btn:"Log In"},
+  signup:{title:"Create an Account",sub:"See your class, payment and certificate in one place.",btn:"Create Account"},
+  reset:{title:"Reset Password",sub:"We'll email you a link to set a new password.",btn:"Send Reset Link"},
+  newpass:{title:"Set a New Password",sub:"Choose a password with at least 8 characters.",btn:"Save Password"}
+};
+let me=null,profile=null,studentName="Student";
+
+function setMode(m){
+  loginForm.dataset.mode=m;
+  document.getElementById("loginTitle").textContent=MODES[m].title;
+  document.getElementById("loginSub").textContent=MODES[m].sub;
+  loginSubmit.innerHTML=MODES[m].btn+' <span class="arr">➜</span>';
+  loginForm.password.autocomplete=m==="login"?"current-password":"new-password";
+  say("");
+}
+function say(t,kind){loginMsg.textContent=t;loginMsg.className="lmsg"+(t?" show":"")+(kind?" "+kind:"")}
+function openLogin(m){setMode(m||"login");loginDlg.showModal()}
+loginOpen.addEventListener("click",e=>{e.preventDefault();if(me||loginOpen.textContent==="My Account"){showAcct(profile?.is_admin);return}openLogin("login")});
 document.getElementById("loginClose").addEventListener("click",()=>loginDlg.close());
 loginDlg.addEventListener("click",e=>{if(e.target===loginDlg)loginDlg.close()});
-document.getElementById("forgotLink").addEventListener("click",e=>{e.preventDefault();loginMsg.textContent="Password reset will work once accounts are connected.";loginMsg.className="lmsg show"});
-document.getElementById("loginForm").addEventListener("submit",e=>{
+loginForm.querySelectorAll("[data-go]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();setMode(a.dataset.go)}));
+
+loginForm.addEventListener("submit",async e=>{
   e.preventDefault();
-  if(CONFIG.loginUrl){location.href=CONFIG.loginUrl;return}
-  // Demo mode: any email and password opens the sample account pages.
-  // The name comes from the email for now; real accounts will use the student's saved name.
-  const em=(new FormData(e.target).get("email")||"").split("@")[0].split(/[._\-0-9]/)[0];
-  studentName=em?em[0].toUpperCase()+em.slice(1).toLowerCase():"Student";
-  loginDlg.close();showAcct(false);
+  const m=loginForm.dataset.mode,f=new FormData(loginForm);
+  const email=(f.get("email")||"").trim(),password=f.get("password")||"",name=(f.get("full_name")||"").trim();
+  if(!sb){ // demo mode
+    const em=email.split("@")[0].split(/[._\-0-9]/)[0];
+    studentName=em?em[0].toUpperCase()+em.slice(1).toLowerCase():"Student";
+    loginDlg.close();showDemo(false);return;
+  }
+  if(m!=="newpass"&&!email){say("Please enter your email.","err");return}
+  if((m==="login"||m==="signup"||m==="newpass")&&password.length<(m==="login"?1:8)){say(m==="login"?"Please enter your password.":"Your password needs at least 8 characters.","err");return}
+  if(m==="signup"&&!name){say("Please enter your full name.","err");return}
+  loginSubmit.disabled=true;
+  try{
+    const back=location.origin+location.pathname;
+    if(m==="login"){
+      const {error}=await sb.auth.signInWithPassword({email,password});
+      if(error)throw error;
+      loginDlg.close();loginForm.reset();await loadAccount(true);
+    }else if(m==="signup"){
+      const {data,error}=await sb.auth.signUp({email,password,options:{data:{full_name:name},emailRedirectTo:back}});
+      if(error)throw error;
+      if(data.session){loginDlg.close();loginForm.reset();await loadAccount(true)}
+      else{loginForm.reset();setMode("login");say("Almost done! Check your email and click the link to confirm your account, then log in.","ok")}
+    }else if(m==="reset"){
+      const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:back});
+      if(error)throw error;
+      say("If that email has an account, a reset link is on its way.","ok");
+    }else if(m==="newpass"){
+      const {error}=await sb.auth.updateUser({password});
+      if(error)throw error;
+      loginDlg.close();loginForm.reset();await loadAccount(true);
+    }
+  }catch(err){
+    const t=String(err.message||err);
+    say(/invalid login/i.test(t)?"That email and password don't match. Try again or reset your password.":/not confirmed/i.test(t)?"Please confirm your email first. Check your inbox for the link.":/already registered/i.test(t)?"That email already has an account. Try logging in.":t,"err");
+  }finally{loginSubmit.disabled=false}
 });
-const acct=document.getElementById("acct"),acctStudent=document.getElementById("acctStudent"),acctAdmin=document.getElementById("acctAdmin"),acctSwitch=document.getElementById("acctSwitch");
-let studentName="Student";
-function showAcct(admin){
-  document.getElementById("acctFirst").textContent=studentName;
+
+function openAcct(admin){
   acct.hidden=false;document.body.style.overflow="hidden";acct.scrollTop=0;
-  acctStudent.hidden=admin;acctAdmin.hidden=!admin;acct.classList.toggle("student-bg",!admin);acct.classList.toggle("admin-bg",admin);
+  acctStudent.hidden=admin;acctAdmin.hidden=!admin;
+  acct.classList.toggle("student-bg",!admin);acct.classList.toggle("admin-bg",admin);
+  loginOpen.textContent="My Account";
+}
+function closeAcct(){acct.hidden=true;document.body.style.overflow=""}
+document.getElementById("acctBack").addEventListener("click",closeAcct);
+document.getElementById("acctOut").addEventListener("click",async()=>{
+  closeAcct();loginOpen.textContent="Log In";loginForm.reset();
+  if(sb){await sb.auth.signOut();me=null;profile=null;updateEnrollNote()}
+});
+acctSwitch.addEventListener("click",()=>{const toAdmin=!acctStudent.hidden;sb?showAcct(toAdmin):showDemo(toAdmin)});
+
+// Demo pages (used only when Supabase isn't available)
+function showDemo(admin){
+  openAcct(admin);
+  document.getElementById("acctFirst").textContent=studentName;
   acctSwitch.textContent=admin?"View as student":"View as admin";
   document.getElementById("acctName").textContent=admin?"Admin (Glenn)":studentName;
   document.getElementById("acctAv").textContent=admin?"G":studentName[0];
-  document.getElementById("loginOpen").textContent="My Account";
 }
-acctSwitch.addEventListener("click",()=>showAcct(acctStudent.hidden===false));
-document.getElementById("acctBack").addEventListener("click",()=>{acct.hidden=true;document.body.style.overflow=""});
-document.getElementById("acctOut").addEventListener("click",()=>{acct.hidden=true;document.body.style.overflow="";document.getElementById("loginOpen").textContent="Log In";document.getElementById("loginForm").reset()});
 acct.querySelectorAll(".demo-btn").forEach(b=>b.addEventListener("click",()=>{const t=b.textContent;b.textContent="Demo only";b.disabled=true;setTimeout(()=>{b.textContent=t;b.disabled=false},1500)}));
+
+// Real account pages
+async function loadAccount(open){
+  const {data:{session}}=await sb.auth.getSession();
+  me=session?.user||null;
+  if(!me){loginOpen.textContent="Log In";updateEnrollNote();return}
+  const {data}=await sb.from("profiles").select("*").eq("id",me.id).maybeSingle();
+  profile=data||{full_name:me.user_metadata?.full_name||"",email:me.email,is_admin:false};
+  loginOpen.textContent="My Account";
+  updateEnrollNote();
+  if(open)showAcct(profile.is_admin);
+}
+async function showAcct(admin){
+  if(!sb){showDemo(admin);return}
+  document.querySelector(".acct-demo").hidden=true;
+  const first=(profile.full_name||me.email.split("@")[0]).split(" ")[0];
+  document.getElementById("acctName").textContent=admin?(profile.full_name||"Admin")+" (Admin)":(profile.full_name||first);
+  document.getElementById("acctAv").textContent=(first[0]||"?").toUpperCase();
+  acctSwitch.hidden=!profile.is_admin;
+  acctSwitch.textContent=admin?"View my student page":"View admin dashboard";
+  openAcct(admin);
+  admin?await renderAdmin():await renderStudent(first);
+}
+const pill=(cls,t)=>`<span class="pill ${cls}">${esc(t)}</span>`;
+async function renderStudent(first){
+  acctStudent.innerHTML=`<h1>Welcome back, ${esc(first)}</h1><p class="sub">Loading your class…</p>`;
+  const {data:rows,error}=await sb.from("enrollments").select("*, classes(*)").eq("student_id",me.id).order("created_at",{ascending:false});
+  if(error){acctStudent.querySelector(".sub").textContent="We couldn't load your class right now. Please try again.";return}
+  if(!rows.length){
+    acctStudent.innerHTML=`<h1>Welcome back, ${esc(first)}</h1><p class="sub">Here's everything about your class in one place.</p>
+      <div class="acct-empty"><h3>You're not enrolled in a class yet</h3><p>Pick your class dates and pay online. Your class will show up here right after.</p>
+      <a class="btn" href="#payment" id="goEnroll">Enroll in a Class <span class="arr">➜</span></a></div>`;
+    document.getElementById("goEnroll").addEventListener("click",closeAcct);return;
+  }
+  const r=rows[0],c=r.classes||{},sessions=c.sessions||0,done=r.attended_sessions>=sessions&&sessions>0;
+  const paid=r.payment_status==="paid",issued=r.certificate_status==="issued";
+  const payLink=r.payment_status==="partial"?CONFIG.balanceLink:CONFIG.paymentLinks[c.course];
+  acctStudent.innerHTML=`<h1>Welcome back, ${esc(first)}</h1><p class="sub">Here's everything about your class in one place.</p>
+  <div class="agrid">
+    <div class="apanel"><span class="lbl">My class</span><h3>${esc(COURSE[c.course]||"DWI class")}</h3>
+      <p>${esc(c.dates)} · ${esc(c.times)}</p><p>${esc(c.location)}</p><span>${issued?pill("ok","Completed"):pill("ok","Enrolled")}</span></div>
+    <div class="apanel"><span class="lbl">Payment</span>
+      <h3>${paid?"Paid in full":r.payment_status==="partial"?"Balance due":"Payment due"}</h3>
+      ${r.amount!=null?`<p>Amount: $${Number(r.amount).toFixed(2)}</p>`:""}
+      ${paid?`<span>${pill("ok","Paid")}</span>`:payLink?`<a class="btn" href="${esc(payLink)}">Pay Now <span class="arr">➜</span></a>`:`<p>Call us to finish paying for your class.</p>`}</div>
+    <div class="apanel"><span class="lbl">Certificate</span><h3>${issued?"Issued":"In progress"}</h3>
+      <ul class="steps-v">
+        <li class="done">Enrolled</li>
+        <li class="${paid?"done":""}">Paid</li>
+        <li class="${done?"done":""}">Attend all ${sessions} sessions (${Math.min(r.attended_sessions,sessions)} of ${sessions} done)</li>
+        <li class="${r.test_passed?"done":""}">Pass the course test</li>
+        <li class="${issued?"done":""}">Certificate issued</li>
+      </ul></div>
+    <div class="apanel"><span class="lbl">Documents</span><h3>Court order</h3>
+      <p>Bring your court or probation paperwork to your first class, or email it to us, so your certificate has the right case details.</p>
+      <span>${r.court_order_received?pill("ok","Received"):pill("wait","Not received yet")}</span></div>
+  </div>`;
+}
+
+async function renderAdmin(){
+  acctAdmin.innerHTML=`<h1>Admin dashboard</h1><p class="sub">Loading…</p>`;
+  const [cl,en]=await Promise.all([
+    sb.from("classes").select("*").order("id"),
+    sb.from("enrollments").select("*, classes(course,dates,sessions), profiles(full_name,email)").order("created_at",{ascending:false})
+  ]);
+  if(cl.error||en.error){acctAdmin.querySelector(".sub").textContent="Couldn't load data: "+(cl.error||en.error).message;return}
+  const classes=cl.data,ens=en.data,now=new Date();
+  const thisMonth=ens.filter(x=>{const d=new Date(x.created_at);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear()});
+  const paidSum=thisMonth.filter(x=>x.payment_status==="paid").reduce((a,x)=>a+Number(x.amount||0),0);
+  const ready=ens.filter(x=>x.certificate_status!=="issued"&&x.test_passed&&x.attended_sessions>=(x.classes?.sessions||0));
+  const count=id=>ens.filter(x=>x.class_id===id).length;
+  acctAdmin.innerHTML=`<h1>Admin dashboard</h1><p class="sub">Classes, enrollments, payments and certificates.</p>
+  <div class="stats">
+    <div class="stat"><b>${thisMonth.length}</b><span>Enrollments this month</span></div>
+    <div class="stat"><b>${classes.filter(c=>c.status==="open").length}</b><span>Open classes</span></div>
+    <div class="stat"><b>$${paidSum.toFixed(0)}</b><span>Paid this month</span></div>
+    <div class="stat"><b>${ready.length}</b><span>Certificates to issue</span></div>
+  </div>
+  <div class="atable"><h3>Classes</h3><table>
+    <thead><tr><th>Class</th><th>Dates</th><th>Seats filled</th><th>Status</th></tr></thead>
+    <tbody>${classes.map(c=>{const n=count(c.id),pct=Math.min(100,Math.round(n/c.seats*100));return `<tr>
+      <td>${esc(COURSE[c.course]?.split(" (")[0])}<small>${c.sessions} sessions · ${esc(c.location)}</small></td>
+      <td>${esc(c.dates)}<small>${esc(c.times)}</small></td>
+      <td><span class="bar"><i style="width:${pct}%"></i></span>${n} / ${c.seats}</td>
+      <td>${c.status==="open"?pill(n>=c.seats?"no":"ok",n>=c.seats?"Full":"Open"):pill("no","Closed")}<button class="act" data-class="${c.id}" data-status="${c.status==="open"?"closed":"open"}">${c.status==="open"?"Close":"Reopen"}</button></td></tr>`}).join("")||`<tr><td colspan="4">No classes yet. Add one below.</td></tr>`}</tbody></table></div>
+  <div class="atable"><h3>Students</h3><table>
+    <thead><tr><th>Student</th><th>Class</th><th>Payment</th><th>Attendance</th><th>Test</th><th>Certificate</th></tr></thead>
+    <tbody>${ens.map(x=>{const s=x.classes?.sessions||0;return `<tr>
+      <td>${esc(x.profiles?.full_name||"(no name)")}<small>${esc(x.profiles?.email)}</small></td>
+      <td>${esc(COURSE[x.classes?.course]?.split(" (")[0])}<small>${esc(x.classes?.dates)}</small></td>
+      <td>${x.payment_status==="paid"?pill("ok","Paid"):pill("wait",x.payment_status==="partial"?"Balance due":"Unpaid")+`<button class="act" data-en="${x.id}" data-set="paid">Mark paid</button>`}</td>
+      <td>${Math.min(x.attended_sessions,s)} / ${s}${x.attended_sessions<s?`<button class="act" data-en="${x.id}" data-set="attend" data-val="${x.attended_sessions+1}">+1</button>`:""}</td>
+      <td>${x.test_passed?pill("ok","Passed"):`<button class="act" data-en="${x.id}" data-set="test">Passed</button>`}</td>
+      <td>${x.certificate_status==="issued"?pill("ok","Issued"):`<button class="act" data-en="${x.id}" data-set="cert">Issue</button>`}${x.court_order_received?"":`<button class="act" data-en="${x.id}" data-set="court">Court order received</button>`}</td></tr>`}).join("")||`<tr><td colspan="6">No students yet. When a logged-in student enrolls, they show up here.</td></tr>`}</tbody></table></div>
+  <form class="addclass" id="addClass">
+    <h3>Add a class</h3>
+    <label>Course<select name="course"><option value="education">DWI Education</option><option value="intervention">DWI Intervention</option></select></label>
+    <label>Dates<input name="dates" placeholder="Mon–Wed, Jan 5–7" required></label>
+    <label>Times<input name="times" placeholder="6:00–10:00 pm" required></label>
+    <label>Location<input name="location" value="In person, Waco, TX" required></label>
+    <label>Sessions<input name="sessions" type="number" min="1" value="3" required></label>
+    <label>Seats<input name="seats" type="number" min="1" value="16" required></label>
+    <button class="btn" type="submit">Add Class</button>
+  </form>`;
+  acctAdmin.querySelectorAll("[data-class]").forEach(b=>b.addEventListener("click",()=>adminSave(sb.from("classes").update({status:b.dataset.status}).eq("id",b.dataset.class),b)));
+  acctAdmin.querySelectorAll("[data-en]").forEach(b=>b.addEventListener("click",()=>{
+    const ch={paid:{payment_status:"paid"},attend:{attended_sessions:Number(b.dataset.val)},test:{test_passed:true},cert:{certificate_status:"issued"},court:{court_order_received:true}}[b.dataset.set];
+    if(b.dataset.set==="cert"&&!confirm("Mark this student's certificate as issued?"))return;
+    adminSave(sb.from("enrollments").update(ch).eq("id",b.dataset.en),b);
+  }));
+  document.getElementById("addClass").addEventListener("submit",e=>{
+    e.preventDefault();const f=Object.fromEntries(new FormData(e.target));f.sessions=+f.sessions;f.seats=+f.seats;
+    adminSave(sb.from("classes").insert(f),e.target.querySelector("button"));
+  });
+}
+async function adminSave(q,btn){
+  btn.disabled=true;const {error}=await q;
+  if(error){btn.disabled=false;alert("Couldn't save: "+error.message);return}
+  await renderAdmin();loadClasses();
+}
+
+// Enrollment form: use real classes and attach the enrollment to the logged-in student
+let dbClasses=null;
+async function loadClasses(){
+  if(!sb)return;
+  const {data,error}=await sb.from("classes").select("*").eq("status","open").order("id");
+  if(error||!data)return;
+  dbClasses=data;refresh();
+}
+const baseRefresh=refresh;
+refresh=function(){
+  baseRefresh();
+  if(!dbClasses)return;
+  const list=dbClasses.filter(c=>c.course===program());
+  sessionSel.innerHTML=list.length?list.map(c=>`<option value="${c.id}">${esc(c.dates)} · ${esc(c.times)}</option>`).join(""):`<option value="">No open classes right now. Please call us.</option>`;
+};
+function updateEnrollNote(){
+  const n=document.getElementById("enrollAcct");
+  if(!sb){n.hidden=true;return}
+  n.hidden=false;
+  n.innerHTML=me?`Logged in as <b>${esc(me.email)}</b>. This class will show on your student page.`:`Have an account? <a href="#" id="enrollLogin">Log in</a> or <a href="#" id="enrollSignup">create one</a> first so your class shows on your student page.`;
+  if(!me){document.getElementById("enrollLogin").onclick=e=>{e.preventDefault();openLogin("login")};document.getElementById("enrollSignup").onclick=e=>{e.preventDefault();openLogin("signup")}}
+}
+// Called by the enrollment form after it passes validation, before going to payment
+async function attachEnrollment(){
+  if(!sb||!me||!dbClasses||!sessionSel.value)return;
+  try{await sb.from("enrollments").insert({student_id:me.id,class_id:Number(sessionSel.value)})}catch(_){}
+}
+
+if(sb){
+  sb.auth.onAuthStateChange((ev)=>{if(ev==="PASSWORD_RECOVERY")openLogin("newpass")});
+  loadAccount(false);loadClasses();
+}else updateEnrollNote();
 </script>
 </body>
 </html>
