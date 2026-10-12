@@ -367,6 +367,14 @@ footer .ph{background:var(--gold);color:var(--ink)}
 .login-dlg .lhead h2{color:#fff;font-size:1.5rem;margin:0}
 .login-dlg .lhead p{color:#DBEAFE;margin:4px 0 0;font-size:.95rem}
 .login-dlg .lclose{position:absolute;top:12px;right:14px;background:none;border:0;color:#fff;font-size:1.6rem;cursor:pointer;line-height:1}
+.terms-dlg{width:min(760px,calc(100% - 32px))}
+.terms-dlg .tbody{padding:22px 26px 26px;max-height:70vh;overflow-y:auto;font-size:.95rem;line-height:1.6}
+.terms-dlg .tbody h3{font-size:1.05rem;margin:20px 0 6px}
+.terms-dlg .tbody h3:first-of-type{margin-top:4px}
+.terms-dlg .tbody p,.terms-dlg .tbody ul{margin:0 0 10px}
+.terms-dlg .tbody ul{padding-left:20px}
+.terms-dlg .tdate{color:#64748B;font-size:.85rem}
+footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
 .lbody{padding:22px 24px 24px;display:grid;gap:14px}
 .lbody label{display:grid;gap:6px;font-weight:600;font-size:.95rem}
 .lbody input{padding:12px;border:1px solid var(--line);border-radius:6px;font:1rem var(--font)}
@@ -766,7 +774,7 @@ footer .ph{background:var(--gold);color:var(--ink)}
         <div class="f"><label for="cause">Cause / case number</label><input id="cause" name="cause"></div>
         <div class="f full"><label for="sendto">Send a copy of my certificate to</label><input id="sendto" name="sendto" placeholder="Probation officer or attorney name and email"></div>
       </fieldset>
-      <label class="agree" for="agree"><input type="checkbox" id="agree" name="agree" required><span>I understand I must attend every session on time with a photo ID, and I agree to the class policies and <a href="#refund-policy">refund policy</a> (all sales are final).</span></label>
+      <label class="agree" for="agree"><input type="checkbox" id="agree" name="agree" required><span>I understand I must attend every session on time with a photo ID, and I agree to the <a href="#terms" data-open-terms>Terms &amp; Conditions</a> and <a href="#refund-policy">refund policy</a> (all sales are final).</span></label>
       <p class="enroll-acct" id="enrollAcct"></p>
       <div class="total"><span>Total due today</span><b id="totalAmt">$___</b></div>
       <button class="btn full" type="submit">Continue to Secure Payment <span class="arr">➜</span></button>
@@ -830,9 +838,89 @@ footer .ph{background:var(--gold);color:var(--ink)}
     <div class="tdlr">
       <p>A Different Story is licensed by the Texas Department of Licensing and Regulation, Provider <span class="ph">#_____</span>. Complaints about this program may be directed to the Texas Department of Licensing and Regulation, P.O. Box 12157, Austin, Texas 78711, 1-800-803-9202, <a href="https://www.tdlr.texas.gov" target="_blank" rel="noopener">www.tdlr.texas.gov</a>.</p>
     </div>
+    <p class="flinks"><a href="#terms" id="termsOpen">Terms &amp; Conditions</a><a href="#refund-policy">Refund Policy</a></p>
     <p>© 2026 A Different Story. Information on this site is general and is not legal advice.</p>
   </div>
 </footer>
+
+<dialog class="login-dlg terms-dlg" id="termsDlg" aria-labelledby="termsTitle">
+  <div class="lhead">
+    <h2 id="termsTitle">Terms &amp; Conditions</h2>
+    <p>Please read these before you enroll.</p>
+    <button class="lclose" type="button" id="termsClose" aria-label="Close">×</button>
+  </div>
+  <div class="tbody">
+    <p class="tdate">Last updated October 12, 2026</p>
+    <p>These terms apply to anyone who uses this website or enrolls in a class with A Different Story ("we", "us"). By creating an account, enrolling, or paying for a class, you agree to these terms.</p>
+
+    <h3>1. Choosing the right course</h3>
+    <p>We offer the Texas DWI Education Program (12 hours) and the DWI Intervention Program (32 hours). It is your responsibility to confirm with your court, judge, probation officer, or attorney which course you are required to take and your deadline for completing it. We are not responsible if you enroll in the wrong course or finish after your deadline.</p>
+
+    <h3>2. Enrollment and payment</h3>
+    <ul>
+      <li>Your seat is reserved once your enrollment is received and payment is made, or a payment arrangement is approved by us.</li>
+      <li>Any remaining balance must be paid in full before your certificate is issued.</li>
+      <li>Payments are processed by a secure third-party payment provider. We do not store your card details.</li>
+    </ul>
+
+    <h3>3. Refunds</h3>
+    <p>All sales are final. The only exception is our 30-day money back guarantee, described in our <a href="#refund-policy" data-close-terms>Refund Policy</a>.</p>
+
+    <h3>4. Attendance</h3>
+    <ul>
+      <li>Texas rules require you to complete every hour of the course. Partial credit cannot be given.</li>
+      <li>Bring a valid government-issued photo ID to every session.</li>
+      <li>Arrive on time. Students who arrive late or leave early may not receive credit for that session and may need to make it up or re-enroll in a later class.</li>
+      <li>Make-up sessions and transfers to another class depend on availability and may carry a fee: <span class="ph">make-up and transfer fee</span>.</li>
+    </ul>
+
+    <h3>5. Classroom conduct</h3>
+    <p>To keep class safe and respectful for everyone, you agree that:</p>
+    <ul>
+      <li>You will not attend under the influence of alcohol or drugs. If you appear to be impaired, you will be asked to leave and will not receive credit for that session.</li>
+      <li>You will treat the instructor and other students with respect. Threats, harassment, or disruptive behavior may result in removal from the course without a refund.</li>
+      <li>You will not record audio or video in class, and you will keep what other students share in class confidential.</li>
+      <li>Phones must be silenced and put away during class unless the instructor says otherwise.</li>
+    </ul>
+
+    <h3>6. Online classes</h3>
+    <p>If you take a class online, you must attend live with your camera on and your face visible for the whole session, from a quiet place, and not while driving. You may be asked to show photo ID on camera. Time when you are not visible or not participating may not count toward your hours.</p>
+
+    <h3>7. Certificates</h3>
+    <ul>
+      <li>Your certificate of completion is issued only after you complete all required hours, pass any required test, and pay in full.</li>
+      <li>You are responsible for submitting your certificate to your court or probation officer on time, unless you ask us to send a copy for you.</li>
+      <li>Replacement certificates may carry a fee: <span class="ph">replacement certificate fee</span>.</li>
+    </ul>
+
+    <h3>8. No legal advice or guaranteed outcome</h3>
+    <p>Our classes are educational. Nothing on this website or in class is legal advice. Completing a course does not guarantee any outcome in your case, including dismissal, reduced charges, or license reinstatement. For legal questions, talk to an attorney.</p>
+
+    <h3>9. Your information</h3>
+    <p>We collect the information needed to enroll you, track your attendance, and issue your certificate. We keep records as required by the Texas Department of Licensing and Regulation (TDLR). We share your information with your court, probation officer, or attorney only when you ask us to, or when the law or TDLR requires it. We do not sell your information.</p>
+
+    <h3>10. Your account</h3>
+    <p>Keep your login details private. You are responsible for activity on your account. Tell us right away if you think someone else has accessed it.</p>
+
+    <h3>11. Schedule changes</h3>
+    <p>We may need to reschedule or cancel a class because of low enrollment, weather, instructor illness, or other events outside our control. If we cancel a class, you may transfer to another date at no charge or, if no suitable date is available, receive a full refund for that class.</p>
+
+    <h3>12. Limitation of liability</h3>
+    <p>To the fullest extent allowed by law, our total liability to you for any claim related to our classes or this website is limited to the amount you paid for the course. We are not responsible for indirect losses, including court fees, fines, or missed deadlines.</p>
+
+    <h3>13. Complaints</h3>
+    <p>If you have a concern, please contact us first so we can try to resolve it. You may also contact the Texas Department of Licensing and Regulation, P.O. Box 12157, Austin, Texas 78711, 1-800-803-9202, <a href="https://www.tdlr.texas.gov" target="_blank" rel="noopener">www.tdlr.texas.gov</a>.</p>
+
+    <h3>14. Changes to these terms</h3>
+    <p>We may update these terms from time to time. The date at the top shows when they last changed. The terms in effect when you enroll apply to that enrollment.</p>
+
+    <h3>15. Governing law</h3>
+    <p>These terms are governed by the laws of the State of Texas. Any dispute will be handled in the courts of McLennan County, Texas.</p>
+
+    <h3>16. Contact us</h3>
+    <p>A Different Story, Waco, Texas. <span class="ph">Phone</span> · <span class="ph">Email</span> · <span class="ph">Address</span></p>
+  </div>
+</dialog>
 
 
 
@@ -1283,6 +1371,13 @@ if(sb){
 
 // Open the refund policy when a link points to it
 document.querySelectorAll('a[href="#refund-policy"]').forEach(a=>a.addEventListener("click",()=>{document.getElementById("refund-policy").open=true}));
+// Terms & Conditions window
+const termsDlg=document.getElementById("termsDlg");
+document.querySelectorAll('a[href="#terms"]').forEach(a=>a.addEventListener("click",e=>{e.preventDefault();termsDlg.showModal()}));
+document.getElementById("termsClose").addEventListener("click",()=>termsDlg.close());
+termsDlg.addEventListener("click",e=>{if(e.target===termsDlg)termsDlg.close()});
+termsDlg.querySelectorAll("[data-close-terms]").forEach(a=>a.addEventListener("click",()=>termsDlg.close()));
+if(location.hash==="#terms")termsDlg.showModal();
 </script>
 </body>
 </html>
