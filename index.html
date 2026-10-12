@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>A Different Story DWI School</title>
 <meta name="description" content="TDLR-licensed DWI Education (12-hour) and DWI Intervention (32-hour) classes in Waco, Texas. Enroll and pay online.">
+<link rel="icon" type="image/png" href="Media/favicon.png">
+<link rel="apple-touch-icon" href="Media/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Libre+Baskerville:wght@700&display=swap">
@@ -70,13 +72,16 @@ p{margin:0}
 .header{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--white);box-shadow:0 6px 14px rgba(0,0,0,.18)}
 .header .wrap{display:flex;align-items:center;gap:24px;min-height:84px;padding-block:10px;flex-wrap:wrap}
 .logo{display:flex;align-items:center;gap:12px;text-decoration:none;margin-right:auto}
-.logo span{font:700 1.45rem/1 var(--font-logo);color:var(--rust);letter-spacing:.04em;text-transform:uppercase}
+.logo span{font:800 1.45rem/1 "Poppins",system-ui,sans-serif;color:#0F2A48;letter-spacing:.03em;text-transform:uppercase}
+.logo .logo-mark{height:60px;width:auto;display:block}
+footer .logo .logo-badge{background:#FBFBF3;border-radius:50%;width:64px;height:64px;display:grid;place-items:center}
+footer .logo .logo-badge img{height:46px;width:auto}
 .nav{display:flex;gap:26px;flex-wrap:wrap}
 .nav a{color:var(--ink);text-decoration:none;font-weight:500;font-size:1rem;padding-block:6px;border-bottom:3px solid transparent}
 .nav a:hover,.nav a.on{border-color:var(--ink)}
 .header .btn{text-transform:none;font-size:1.05rem;padding:14px 22px}
 
-@media (max-width:480px){.logo span{font-size:1.05rem}.header .btn{padding:11px 14px;font-size:.92rem}}
+@media (max-width:480px){.logo span{font-size:1.05rem}.logo .logo-mark{height:46px}.header .btn{padding:11px 14px;font-size:.92rem}}
 
 /* Hero */
 .hero{--hero-img:url("Media/hero-classroom.jpg");background:linear-gradient(90deg,rgba(15,23,42,.86) 0%,rgba(15,23,42,.62) 45%,rgba(15,23,42,.12) 100%),var(--hero-img) right center/cover no-repeat,var(--hero);color:var(--white);padding-block:clamp(64px,9vw,120px);overflow:hidden}
@@ -481,13 +486,7 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
 <header class="header">
   <div class="wrap">
     <a class="logo" href="#home" aria-label="A Different Story, home">
-      <svg width="46" height="46" viewBox="0 0 48 48" aria-hidden="true">
-        <defs><linearGradient id="lg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3B82F6"/><stop offset="1" stop-color="#1D4ED8"/></linearGradient></defs>
-        <path d="M24 13C19 9 11 8.5 4 10v27c7-1.5 15-1 20 3z" fill="url(#lg)"/>
-        <path d="M24 13c5-4 13-4.5 20-3v27c-7-1.5-15-1-20 3z" fill="#0F766E"/>
-        <path d="M24 13v27" stroke="#ffffff" stroke-width="1.5"/>
-        <path d="M30 31c2-6 6-10 10-12" stroke="#EAB308" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-      </svg>
+      <img class="logo-mark" src="Media/logo-mark.png" alt="" width="52" height="60">
       <span>A Different Story</span>
     </a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mainnav" id="menuBtn"><span></span><span></span><span></span><b class="sr">Menu</b></button>
@@ -833,7 +832,7 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
 
 <footer>
   <div class="wrap">
-    <a class="logo" href="#home"><span>A Different Story</span></a>
+    <a class="logo" href="#home"><span class="logo-badge"><img src="Media/logo-mark.png" alt="" width="40" height="46"></span><span>A Different Story</span></a>
     <p>DWI Education and DWI Intervention classes · Waco, Texas</p>
     <div class="tdlr">
       <p>A Different Story is licensed by the Texas Department of Licensing and Regulation, Provider <span class="ph">#_____</span>. Complaints about this program may be directed to the Texas Department of Licensing and Regulation, P.O. Box 12157, Austin, Texas 78711, 1-800-803-9202, <a href="https://www.tdlr.texas.gov" target="_blank" rel="noopener">www.tdlr.texas.gov</a>.</p>
