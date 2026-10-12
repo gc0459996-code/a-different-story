@@ -631,7 +631,7 @@ footer .ph{background:var(--gold);color:var(--ink)}
         </tbody>
       </table>
     </div>
-    <p class="note">Example dates shown until the real schedule is set. Fee includes class materials and your state certificate. Refunds and transfers: <span class="ph">refund and reschedule policy</span>.</p>
+    <p class="note">Example dates shown until the real schedule is set. Fee includes class materials and your state certificate. All sales are final, with a 30-day money back guarantee if your court does not accept your certificate (<a href="#refund-policy">see refund policy</a>). Transfers: <span class="ph">reschedule policy</span>.</p>
   </div>
 </section>
 
@@ -766,7 +766,7 @@ footer .ph{background:var(--gold);color:var(--ink)}
         <div class="f"><label for="cause">Cause / case number</label><input id="cause" name="cause"></div>
         <div class="f full"><label for="sendto">Send a copy of my certificate to</label><input id="sendto" name="sendto" placeholder="Probation officer or attorney name and email"></div>
       </fieldset>
-      <label class="agree" for="agree"><input type="checkbox" id="agree" name="agree" required><span>I understand I must attend every session on time with a photo ID, and I agree to the class policies and refund policy.</span></label>
+      <label class="agree" for="agree"><input type="checkbox" id="agree" name="agree" required><span>I understand I must attend every session on time with a photo ID, and I agree to the class policies and <a href="#refund-policy">refund policy</a> (all sales are final).</span></label>
       <p class="enroll-acct" id="enrollAcct"></p>
       <div class="total"><span>Total due today</span><b id="totalAmt">$___</b></div>
       <button class="btn full" type="submit">Continue to Secure Payment <span class="arr">➜</span></button>
@@ -787,7 +787,7 @@ footer .ph{background:var(--gold);color:var(--ink)}
       <details><summary>What if I miss a session or show up late?</summary><p>State rules require you to complete every hour. If you miss a session or arrive late, you may need to make it up or re-enroll in a later class. <span class="ph">Make-up and transfer fee policy</span>.</p></details>
       <details><summary>How do I get my certificate?</summary><p>When you finish the class and pass the course test, we issue your state certificate of completion. We can also send a copy to your probation officer or attorney. Just tell us who when you enroll.</p></details>
       <details><summary>Is the Victim Impact Panel included?</summary><p>No. The Victim Impact Panel (VIP) is a separate requirement that some courts order. <span class="ph">We offer it / we can refer you</span>.</p></details>
-      <details><summary>Can I get a refund?</summary><p><span class="ph">Refund policy</span>.</p></details>
+      <details id="refund-policy"><summary>Can I get a refund?</summary><p><strong>All sales are final.</strong> Once you enroll in a course, you agree that you are not eligible for a refund except under the guarantee below.</p><p><strong>30-day money back guarantee.</strong> If you sign up for the correct course, complete it, receive your certificate, and submit it on time, but the court or probation officer does not accept your A Different Story certificate, let us know with evidence within 30 days. We will first try to work it out with the court or probation officer, and if they still don't accept the certificate, we will issue a full refund.</p></details>
     </div>
   </div>
 </section>
@@ -1280,6 +1280,9 @@ if(sb){
   sb.auth.onAuthStateChange((ev)=>{if(ev==="PASSWORD_RECOVERY")openLogin("newpass")});
   loadAccount(false);loadClasses();
 }else updateEnrollNote();
+
+// Open the refund policy when a link points to it
+document.querySelectorAll('a[href="#refund-policy"]').forEach(a=>a.addEventListener("click",()=>{document.getElementById("refund-policy").open=true}));
 </script>
 </body>
 </html>
