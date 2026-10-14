@@ -462,6 +462,9 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
 .atable td .act{border:1px solid var(--line);background:#fff;border-radius:6px;padding:5px 9px;font:600 .8rem var(--font);color:var(--primary);cursor:pointer;margin-left:6px}
 .atable td .act:hover{background:#EFF6FF}
 .atable td small{display:block;color:var(--muted)}
+.atable .atable-note{margin:0;padding:0 20px 12px;color:var(--muted);font-size:.9rem}
+.atable td.nowrap{white-space:nowrap}
+.edit-hint{margin:6px 0 0;color:var(--muted);font-size:.88rem}
 .addclass{background:#fff;border-radius:10px;padding:20px;margin-top:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;align-items:end;box-shadow:0 10px 30px rgba(0,0,0,.3)}
 .addclass h3{grid-column:1/-1;margin:0;font-size:1.1rem}
 .addclass label{display:grid;gap:5px;font-size:.85rem;font-weight:600}
@@ -931,6 +934,24 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
   </div>
 </dialog>
 
+<dialog class="login-dlg" id="editUserDlg" aria-labelledby="editUserTitle">
+  <div class="lhead">
+    <h2 id="editUserTitle">Edit login</h2>
+    <p id="editUserSub"></p>
+    <button class="lclose" type="button" id="editUserClose" aria-label="Close">×</button>
+  </div>
+  <form class="lbody" id="editUserForm" novalidate>
+    <label>Full name<input name="full_name" autocomplete="off"></label>
+    <label>Login email<input name="email" type="email" autocomplete="off" required></label>
+    <label>Phone<input name="phone" type="tel" autocomplete="off"></label>
+    <p class="edit-hint">Set a new password only if the student asks. Leave blank to keep their current one.</p>
+    <label>New password<input name="password" type="password" minlength="8" autocomplete="new-password"></label>
+    <label>Confirm new password<input name="password2" type="password" autocomplete="new-password"></label>
+    <p class="lmsg" id="editUserMsg" role="status"></p>
+    <button class="btn" type="submit">Save changes</button>
+  </form>
+</dialog>
+
 
 
 <div class="acct" id="acct" hidden>
@@ -1285,12 +1306,14 @@ async function renderStudent(first){
 
 async function renderAdmin(){
   acctAdmin.innerHTML=`<h1>Admin dashboard</h1><p class="sub">Loading…</p>`;
-  const [cl,en]=await Promise.all([
+  const [cl,en,pr]=await Promise.all([
     sb.from("classes").select("*").order("id"),
-    sb.from("enrollments").select("*, classes(course,dates,sessions), profiles(full_name,email)").order("created_at",{ascending:false})
+    sb.from("enrollments").select("*, classes(course,dates,sessions), profiles(full_name,email)").order("created_at",{ascending:false}),
+    sb.from("profiles").select("id,full_name,email,phone,is_admin,created_at").order("created_at",{ascending:false})
   ]);
   if(cl.error||en.error){acctAdmin.querySelector(".sub").textContent="Couldn't load data: "+(cl.error||en.error).message;return}
-  const classes=cl.data,ens=en.data,now=new Date();
+  const classes=cl.data,ens=en.data,people=pr.data||[],now=new Date();
+  adminPeople=people;
   const thisMonth=ens.filter(x=>{const d=new Date(x.created_at);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear()});
   const paidSum=thisMonth.filter(x=>x.payment_status==="paid").reduce((a,x)=>a+Number(x.amount||0),0);
   const ready=ens.filter(x=>x.certificate_status!=="issued"&&x.test_passed&&x.attended_sessions>=(x.classes?.sessions||0));
@@ -1318,6 +1341,14 @@ async function renderAdmin(){
       <td>${Math.min(x.attended_sessions,s)} / ${s}${x.attended_sessions<s?`<button class="act" data-en="${x.id}" data-set="attend" data-val="${x.attended_sessions+1}">+1</button>`:""}</td>
       <td>${x.test_passed?pill("ok","Passed"):`<button class="act" data-en="${x.id}" data-set="test">Passed</button>`}</td>
       <td>${x.certificate_status==="issued"?pill("ok","Issued"):`<button class="act" data-en="${x.id}" data-set="cert">Issue</button>`}${x.court_order_received?"":`<button class="act" data-en="${x.id}" data-set="court">Court order received</button>`}</td></tr>`}).join("")||`<tr><td colspan="6">No students yet. When a logged-in student enrolls, they show up here.</td></tr>`}</tbody></table></div>
+  <div class="atable"><h3>Accounts</h3><p class="atable-note">Everyone who has created a login. Edit a name, email or phone, set a new password, or email them a reset link.</p><table>
+    <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th></th></tr></thead>
+    <tbody>${people.map(u=>`<tr>
+      <td>${esc(u.full_name||"(no name)")}<small>Joined ${new Date(u.created_at).toLocaleDateString()}</small></td>
+      <td>${esc(u.email)}</td>
+      <td>${esc(u.phone||"")}</td>
+      <td>${u.is_admin?pill("ok","Admin"):"Student"}</td>
+      <td class="nowrap"><button class="act" data-edit="${u.id}">Edit login</button><button class="act" data-reset="${u.id}">Email reset link</button></td></tr>`).join("")||`<tr><td colspan="5">No accounts yet.</td></tr>`}</tbody></table></div>
   <form class="addclass" id="addClass">
     <h3>Add a class</h3>
     <label>Course<select name="course"><option value="education">DWI Education</option><option value="intervention">DWI Intervention</option></select></label>
@@ -1334,10 +1365,53 @@ async function renderAdmin(){
     if(b.dataset.set==="cert"&&!confirm("Mark this student's certificate as issued?"))return;
     adminSave(sb.from("enrollments").update(ch).eq("id",b.dataset.en),b);
   }));
+  acctAdmin.querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>openEditUser(b.dataset.edit)));
+  acctAdmin.querySelectorAll("[data-reset]").forEach(b=>b.addEventListener("click",()=>sendResetLink(b.dataset.reset,b)));
   document.getElementById("addClass").addEventListener("submit",e=>{
     e.preventDefault();const f=Object.fromEntries(new FormData(e.target));f.sessions=+f.sessions;f.seats=+f.seats;
     adminSave(sb.from("classes").insert(f),e.target.querySelector("button"));
   });
+}
+// Admin: edit a student's login
+let adminPeople=[];
+const editDlg=document.getElementById("editUserDlg"),editForm=document.getElementById("editUserForm"),editMsg=document.getElementById("editUserMsg");
+function openEditUser(id){
+  const u=adminPeople.find(x=>x.id===id);if(!u)return;
+  editForm.reset();editForm.dataset.id=id;editMsg.className="lmsg";
+  editForm.full_name.value=u.full_name||"";editForm.email.value=u.email||"";editForm.phone.value=u.phone||"";
+  document.getElementById("editUserSub").textContent=u.email||"";
+  editDlg.showModal();
+}
+document.getElementById("editUserClose").addEventListener("click",()=>editDlg.close());
+editDlg.addEventListener("click",e=>{if(e.target===editDlg)editDlg.close()});
+editForm.addEventListener("submit",async e=>{
+  e.preventDefault();
+  const u=adminPeople.find(x=>x.id===editForm.dataset.id),f=Object.fromEntries(new FormData(editForm));
+  const show=(t,kind)=>{editMsg.textContent=t;editMsg.className="lmsg show "+(kind||"err")};
+  if(f.password&&f.password.length<8)return show("New password must be at least 8 characters.");
+  if(f.password&&f.password!==f.password2)return show("The two passwords don't match.");
+  const body={action:"update",user_id:u.id,full_name:f.full_name,phone:f.phone};
+  if(f.email.trim().toLowerCase()!==(u.email||"").toLowerCase())body.email=f.email;
+  if(f.password)body.password=f.password;
+  const btn=editForm.querySelector("button[type=submit]");btn.disabled=true;
+  try{
+    const {data,error}=await sb.functions.invoke("admin-users",{body});
+    if(error){let m=error.message;try{m=(await error.context.json()).error||m}catch(_){}throw new Error(m)}
+    if(data&&data.error)throw new Error(data.error);
+    show(f.password?"Saved. Let the student know their new password.":"Saved.","ok");
+    await renderAdmin();
+    setTimeout(()=>editDlg.close(),f.password?1800:900);
+  }catch(err){show("Couldn't save: "+err.message)}
+  finally{btn.disabled=false}
+});
+async function sendResetLink(id,btn){
+  const u=adminPeople.find(x=>x.id===id);if(!u||!u.email)return;
+  if(!confirm("Email a password reset link to "+u.email+"?"))return;
+  btn.disabled=true;
+  const {error}=await sb.auth.resetPasswordForEmail(u.email,{redirectTo:location.origin+location.pathname});
+  btn.disabled=false;
+  if(error){alert("Couldn't send: "+error.message);return}
+  btn.textContent="Link sent ✓";
 }
 async function adminSave(q,btn){
   btn.disabled=true;const {error}=await q;
