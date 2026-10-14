@@ -12,7 +12,7 @@ const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { ...cors, "Content-Type": "application/json" } });
 
 const ROLES = ["student", "instructor", "staff", "admin"];
-const PERMS = ["classes", "students", "payments", "accounts"];
+const PERMS = ["classes", "students", "payments", "accounts", "messages"];
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // Students have no permissions and admins have all of them.

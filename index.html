@@ -478,6 +478,27 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
 .atable-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-right:20px}
 .atable-head > div{display:flex;gap:8px;flex-wrap:wrap;padding-top:12px}
 .btn.btn-sm{padding:8px 14px;font-size:.85rem}
+.chat-panel{grid-column:1/-1;margin-top:20px}
+.chat-log{display:flex;flex-direction:column;gap:10px;max-height:380px;min-height:120px;overflow-y:auto;padding:14px;background:#F8FAFC;border:1px solid var(--line);border-radius:8px}
+.chat-empty{color:var(--muted);margin:auto;text-align:center;font-size:.92rem;padding:12px}
+.bubble{max-width:78%;padding:10px 14px;border-radius:14px;background:#fff;border:1px solid var(--line);align-self:flex-start}
+.bubble.mine{align-self:flex-end;background:var(--primary);border-color:var(--primary);color:#fff}
+.bubble p{margin:0;color:inherit;white-space:normal;overflow-wrap:anywhere}
+.bubble time{display:block;font-size:.75rem;opacity:.75;margin-top:4px}
+.acct form.chat-send{display:flex;gap:10px;margin-top:10px;align-items:flex-end;border:0;padding:0;background:none;box-shadow:none;border-radius:0}
+.chat-send textarea{flex:1;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font:1rem var(--font);resize:vertical;min-height:46px}
+.chat-with{font-weight:600;margin-bottom:8px}.chat-with small{display:block;font-weight:400;color:var(--muted)}
+.inbox select{padding:8px 10px;border:1px solid var(--line);border-radius:6px;font:.9rem var(--font);background:#fff}
+.inbox-grid{display:grid;grid-template-columns:minmax(220px,300px) 1fr;border-top:1px solid var(--line)}
+.inbox-list{list-style:none;margin:0;padding:0;border-right:1px solid var(--line);max-height:480px;overflow-y:auto}
+.inbox-list li[data-chat]{padding:12px 16px;border-bottom:1px solid var(--line);cursor:pointer;display:grid;gap:2px}
+.inbox-list li[data-chat]:hover,.inbox-list li.on{background:#EFF6FF}
+.inbox-list small{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.inbox-list time{font-size:.75rem;color:var(--muted)}
+.inbox-list .badge{display:inline-block;margin-left:8px;background:var(--primary);color:#fff;border-radius:999px;font-size:.72rem;padding:1px 7px;vertical-align:middle}
+.inbox-chat{padding:16px 20px;min-height:260px;display:flex;flex-direction:column}
+.inbox-chat .chat-log{flex:1}
+@media (max-width:720px){.inbox-grid{grid-template-columns:1fr}.inbox-list{border-right:0;max-height:220px}}
 .btn.btn-ghost{background:#fff;color:var(--primary);border:1px solid var(--primary)}
 .addclass{background:#fff;border-radius:10px;padding:20px;margin-top:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;align-items:end;box-shadow:0 10px 30px rgba(0,0,0,.3)}
 .addclass h3{grid-column:1/-1;margin:0;font-size:1.1rem}
@@ -970,6 +991,7 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
       <label class="chk"><input type="checkbox" name="perm" value="students"> Attendance, tests &amp; certificates <small>Also enroll students in classes</small></label>
       <label class="chk"><input type="checkbox" name="perm" value="payments"> Payments <small>Mark payments and see totals</small></label>
       <label class="chk"><input type="checkbox" name="perm" value="accounts"> Add &amp; edit accounts <small>Add people, reset passwords, set roles</small></label>
+      <label class="chk"><input type="checkbox" name="perm" value="messages"> Message students <small>Read and reply to student messages</small></label>
       <p class="edit-hint" id="permHint"></p>
     </fieldset>
     <label id="enrollWrap">Enroll in a class (optional)<select name="class_id"></select></label>
@@ -1288,8 +1310,8 @@ async function loadAccount(open){
 }
 // Roles and permissions
 const ROLE_LABEL={student:"Student",instructor:"Instructor",staff:"Office staff",admin:"Admin"};
-const PERM_LABEL={classes:"Manage classes",students:"Attendance, tests & certificates",payments:"Payments",accounts:"Add & edit accounts"};
-const ROLE_PRESET={student:[],instructor:["students"],staff:["classes","students","payments"],admin:["classes","students","payments","accounts"]};
+const PERM_LABEL={classes:"Manage classes",students:"Attendance, tests & certificates",payments:"Payments",accounts:"Add & edit accounts",messages:"Message students"};
+const ROLE_PRESET={student:[],instructor:["students","messages"],staff:["classes","students","payments","messages"],admin:["classes","students","payments","accounts","messages"]};
 const roleOf=u=>u?.role||(u?.is_admin?"admin":"student");
 const permsOf=u=>roleOf(u)==="admin"?ROLE_PRESET.admin:roleOf(u)==="student"?[]:(u?.permissions||[]);
 const isStaff=()=>roleOf(profile)!=="student";
@@ -1313,8 +1335,8 @@ async function renderStudent(first){
   if(!rows.length){
     acctStudent.innerHTML=`<h1>Welcome back, ${esc(first)}</h1><p class="sub">Here's everything about your class in one place.</p>
       <div class="acct-empty"><h3>You're not enrolled in a class yet</h3><p>Pick your class dates and pay online. Your class will show up here right after.</p>
-      <a class="btn" href="#payment" id="goEnroll">Enroll in a Class <span class="arr">➜</span></a></div>`;
-    document.getElementById("goEnroll").addEventListener("click",closeAcct);return;
+      <a class="btn" href="#payment" id="goEnroll">Enroll in a Class <span class="arr">➜</span></a></div>${STUDENT_CHAT}`;
+    document.getElementById("goEnroll").addEventListener("click",closeAcct);mountChat(document.getElementById("stuChat"),me.id,false);return;
   }
   const r=rows[0],c=r.classes||{},sessions=c.sessions||0,done=r.attended_sessions>=sessions&&sessions>0;
   const paid=r.payment_status==="paid",issued=r.certificate_status==="issued";
@@ -1338,7 +1360,8 @@ async function renderStudent(first){
     <div class="apanel"><span class="lbl">Documents</span><h3>Court order</h3>
       <p>Bring your court or probation paperwork to your first class, or email it to us, so your certificate has the right case details.</p>
       <span>${r.court_order_received?pill("ok","Received"):pill("wait","Not received yet")}</span></div>
-  </div>`;
+  </div>${STUDENT_CHAT}`;
+  mountChat(document.getElementById("stuChat"),me.id,false);
 }
 
 async function renderAdmin(){
@@ -1356,14 +1379,20 @@ async function renderAdmin(){
   const paidSum=thisMonth.filter(x=>x.payment_status==="paid").reduce((a,x)=>a+Number(x.amount||0),0);
   const ready=ens.filter(x=>x.certificate_status!=="issued"&&x.test_passed&&x.attended_sessions>=(x.classes?.sessions||0));
   const count=id=>ens.filter(x=>x.class_id===id).length;
-  const cC=can("classes"),cS=can("students"),cP=can("payments"),cA=can("accounts");
+  const cC=can("classes"),cS=can("students"),cP=can("payments"),cA=can("accounts"),cM=can("messages");
+  let msgs=[];
+  if(cM){const {data}=await sb.from("messages").select("student_id,body,from_staff,read,created_at").order("created_at",{ascending:false}).limit(1000);msgs=data||[]}
+  const unread=msgs.filter(m=>!m.from_staff&&!m.read).length;
   acctAdmin.innerHTML=`<h1>${title}</h1><p class="sub">Classes, enrollments, payments and certificates.</p>
   <div class="stats">
     <div class="stat"><b>${thisMonth.length}</b><span>Enrollments this month</span></div>
     <div class="stat"><b>${classes.filter(c=>c.status==="open").length}</b><span>Open classes</span></div>
     ${cP?`<div class="stat"><b>$${paidSum.toFixed(0)}</b><span>Paid this month</span></div>`:""}
     <div class="stat"><b>${ready.length}</b><span>Certificates to issue</span></div>
+    ${cM?`<div class="stat"><b>${unread}</b><span>Unread messages</span></div>`:""}
   </div>
+  ${cM?`<div class="atable inbox"><div class="atable-head"><h3>Messages</h3><div><select id="newChatSel" aria-label="Message a student"><option value="">Message a student…</option>${people.filter(u=>roleOf(u)==="student").map(u=>`<option value="${u.id}">${esc(u.full_name||u.email)}</option>`).join("")}</select></div></div>
+    <div class="inbox-grid"><ul class="inbox-list" id="inboxList">${inboxRows(msgs,people)}</ul><div class="inbox-chat" id="staffChat"><p class="chat-empty">Pick a conversation to read and reply.</p></div></div></div>`:""}
   <div class="atable"><h3>Classes</h3><table>
     <thead><tr><th>Class</th><th>Dates</th><th>Seats filled</th><th>Status</th></tr></thead>
     <tbody>${classes.map(c=>{const n=count(c.id),pct=Math.min(100,Math.round(n/c.seats*100));return `<tr>
@@ -1388,7 +1417,7 @@ async function renderAdmin(){
       <td>${esc(u.email)}</td>
       <td>${esc(u.phone||"")}</td>
       <td>${r==="student"?"Student":pill(r==="admin"?"ok":"wait",ROLE_LABEL[r])}${r!=="student"&&r!=="admin"?`<small>${permsOf(u).map(p=>PERM_LABEL[p]).join(", ")||"No permissions"}</small>`:""}</td>
-      <td class="nowrap"><button class="act" data-edit="${u.id}">Edit</button><button class="act" data-reset="${u.id}">Email reset link</button></td></tr>`}).join("")||`<tr><td colspan="5">No accounts yet.</td></tr>`}</tbody></table></div>`:""}
+      <td class="nowrap">${cM&&r==="student"?`<button class="act" data-msg="${u.id}">Message</button>`:""}<button class="act" data-edit="${u.id}">Edit</button><button class="act" data-reset="${u.id}">Email reset link</button></td></tr>`}).join("")||`<tr><td colspan="5">No accounts yet.</td></tr>`}</tbody></table></div>`:""}
   ${cC?`<form class="addclass" id="addClass">
     <h3>Add a class</h3>
     <label>Course<select name="course"><option value="education">DWI Education</option><option value="intervention">DWI Intervention</option></select></label>
@@ -1406,6 +1435,15 @@ async function renderAdmin(){
     adminSave(sb.from("enrollments").update(ch).eq("id",b.dataset.en),b);
   }));
   acctAdmin.querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>openEditUser(b.dataset.edit)));
+  if(cM){
+    const openChat=id=>{if(!id)return;acctAdmin.querySelectorAll(".inbox-list li").forEach(li=>li.classList.toggle("on",li.dataset.chat===id));
+      const li=acctAdmin.querySelector(`.inbox-list li[data-chat="${id}"]`);li?.querySelector(".badge")?.remove();
+      mountChat(document.getElementById("staffChat"),id,true)};
+    acctAdmin.querySelectorAll(".inbox-list li[data-chat]").forEach(li=>li.addEventListener("click",()=>openChat(li.dataset.chat)));
+    document.getElementById("newChatSel").addEventListener("change",e=>{openChat(e.target.value);e.target.value=""});
+    acctAdmin.querySelectorAll("[data-msg]").forEach(b=>b.addEventListener("click",()=>{document.querySelector(".inbox").scrollIntoView({behavior:"smooth"});openChat(b.dataset.msg)}));
+    if(chatOpenFor&&chatStaff)openChat(chatOpenFor);
+  }
   document.getElementById("addStudentBtn")?.addEventListener("click",()=>openEditUser(null,"student"));
   document.getElementById("addStaffBtn")?.addEventListener("click",()=>openEditUser(null,"instructor"));
   acctAdmin.querySelectorAll("[data-reset]").forEach(b=>b.addEventListener("click",()=>sendResetLink(b.dataset.reset,b)));
@@ -1486,6 +1524,45 @@ async function sendResetLink(id,btn){
   btn.disabled=false;
   if(error){alert("Couldn't send: "+error.message);return}
   btn.textContent="Link sent ✓";
+}
+// Messaging between students and staff
+const STUDENT_CHAT=`<div class="apanel chat-panel"><span class="lbl">Messages</span><h3>Message the school</h3><p>Questions about your class, payment or paperwork? Send us a message and we'll reply here.</p><div id="stuChat"></div></div>`;
+let chatOpenFor=null,chatStaff=false,chatSub=null,chatPoll=null;
+function inboxRows(msgs,people){
+  const last={},count={};
+  msgs.forEach(m=>{if(!last[m.student_id])last[m.student_id]=m;if(!m.from_staff&&!m.read)count[m.student_id]=(count[m.student_id]||0)+1});
+  const ids=Object.keys(last);
+  if(!ids.length)return `<li class="chat-empty">No messages yet. Use "Message a student" to start one.</li>`;
+  return ids.map(id=>{const u=people.find(x=>x.id===id)||{},m=last[id];return `<li data-chat="${id}" tabindex="0"><b>${esc(u.full_name||u.email||"Student")}${count[id]?`<span class="badge">${count[id]}</span>`:""}</b><small>${m.from_staff?"You: ":""}${esc(m.body.slice(0,70))}</small><time>${fmtWhen(m.created_at)}</time></li>`}).join("");
+}
+function fmtWhen(t){const d=new Date(t),n=new Date();return d.toDateString()===n.toDateString()?d.toLocaleTimeString([], {hour:"numeric",minute:"2-digit"}):d.toLocaleDateString([], {month:"short",day:"numeric"})}
+function stopChat(){if(chatSub){sb.removeChannel(chatSub);chatSub=null}if(chatPoll){clearInterval(chatPoll);chatPoll=null}}
+async function mountChat(el,studentId,staff){
+  stopChat();chatOpenFor=studentId;chatStaff=staff;
+  el.innerHTML=`<div class="chat-log" aria-live="polite"><p class="chat-empty">Loading…</p></div>
+    <form class="chat-send"><textarea name="body" rows="2" maxlength="4000" placeholder="Type a message…" aria-label="Message" required></textarea><button class="btn btn-sm" type="submit">Send</button></form>`;
+  const log=el.querySelector(".chat-log"),form=el.querySelector("form");
+  if(staff){const u=adminPeople.find(x=>x.id===studentId);log.insertAdjacentHTML("beforebegin",`<div class="chat-with">${esc(u?.full_name||u?.email||"Student")}<small>${esc(u?.email||"")}</small></div>`)}
+  const load=async()=>{
+    const {data,error}=await sb.from("messages").select("*").eq("student_id",studentId).order("created_at",{ascending:true});
+    if(error){log.innerHTML=`<p class="chat-empty">Messages aren't set up yet.</p>`;return}
+    const atBottom=log.scrollHeight-log.scrollTop-log.clientHeight<40;
+    log.innerHTML=data.length?data.map(m=>{const mine=m.from_staff===staff;return `<div class="bubble ${mine?"mine":"theirs"}"><p>${esc(m.body).replace(/\n/g,"<br>")}</p><time>${m.from_staff&&!staff?"A Different Story · ":""}${fmtWhen(m.created_at)}</time></div>`}).join(""):`<p class="chat-empty">${staff?"No messages yet. Say hello below.":"No messages yet."}</p>`;
+    if(atBottom||!log.dataset.ready)log.scrollTop=log.scrollHeight;log.dataset.ready="1";
+    if(data.some(m=>m.from_staff!==staff&&!m.read))sb.rpc("mark_messages_read",{p_student:studentId}).then(()=>{});
+  };
+  await load();
+  form.addEventListener("submit",async e=>{
+    e.preventDefault();const body=form.body.value.trim();if(!body)return;
+    const btn=form.querySelector("button");btn.disabled=true;
+    const {error}=await sb.from("messages").insert({student_id:studentId,sender_id:me.id,from_staff:staff,body});
+    btn.disabled=false;
+    if(error){alert("Couldn't send: "+error.message);return}
+    form.reset();log.dataset.ready="";await load();
+  });
+  form.body.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();form.requestSubmit()}});
+  try{chatSub=sb.channel("chat-"+studentId).on("postgres_changes",{event:"INSERT",schema:"public",table:"messages",filter:"student_id=eq."+studentId},load).subscribe()}catch(_){}
+  chatPoll=setInterval(()=>{if(document.contains(el)&&!acct.hidden)load();else stopChat()},20000);
 }
 async function adminSave(q,btn){
   btn.disabled=true;const {error}=await q;
