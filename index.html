@@ -465,6 +465,20 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
 .atable .atable-note{margin:0;padding:0 20px 12px;color:var(--muted);font-size:.9rem}
 .atable td.nowrap{white-space:nowrap}
 .edit-hint{margin:6px 0 0;color:var(--muted);font-size:.88rem}
+.lbody select{padding:12px;border:1px solid var(--line);border-radius:6px;font:1rem var(--font);background:#fff}
+#editUserDlg{max-height:92vh}
+#editUserDlg .lbody{max-height:calc(92vh - 110px);overflow-y:auto}
+.perms{border:1px solid var(--line);border-radius:8px;padding:10px 14px 12px;margin:0;display:grid;grid-template-columns:1fr;gap:10px}
+#editUserForm [hidden]{display:none}
+.perms legend{font-weight:600;font-size:.95rem;padding:0 4px}
+.perms .chk{display:grid;grid-template-columns:18px 1fr;column-gap:10px;align-items:start;font-weight:600;font-size:.92rem}
+.perms .chk input{margin-top:2px}
+.perms .chk small{grid-column:2;font-weight:400;color:var(--muted);font-size:.82rem}
+.perms .chk:has(input:disabled){opacity:.6}
+.atable-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-right:20px}
+.atable-head > div{display:flex;gap:8px;flex-wrap:wrap;padding-top:12px}
+.btn.btn-sm{padding:8px 14px;font-size:.85rem}
+.btn.btn-ghost{background:#fff;color:var(--primary);border:1px solid var(--primary)}
 .addclass{background:#fff;border-radius:10px;padding:20px;margin-top:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;align-items:end;box-shadow:0 10px 30px rgba(0,0,0,.3)}
 .addclass h3{grid-column:1/-1;margin:0;font-size:1.1rem}
 .addclass label{display:grid;gap:5px;font-size:.85rem;font-weight:600}
@@ -936,19 +950,34 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
 
 <dialog class="login-dlg" id="editUserDlg" aria-labelledby="editUserTitle">
   <div class="lhead">
-    <h2 id="editUserTitle">Edit login</h2>
+    <h2 id="editUserTitle">Edit account</h2>
     <p id="editUserSub"></p>
     <button class="lclose" type="button" id="editUserClose" aria-label="Close">×</button>
   </div>
   <form class="lbody" id="editUserForm" novalidate>
-    <label>Full name<input name="full_name" autocomplete="off"></label>
+    <label>Full name<input name="full_name" autocomplete="off" required></label>
     <label>Login email<input name="email" type="email" autocomplete="off" required></label>
     <label>Phone<input name="phone" type="tel" autocomplete="off"></label>
-    <p class="edit-hint">Set a new password only if the student asks. Leave blank to keep their current one.</p>
-    <label>New password<input name="password" type="password" minlength="8" autocomplete="new-password"></label>
-    <label>Confirm new password<input name="password2" type="password" autocomplete="new-password"></label>
+    <label>Role<select name="role">
+      <option value="student">Student</option>
+      <option value="instructor">Instructor</option>
+      <option value="staff">Office staff</option>
+      <option value="admin">Admin</option>
+    </select></label>
+    <fieldset class="perms" id="editPerms">
+      <legend>Permissions</legend>
+      <label class="chk"><input type="checkbox" name="perm" value="classes"> Manage classes <small>Add, close and reopen classes</small></label>
+      <label class="chk"><input type="checkbox" name="perm" value="students"> Attendance, tests &amp; certificates <small>Also enroll students in classes</small></label>
+      <label class="chk"><input type="checkbox" name="perm" value="payments"> Payments <small>Mark payments and see totals</small></label>
+      <label class="chk"><input type="checkbox" name="perm" value="accounts"> Add &amp; edit accounts <small>Add people, reset passwords, set roles</small></label>
+      <p class="edit-hint" id="permHint"></p>
+    </fieldset>
+    <label id="enrollWrap">Enroll in a class (optional)<select name="class_id"></select></label>
+    <p class="edit-hint" id="pwHint"></p>
+    <label>Password<input name="password" type="password" minlength="8" autocomplete="new-password"></label>
+    <label>Confirm password<input name="password2" type="password" autocomplete="new-password"></label>
     <p class="lmsg" id="editUserMsg" role="status"></p>
-    <button class="btn" type="submit">Save changes</button>
+    <button class="btn" type="submit" id="editUserSave">Save changes</button>
   </form>
 </dialog>
 
@@ -1178,7 +1207,7 @@ function setMode(m){
 }
 function say(t,kind){loginMsg.textContent=t;loginMsg.className="lmsg"+(t?" show":"")+(kind?" "+kind:"")}
 function openLogin(m){setMode(m||"login");loginDlg.showModal()}
-loginOpen.addEventListener("click",e=>{e.preventDefault();if(me||loginOpen.textContent==="My Account"){showAcct(profile?.is_admin);return}openLogin("login")});
+loginOpen.addEventListener("click",e=>{e.preventDefault();if(me||loginOpen.textContent==="My Account"){showAcct(isStaff());return}openLogin("login")});
 document.getElementById("loginClose").addEventListener("click",()=>loginDlg.close());
 loginDlg.addEventListener("click",e=>{if(e.target===loginDlg)loginDlg.close()});
 loginForm.querySelectorAll("[data-go]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();setMode(a.dataset.go)}));
@@ -1252,19 +1281,27 @@ async function loadAccount(open){
   me=session?.user||null;
   if(!me){loginOpen.textContent="Log In";updateEnrollNote();return}
   const {data}=await sb.from("profiles").select("*").eq("id",me.id).maybeSingle();
-  profile=data||{full_name:me.user_metadata?.full_name||"",email:me.email,is_admin:false};
+  profile=data||{full_name:me.user_metadata?.full_name||"",email:me.email,role:"student"};
   loginOpen.textContent="My Account";
   updateEnrollNote();
-  if(open)showAcct(profile.is_admin);
+  if(open)showAcct(isStaff());
 }
+// Roles and permissions
+const ROLE_LABEL={student:"Student",instructor:"Instructor",staff:"Office staff",admin:"Admin"};
+const PERM_LABEL={classes:"Manage classes",students:"Attendance, tests & certificates",payments:"Payments",accounts:"Add & edit accounts"};
+const ROLE_PRESET={student:[],instructor:["students"],staff:["classes","students","payments"],admin:["classes","students","payments","accounts"]};
+const roleOf=u=>u?.role||(u?.is_admin?"admin":"student");
+const permsOf=u=>roleOf(u)==="admin"?ROLE_PRESET.admin:roleOf(u)==="student"?[]:(u?.permissions||[]);
+const isStaff=()=>roleOf(profile)!=="student";
+const can=p=>permsOf(profile).includes(p);
 async function showAcct(admin){
   if(!sb){showDemo(admin);return}
   document.querySelector(".acct-demo").hidden=true;
   const first=(profile.full_name||me.email.split("@")[0]).split(" ")[0];
-  document.getElementById("acctName").textContent=admin?(profile.full_name||"Admin")+" (Admin)":(profile.full_name||first);
+  document.getElementById("acctName").textContent=admin?(profile.full_name||"Staff")+" ("+ROLE_LABEL[roleOf(profile)]+")":(profile.full_name||first);
   document.getElementById("acctAv").textContent=(first[0]||"?").toUpperCase();
-  acctSwitch.hidden=!profile.is_admin;
-  acctSwitch.textContent=admin?"View my student page":"View admin dashboard";
+  acctSwitch.hidden=!isStaff();
+  acctSwitch.textContent=admin?"View my student page":(roleOf(profile)==="admin"?"View admin dashboard":"View staff dashboard");
   openAcct(admin);
   admin?await renderAdmin():await renderStudent(first);
 }
@@ -1305,24 +1342,26 @@ async function renderStudent(first){
 }
 
 async function renderAdmin(){
-  acctAdmin.innerHTML=`<h1>Admin dashboard</h1><p class="sub">Loading…</p>`;
+  const title=roleOf(profile)==="admin"?"Admin dashboard":"Staff dashboard";
+  acctAdmin.innerHTML=`<h1>${title}</h1><p class="sub">Loading…</p>`;
   const [cl,en,pr]=await Promise.all([
     sb.from("classes").select("*").order("id"),
     sb.from("enrollments").select("*, classes(course,dates,sessions), profiles(full_name,email)").order("created_at",{ascending:false}),
-    sb.from("profiles").select("id,full_name,email,phone,is_admin,created_at").order("created_at",{ascending:false})
+    sb.from("profiles").select("*").order("created_at",{ascending:false})
   ]);
   if(cl.error||en.error){acctAdmin.querySelector(".sub").textContent="Couldn't load data: "+(cl.error||en.error).message;return}
   const classes=cl.data,ens=en.data,people=pr.data||[],now=new Date();
-  adminPeople=people;
+  adminPeople=people;adminClasses=classes;
   const thisMonth=ens.filter(x=>{const d=new Date(x.created_at);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear()});
   const paidSum=thisMonth.filter(x=>x.payment_status==="paid").reduce((a,x)=>a+Number(x.amount||0),0);
   const ready=ens.filter(x=>x.certificate_status!=="issued"&&x.test_passed&&x.attended_sessions>=(x.classes?.sessions||0));
   const count=id=>ens.filter(x=>x.class_id===id).length;
-  acctAdmin.innerHTML=`<h1>Admin dashboard</h1><p class="sub">Classes, enrollments, payments and certificates.</p>
+  const cC=can("classes"),cS=can("students"),cP=can("payments"),cA=can("accounts");
+  acctAdmin.innerHTML=`<h1>${title}</h1><p class="sub">Classes, enrollments, payments and certificates.</p>
   <div class="stats">
     <div class="stat"><b>${thisMonth.length}</b><span>Enrollments this month</span></div>
     <div class="stat"><b>${classes.filter(c=>c.status==="open").length}</b><span>Open classes</span></div>
-    <div class="stat"><b>$${paidSum.toFixed(0)}</b><span>Paid this month</span></div>
+    ${cP?`<div class="stat"><b>$${paidSum.toFixed(0)}</b><span>Paid this month</span></div>`:""}
     <div class="stat"><b>${ready.length}</b><span>Certificates to issue</span></div>
   </div>
   <div class="atable"><h3>Classes</h3><table>
@@ -1331,25 +1370,26 @@ async function renderAdmin(){
       <td>${esc(COURSE[c.course]?.split(" (")[0])}<small>${c.sessions} sessions · ${esc(c.location)}</small></td>
       <td>${esc(c.dates)}<small>${esc(c.times)}</small></td>
       <td><span class="bar"><i style="width:${pct}%"></i></span>${n} / ${c.seats}</td>
-      <td>${c.status==="open"?pill(n>=c.seats?"no":"ok",n>=c.seats?"Full":"Open"):pill("no","Closed")}<button class="act" data-class="${c.id}" data-status="${c.status==="open"?"closed":"open"}">${c.status==="open"?"Close":"Reopen"}</button></td></tr>`}).join("")||`<tr><td colspan="4">No classes yet. Add one below.</td></tr>`}</tbody></table></div>
+      <td>${c.status==="open"?pill(n>=c.seats?"no":"ok",n>=c.seats?"Full":"Open"):pill("no","Closed")}${cC?`<button class="act" data-class="${c.id}" data-status="${c.status==="open"?"closed":"open"}">${c.status==="open"?"Close":"Reopen"}</button>`:""}</td></tr>`}).join("")||`<tr><td colspan="4">No classes yet. Add one below.</td></tr>`}</tbody></table></div>
   <div class="atable"><h3>Students</h3><table>
     <thead><tr><th>Student</th><th>Class</th><th>Payment</th><th>Attendance</th><th>Test</th><th>Certificate</th></tr></thead>
     <tbody>${ens.map(x=>{const s=x.classes?.sessions||0;return `<tr>
       <td>${esc(x.profiles?.full_name||"(no name)")}<small>${esc(x.profiles?.email)}</small></td>
       <td>${esc(COURSE[x.classes?.course]?.split(" (")[0])}<small>${esc(x.classes?.dates)}</small></td>
-      <td>${x.payment_status==="paid"?pill("ok","Paid"):pill("wait",x.payment_status==="partial"?"Balance due":"Unpaid")+`<button class="act" data-en="${x.id}" data-set="paid">Mark paid</button>`}</td>
-      <td>${Math.min(x.attended_sessions,s)} / ${s}${x.attended_sessions<s?`<button class="act" data-en="${x.id}" data-set="attend" data-val="${x.attended_sessions+1}">+1</button>`:""}</td>
-      <td>${x.test_passed?pill("ok","Passed"):`<button class="act" data-en="${x.id}" data-set="test">Passed</button>`}</td>
-      <td>${x.certificate_status==="issued"?pill("ok","Issued"):`<button class="act" data-en="${x.id}" data-set="cert">Issue</button>`}${x.court_order_received?"":`<button class="act" data-en="${x.id}" data-set="court">Court order received</button>`}</td></tr>`}).join("")||`<tr><td colspan="6">No students yet. When a logged-in student enrolls, they show up here.</td></tr>`}</tbody></table></div>
-  <div class="atable"><h3>Accounts</h3><p class="atable-note">Everyone who has created a login. Edit a name, email or phone, set a new password, or email them a reset link.</p><table>
+      <td>${x.payment_status==="paid"?pill("ok","Paid"):pill("wait",x.payment_status==="partial"?"Balance due":"Unpaid")+(cP?`<button class="act" data-en="${x.id}" data-set="paid">Mark paid</button>`:"")}</td>
+      <td>${Math.min(x.attended_sessions,s)} / ${s}${cS&&x.attended_sessions<s?`<button class="act" data-en="${x.id}" data-set="attend" data-val="${x.attended_sessions+1}">+1</button>`:""}</td>
+      <td>${x.test_passed?pill("ok","Passed"):cS?`<button class="act" data-en="${x.id}" data-set="test">Passed</button>`:pill("wait","Not yet")}</td>
+      <td>${x.certificate_status==="issued"?pill("ok","Issued"):cS?`<button class="act" data-en="${x.id}" data-set="cert">Issue</button>`:pill("wait","Not issued")}${x.court_order_received||!cS?"":`<button class="act" data-en="${x.id}" data-set="court">Court order received</button>`}</td></tr>`}).join("")||`<tr><td colspan="6">No students yet. When a logged-in student enrolls, they show up here.</td></tr>`}</tbody></table></div>
+  ${cA?`<div class="atable"><div class="atable-head"><h3>Accounts</h3><div><button class="btn btn-sm" type="button" id="addStudentBtn">+ Add student</button><button class="btn btn-sm btn-ghost" type="button" id="addStaffBtn">+ Add staff member</button></div></div>
+    <p class="atable-note">Everyone with a login. Edit a person to change their details, password, role or permissions.</p><table>
     <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th></th></tr></thead>
-    <tbody>${people.map(u=>`<tr>
+    <tbody>${people.map(u=>{const r=roleOf(u);return `<tr>
       <td>${esc(u.full_name||"(no name)")}<small>Joined ${new Date(u.created_at).toLocaleDateString()}</small></td>
       <td>${esc(u.email)}</td>
       <td>${esc(u.phone||"")}</td>
-      <td>${u.is_admin?pill("ok","Admin"):"Student"}</td>
-      <td class="nowrap"><button class="act" data-edit="${u.id}">Edit login</button><button class="act" data-reset="${u.id}">Email reset link</button></td></tr>`).join("")||`<tr><td colspan="5">No accounts yet.</td></tr>`}</tbody></table></div>
-  <form class="addclass" id="addClass">
+      <td>${r==="student"?"Student":pill(r==="admin"?"ok":"wait",ROLE_LABEL[r])}${r!=="student"&&r!=="admin"?`<small>${permsOf(u).map(p=>PERM_LABEL[p]).join(", ")||"No permissions"}</small>`:""}</td>
+      <td class="nowrap"><button class="act" data-edit="${u.id}">Edit</button><button class="act" data-reset="${u.id}">Email reset link</button></td></tr>`}).join("")||`<tr><td colspan="5">No accounts yet.</td></tr>`}</tbody></table></div>`:""}
+  ${cC?`<form class="addclass" id="addClass">
     <h3>Add a class</h3>
     <label>Course<select name="course"><option value="education">DWI Education</option><option value="intervention">DWI Intervention</option></select></label>
     <label>Dates<input name="dates" placeholder="Mon–Wed, Jan 5–7" required></label>
@@ -1358,7 +1398,7 @@ async function renderAdmin(){
     <label>Sessions<input name="sessions" type="number" min="1" value="3" required></label>
     <label>Seats<input name="seats" type="number" min="1" value="16" required></label>
     <button class="btn" type="submit">Add Class</button>
-  </form>`;
+  </form>`:""}`;
   acctAdmin.querySelectorAll("[data-class]").forEach(b=>b.addEventListener("click",()=>adminSave(sb.from("classes").update({status:b.dataset.status}).eq("id",b.dataset.class),b)));
   acctAdmin.querySelectorAll("[data-en]").forEach(b=>b.addEventListener("click",()=>{
     const ch={paid:{payment_status:"paid"},attend:{attended_sessions:Number(b.dataset.val)},test:{test_passed:true},cert:{certificate_status:"issued"},court:{court_order_received:true}}[b.dataset.set];
@@ -1366,41 +1406,75 @@ async function renderAdmin(){
     adminSave(sb.from("enrollments").update(ch).eq("id",b.dataset.en),b);
   }));
   acctAdmin.querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>openEditUser(b.dataset.edit)));
+  document.getElementById("addStudentBtn")?.addEventListener("click",()=>openEditUser(null,"student"));
+  document.getElementById("addStaffBtn")?.addEventListener("click",()=>openEditUser(null,"instructor"));
   acctAdmin.querySelectorAll("[data-reset]").forEach(b=>b.addEventListener("click",()=>sendResetLink(b.dataset.reset,b)));
-  document.getElementById("addClass").addEventListener("submit",e=>{
+  document.getElementById("addClass")?.addEventListener("submit",e=>{
     e.preventDefault();const f=Object.fromEntries(new FormData(e.target));f.sessions=+f.sessions;f.seats=+f.seats;
     adminSave(sb.from("classes").insert(f),e.target.querySelector("button"));
   });
 }
-// Admin: edit a student's login
-let adminPeople=[];
+// Admin: add or edit an account
+let adminPeople=[],adminClasses=[];
 const editDlg=document.getElementById("editUserDlg"),editForm=document.getElementById("editUserForm"),editMsg=document.getElementById("editUserMsg");
-function openEditUser(id){
-  const u=adminPeople.find(x=>x.id===id);if(!u)return;
-  editForm.reset();editForm.dataset.id=id;editMsg.className="lmsg";
-  editForm.full_name.value=u.full_name||"";editForm.email.value=u.email||"";editForm.phone.value=u.phone||"";
-  document.getElementById("editUserSub").textContent=u.email||"";
+const permBoxes=[...editForm.querySelectorAll("input[name=perm]")];
+function syncRole(preset){
+  const r=editForm.role.value;
+  if(preset)permBoxes.forEach(b=>b.checked=ROLE_PRESET[r].includes(b.value));
+  const fixed=r==="student"||r==="admin";
+  if(fixed)permBoxes.forEach(b=>b.checked=ROLE_PRESET[r].includes(b.value));
+  permBoxes.forEach(b=>b.disabled=fixed);
+  document.getElementById("permHint").textContent=r==="admin"?"Admins can do everything.":r==="student"?"Students only see their own class.":"Tick what this person is allowed to do.";
+  document.getElementById("enrollWrap").hidden=r!=="student"||!can("students");
+}
+editForm.role.addEventListener("change",()=>syncRole(true));
+function openEditUser(id,newRole){
+  const u=id?adminPeople.find(x=>x.id===id):null;if(id&&!u)return;
+  editForm.reset();editForm.dataset.id=id||"";editMsg.className="lmsg";
+  const r=u?roleOf(u):newRole;
+  document.getElementById("editUserTitle").textContent=u?"Edit account":newRole==="student"?"Add a student":"Add a staff member";
+  document.getElementById("editUserSub").textContent=u?(u.email||""):"They can log in with this email.";
+  document.getElementById("editUserSave").textContent=u?"Save changes":"Add account";
+  editForm.full_name.value=u?.full_name||"";editForm.email.value=u?.email||"";editForm.phone.value=u?.phone||"";
+  // Only admins can make admins; nobody changes their own role here.
+  editForm.role.querySelector("option[value=admin]").disabled=roleOf(profile)!=="admin";
+  editForm.role.value=r;editForm.role.disabled=!!u&&u.id===me.id;
+  permBoxes.forEach(b=>b.checked=permsOf(u||{role:r,permissions:ROLE_PRESET[r]}).includes(b.value));
+  syncRole(false);
+  if(editForm.role.disabled)permBoxes.forEach(b=>b.disabled=true);
+  document.getElementById("editPerms").hidden=false;
+  const open=adminClasses.filter(c=>c.status==="open");
+  editForm.class_id.innerHTML=`<option value="">Don't enroll right now</option>`+open.map(c=>`<option value="${c.id}">${esc(COURSE[c.course]?.split(" (")[0])} · ${esc(c.dates)}</option>`).join("");
+  document.getElementById("pwHint").textContent=u?"Set a new password only if they ask. Leave blank to keep their current one.":"Set a password for them, or leave blank and we'll email them a link to choose their own.";
   editDlg.showModal();
 }
 document.getElementById("editUserClose").addEventListener("click",()=>editDlg.close());
 editDlg.addEventListener("click",e=>{if(e.target===editDlg)editDlg.close()});
 editForm.addEventListener("submit",async e=>{
   e.preventDefault();
-  const u=adminPeople.find(x=>x.id===editForm.dataset.id),f=Object.fromEntries(new FormData(editForm));
+  const id=editForm.dataset.id,u=id?adminPeople.find(x=>x.id===id):null,f=Object.fromEntries(new FormData(editForm));
   const show=(t,kind)=>{editMsg.textContent=t;editMsg.className="lmsg show "+(kind||"err")};
-  if(f.password&&f.password.length<8)return show("New password must be at least 8 characters.");
+  if(!f.full_name?.trim())return show("Please enter their full name.");
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((f.email||"").trim()))return show("Please enter a valid email.");
+  if(f.password&&f.password.length<8)return show("Password must be at least 8 characters.");
   if(f.password&&f.password!==f.password2)return show("The two passwords don't match.");
-  const body={action:"update",user_id:u.id,full_name:f.full_name,phone:f.phone};
-  if(f.email.trim().toLowerCase()!==(u.email||"").toLowerCase())body.email=f.email;
+  const role=editForm.role.value,perms=permBoxes.filter(b=>b.checked).map(b=>b.value);
+  const body=u?{action:"update",user_id:u.id,full_name:f.full_name,phone:f.phone}:{action:"create",email:f.email,full_name:f.full_name,phone:f.phone,role,permissions:perms,site_url:location.origin+location.pathname};
+  if(u){
+    if(f.email.trim().toLowerCase()!==(u.email||"").toLowerCase())body.email=f.email;
+    if(!editForm.role.disabled){body.role=role;body.permissions=perms}
+  }else if(role==="student"&&f.class_id)body.class_id=Number(f.class_id);
   if(f.password)body.password=f.password;
-  const btn=editForm.querySelector("button[type=submit]");btn.disabled=true;
+  const btn=document.getElementById("editUserSave");btn.disabled=true;
   try{
     const {data,error}=await sb.functions.invoke("admin-users",{body});
     if(error){let m=error.message;try{m=(await error.context.json()).error||m}catch(_){}throw new Error(m)}
     if(data&&data.error)throw new Error(data.error);
-    show(f.password?"Saved. Let the student know their new password.":"Saved.","ok");
+    // Enroll an existing student in a class
+    if(u&&role==="student"&&f.class_id){const {error:ee}=await sb.from("enrollments").insert({student_id:u.id,class_id:Number(f.class_id)});if(ee)throw new Error("Saved, but enrolling failed: "+ee.message)}
+    show(!u?(data?.emailed?"Account added. We emailed them a link to set their password.":"Account added. Share their password with them."):f.password?"Saved. Let them know their new password.":"Saved.","ok");
     await renderAdmin();
-    setTimeout(()=>editDlg.close(),f.password?1800:900);
+    setTimeout(()=>editDlg.close(),1800);
   }catch(err){show("Couldn't save: "+err.message)}
   finally{btn.disabled=false}
 });
