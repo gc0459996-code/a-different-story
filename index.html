@@ -473,7 +473,14 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
 .atable-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-right:20px}
 .atable-head > div{display:flex;gap:8px;flex-wrap:wrap;padding-top:12px}
 .btn.btn-sm{padding:8px 14px;font-size:.85rem}
-.chat-panel{grid-column:1/-1;margin-top:20px}
+.chat-page{max-width:820px;min-width:0}
+.chat-page > div,.inbox-chat{min-width:0}
+.chat-send textarea{min-width:0}
+.acct-actions .mbadge[hidden]{display:none}
+.acct-actions .mbadge{display:inline-block;margin-left:8px;background:#DC2626;color:#fff;border-radius:999px;font-size:.75rem;padding:1px 7px;line-height:1.5}
+.stat-link{font:inherit;text-align:left;cursor:pointer}
+.stat-link:hover{border-color:var(--primary)}
+.inbox{margin-top:0}
 .chat-log{display:flex;flex-direction:column;gap:10px;max-height:380px;min-height:120px;overflow-y:auto;padding:14px;background:#F8FAFC;border:1px solid var(--line);border-radius:8px}
 .chat-empty{color:var(--muted);margin:auto;text-align:center;font-size:.92rem;padding:12px}
 .bubble{max-width:78%;padding:10px 14px;border-radius:14px;background:#fff;border:1px solid var(--line);align-self:flex-start}
@@ -985,6 +992,7 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
   <div class="acct-top"><div class="wrap">
     <div class="who"><span class="av" id="acctAv">S</span><span id="acctName">Sample Student</span></div>
     <div class="acct-actions">
+      <button type="button" id="acctMsgs" hidden>Messages<span class="mbadge" id="acctMsgsBadge" hidden></span></button>
       <button type="button" id="acctSwitch">View as admin</button>
       <button type="button" class="solid" id="acctBack">Back to website</button>
       <button type="button" id="acctOut">Log out</button>
@@ -1029,6 +1037,7 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
     </div>
   </main>
 
+  <main class="wrap acct-main" id="acctMessages" hidden></main>
   <main class="wrap acct-main" id="acctAdmin" hidden>
     <h1>Admin dashboard</h1>
     <p class="sub">Classes, enrollments, payments and certificates.</p>
@@ -1183,6 +1192,8 @@ document.getElementById("balanceLink").addEventListener("click",e=>{if(!CONFIG.b
 const sb=(CONFIG.supabase.url&&window.supabase)?window.supabase.createClient(CONFIG.supabase.url,CONFIG.supabase.key):null;
 const loginDlg=document.getElementById("loginDlg"),loginMsg=document.getElementById("loginMsg"),loginForm=document.getElementById("loginForm");
 const loginOpen=document.getElementById("loginOpen"),loginSubmit=document.getElementById("loginSubmit");
+let acctView="student";
+const acctMessages=document.getElementById("acctMessages"),acctMsgs=document.getElementById("acctMsgs");
 const acct=document.getElementById("acct"),acctStudent=document.getElementById("acctStudent"),acctAdmin=document.getElementById("acctAdmin"),acctSwitch=document.getElementById("acctSwitch");
 const esc=t=>String(t??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const COURSE={education:"DWI Education (12 hours)",intervention:"DWI Intervention (32 hours)"};
@@ -1250,7 +1261,9 @@ loginForm.addEventListener("submit",async e=>{
 
 function openAcct(admin){
   acct.hidden=false;document.body.style.overflow="hidden";acct.scrollTop=0;
-  acctStudent.hidden=admin;acctAdmin.hidden=!admin;
+  acctStudent.hidden=admin;acctAdmin.hidden=!admin;acctMessages.hidden=true;
+  if(typeof stopChat==="function"&&sb)stopChat();
+  acctView=admin?"admin":"student";
   acct.classList.toggle("student-bg",!admin);acct.classList.toggle("admin-bg",admin);
   loginOpen.textContent="My Account";
 }
@@ -1299,7 +1312,10 @@ async function showAcct(admin){
   document.getElementById("acctAv").textContent=(first[0]||"?").toUpperCase();
   acctSwitch.hidden=!isStaff();
   acctSwitch.textContent=admin?"View my student page":(roleOf(profile)==="admin"?"View admin dashboard":"View staff dashboard");
+  acctMsgs.hidden=!(staffInbox()||!isStaff());
   openAcct(admin);
+  setMsgsButton(admin);
+  updateMsgBadge();
   admin?await renderAdmin():await renderStudent(first);
 }
 const pill=(cls,t)=>`<span class="pill ${cls}">${esc(t)}</span>`;
@@ -1310,8 +1326,8 @@ async function renderStudent(first){
   if(!rows.length){
     acctStudent.innerHTML=`<h1>Welcome back, ${esc(first)}</h1><p class="sub">Here's everything about your class in one place.</p>
       <div class="acct-empty"><h3>You're not enrolled in a class yet</h3><p>Pick your class dates and pay online. Your class will show up here right after.</p>
-      <a class="btn" href="#payment" id="goEnroll">Enroll in a Class <span class="arr">➜</span></a></div>${STUDENT_CHAT}`;
-    document.getElementById("goEnroll").addEventListener("click",closeAcct);mountChat(document.getElementById("stuChat"),me.id,false);return;
+      <a class="btn" href="#payment" id="goEnroll">Enroll in a Class <span class="arr">➜</span></a></div>`;
+    document.getElementById("goEnroll").addEventListener("click",closeAcct);return;
   }
   const r=rows[0],c=r.classes||{},sessions=c.sessions||0,done=r.attended_sessions>=sessions&&sessions>0;
   const paid=r.payment_status==="paid",issued=r.certificate_status==="issued";
@@ -1335,8 +1351,7 @@ async function renderStudent(first){
     <div class="apanel"><span class="lbl">Documents</span><h3>Court order</h3>
       <p>Email your court or probation paperwork to us so your certificate has the right case details.</p>
       <span>${r.court_order_received?pill("ok","Received"):pill("wait","Not received yet")}</span></div>
-  </div>${STUDENT_CHAT}`;
-  mountChat(document.getElementById("stuChat"),me.id,false);
+  </div>`;
 }
 
 async function renderAdmin(){
@@ -1355,19 +1370,16 @@ async function renderAdmin(){
   const ready=ens.filter(x=>x.certificate_status!=="issued"&&x.test_passed&&x.attended_sessions>=(x.classes?.sessions||0));
   const count=id=>ens.filter(x=>x.class_id===id).length;
   const cC=can("classes"),cS=can("students"),cP=can("payments"),cA=can("accounts"),cM=can("messages");
-  let msgs=[];
-  if(cM){const {data}=await sb.from("messages").select("student_id,body,from_staff,read,created_at").order("created_at",{ascending:false}).limit(1000);msgs=data||[]}
-  const unread=msgs.filter(m=>!m.from_staff&&!m.read).length;
+  let unread=0;
+  if(cM){const {count}=await sb.from("messages").select("id",{count:"exact",head:true}).eq("from_staff",false).eq("read",false);unread=count||0}
   acctAdmin.innerHTML=`<h1>${title}</h1><p class="sub">Classes, enrollments, payments and certificates.</p>
   <div class="stats">
     <div class="stat"><b>${thisMonth.length}</b><span>Enrollments this month</span></div>
     <div class="stat"><b>${classes.filter(c=>c.status==="open").length}</b><span>Open classes</span></div>
     ${cP?`<div class="stat"><b>$${paidSum.toFixed(0)}</b><span>Paid this month</span></div>`:""}
     <div class="stat"><b>${ready.length}</b><span>Certificates to issue</span></div>
-    ${cM?`<div class="stat"><b>${unread}</b><span>Unread messages</span></div>`:""}
+    ${cM?`<button type="button" class="stat stat-link" id="statMsgs"><b>${unread}</b><span>Unread messages</span></button>`:""}
   </div>
-  ${cM?`<div class="atable inbox"><div class="atable-head"><h3>Messages</h3><div><select id="newChatSel" aria-label="Message a student"><option value="">Message a student…</option>${people.filter(u=>roleOf(u)==="student").map(u=>`<option value="${u.id}">${esc(u.full_name||u.email)}</option>`).join("")}</select></div></div>
-    <div class="inbox-grid"><ul class="inbox-list" id="inboxList">${inboxRows(msgs,people)}</ul><div class="inbox-chat" id="staffChat"><p class="chat-empty">Pick a conversation to read and reply.</p></div></div></div>`:""}
   <div class="atable"><h3>Classes</h3><table>
     <thead><tr><th>Class</th><th>Dates</th><th>Seats filled</th><th>Status</th></tr></thead>
     <tbody>${classes.map(c=>{const n=count(c.id),pct=Math.min(100,Math.round(n/c.seats*100));return `<tr>
@@ -1410,15 +1422,8 @@ async function renderAdmin(){
     adminSave(sb.from("enrollments").update(ch).eq("id",b.dataset.en),b);
   }));
   acctAdmin.querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>openEditUser(b.dataset.edit)));
-  if(cM){
-    const openChat=id=>{if(!id)return;acctAdmin.querySelectorAll(".inbox-list li").forEach(li=>li.classList.toggle("on",li.dataset.chat===id));
-      const li=acctAdmin.querySelector(`.inbox-list li[data-chat="${id}"]`);li?.querySelector(".badge")?.remove();
-      mountChat(document.getElementById("staffChat"),id,true)};
-    acctAdmin.querySelectorAll(".inbox-list li[data-chat]").forEach(li=>li.addEventListener("click",()=>openChat(li.dataset.chat)));
-    document.getElementById("newChatSel").addEventListener("change",e=>{openChat(e.target.value);e.target.value=""});
-    acctAdmin.querySelectorAll("[data-msg]").forEach(b=>b.addEventListener("click",()=>{document.querySelector(".inbox").scrollIntoView({behavior:"smooth"});openChat(b.dataset.msg)}));
-    if(chatOpenFor&&chatStaff)openChat(chatOpenFor);
-  }
+  document.getElementById("statMsgs")?.addEventListener("click",()=>openMessages());
+  acctAdmin.querySelectorAll("[data-msg]").forEach(b=>b.addEventListener("click",()=>openMessages(b.dataset.msg)));
   document.getElementById("addStudentBtn")?.addEventListener("click",()=>openEditUser(null,"student"));
   document.getElementById("addStaffBtn")?.addEventListener("click",()=>openEditUser(null,"instructor"));
   acctAdmin.querySelectorAll("[data-reset]").forEach(b=>b.addEventListener("click",()=>sendResetLink(b.dataset.reset,b)));
@@ -1501,8 +1506,48 @@ async function sendResetLink(id,btn){
   btn.textContent="Link sent ✓";
 }
 // Messaging between students and staff
-const STUDENT_CHAT=`<div class="apanel chat-panel"><span class="lbl">Messages</span><h3>Message the school</h3><p>Questions about your class, payment or paperwork? Send us a message and we'll reply here.</p><div id="stuChat"></div></div>`;
 let chatOpenFor=null,chatStaff=false,chatSub=null,chatPoll=null;
+const staffInbox=()=>isStaff()&&can("messages");
+// The Messages button: opens the messages page, or goes back to where you came from.
+function setMsgsButton(fromAdmin){
+  acctMsgs.dataset.from=fromAdmin?"admin":"student";
+  acctMsgs.firstChild.textContent=acctView==="messages"?(fromAdmin?"Back to dashboard":"Back to my class"):"Messages";
+}
+acctMsgs.addEventListener("click",()=>{
+  if(acctView==="messages"){const admin=acctMsgs.dataset.from==="admin";openAcct(admin);setMsgsButton(admin);acctSwitch.hidden=!isStaff();admin?renderAdmin():renderStudent((profile.full_name||me.email).split(" ")[0]);updateMsgBadge();return}
+  openMessages();
+});
+async function updateMsgBadge(){
+  if(!sb||!me)return;
+  let q=sb.from("messages").select("id",{count:"exact",head:true}).eq("read",false);
+  q=staffInbox()?q.eq("from_staff",false):q.eq("from_staff",true).eq("student_id",me.id);
+  const {count,error}=await q;const b=document.getElementById("acctMsgsBadge");
+  b.hidden=!!error||!count;b.textContent=count||"";
+}
+async function openMessages(studentId){
+  const fromAdmin=!acctAdmin.hidden||acctView==="admin";
+  stopChat();
+  acctStudent.hidden=true;acctAdmin.hidden=true;acctMessages.hidden=false;acctView="messages";acct.scrollTop=0;
+  acctSwitch.hidden=true;setMsgsButton(fromAdmin);
+  const staff=staffInbox();
+  if(!staff){
+    acctMessages.innerHTML=`<h1>Messages</h1><p class="sub">Questions about your class, payment or paperwork? Send us a message and we'll reply here.</p><div class="apanel chat-page"><div id="stuChat"></div></div>`;
+    await mountChat(document.getElementById("stuChat"),me.id,false);updateMsgBadge();return;
+  }
+  acctMessages.innerHTML=`<h1>Messages</h1><p class="sub">Read and reply to students. New messages show up here on their own.</p><p class="sub">Loading…</p>`;
+  if(!adminPeople.length){const {data}=await sb.from("profiles").select("*").order("created_at",{ascending:false});adminPeople=data||[]}
+  const {data,error}=await sb.from("messages").select("student_id,body,from_staff,read,created_at").order("created_at",{ascending:false}).limit(1000);
+  const msgs=error?[]:data||[];
+  acctMessages.innerHTML=`<h1>Messages</h1><p class="sub">Read and reply to students. New messages show up here on their own.</p>
+  <div class="atable inbox"><div class="atable-head"><h3>Conversations</h3><div><select id="newChatSel" aria-label="Message a student"><option value="">Message a student…</option>${adminPeople.filter(u=>roleOf(u)==="student").map(u=>`<option value="${u.id}">${esc(u.full_name||u.email)}</option>`).join("")}</select></div></div>
+    <div class="inbox-grid"><ul class="inbox-list" id="inboxList">${error?`<li class="chat-empty">Messages aren't set up yet.</li>`:inboxRows(msgs,adminPeople)}</ul><div class="inbox-chat" id="staffChat"><p class="chat-empty">Pick a conversation to read and reply.</p></div></div></div>`;
+  const openChat=id=>{if(!id)return;acctMessages.querySelectorAll(".inbox-list li").forEach(li=>li.classList.toggle("on",li.dataset.chat===id));
+    acctMessages.querySelector(`.inbox-list li[data-chat="${id}"]`)?.querySelector(".badge")?.remove();
+    mountChat(document.getElementById("staffChat"),id,true).then(updateMsgBadge)};
+  acctMessages.querySelectorAll(".inbox-list li[data-chat]").forEach(li=>{li.addEventListener("click",()=>openChat(li.dataset.chat));li.addEventListener("keydown",e=>{if(e.key==="Enter")openChat(li.dataset.chat)})});
+  document.getElementById("newChatSel").addEventListener("change",e=>{openChat(e.target.value);e.target.value=""});
+  if(studentId)openChat(studentId);
+}
 function inboxRows(msgs,people){
   const last={},count={};
   msgs.forEach(m=>{if(!last[m.student_id])last[m.student_id]=m;if(!m.from_staff&&!m.read)count[m.student_id]=(count[m.student_id]||0)+1});
@@ -1537,7 +1582,7 @@ async function mountChat(el,studentId,staff){
   });
   form.body.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();form.requestSubmit()}});
   try{chatSub=sb.channel("chat-"+studentId).on("postgres_changes",{event:"INSERT",schema:"public",table:"messages",filter:"student_id=eq."+studentId},load).subscribe()}catch(_){}
-  chatPoll=setInterval(()=>{if(document.contains(el)&&!acct.hidden)load();else stopChat()},20000);
+  chatPoll=setInterval(()=>{if(document.contains(el)&&!acct.hidden&&!acctMessages.hidden)load();else stopChat()},20000);
 }
 async function adminSave(q,btn){
   btn.disabled=true;const {error}=await q;
