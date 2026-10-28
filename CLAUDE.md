@@ -12,6 +12,10 @@ enroll, log in to see their class, payment and certificate status, and message t
 school. Staff manage classes, students, payments, accounts and messages from an admin
 dashboard.
 
+Primary goals: get students to enroll and pay, and give them, staff and Glenn a simple
+account area. Priorities: accessibility, fast load times, a clean responsive layout, and
+code that stays easy to change.
+
 ## The one rule that is never skipped
 
 **Never publish without running the E2E checks and visually checking the change with
@@ -74,6 +78,15 @@ Netlify publishes the repo root as-is, so **every file in the repo can be downlo
 from the live site.** Never commit secrets. The Supabase publishable key in `CONFIG` is
 meant to be public; the service role key must never appear in the repo or the browser.
 
+### Commands
+
+There is nothing to install, build, lint or typecheck. Node and Playwright with Chromium
+are preinstalled in the cloud sandbox.
+
+- Preview locally: `python3 -m http.server 8000`, then open http://localhost:8000
+- Test (E2E + screenshots): `NODE_PATH=$(npm root -g) node tests/e2e.cjs`
+- Test with section screenshots: add `--only=faq,payment` (any section ids)
+
 ### Files
 
 | Path | What it is |
@@ -122,6 +135,48 @@ copy it to the mirror too.
   gives the real value. The banner stays until launch.
 - Must work on phones: the menu folds into ☰, and the reviews show 3 cards on desktop and
   tablet, 1 on phones.
+- Match the existing spacing, type (Poppins; Libre Baskerville for display) and color
+  variables. Reuse the breakpoints already in the stylesheet; don't add one-off colors
+  or breakpoints unless there's no other way.
+
+## Code conventions
+
+- Reuse what's there before adding new things: existing classes (`.btn`, `.wrap`, the
+  `*-photo` section pattern, `.login-dlg` for pop-up windows) and existing helpers in
+  the script (`esc()` for any user text put into HTML, `CONFIG` for settings).
+- Keep the single-file structure: new CSS goes in the one `<style>` block near related
+  rules, new JS in the main `<script>`. Don't split into extra files or add a framework
+  or build step without asking Glenn.
+- Follow the naming already used: kebab-case CSS classes and ids, camelCase JS.
+- Keep changes small and focused. Don't refactor or reformat unrelated parts of
+  `index.html`.
+
+## Accessibility
+
+- Use semantic HTML: real `<button>`s and `<a>`s, `<section>`s with headings, `<dialog>`
+  for pop-ups, one `<h1>` per page view and headings in order.
+- Everything must work by keyboard, with a visible focus outline (the site uses a
+  2–3px outline in the primary blue; keep it).
+- Give meaningful images alt text; background images are decorative, so put any important
+  words in real text, not in the picture.
+- Label every form control, and keep text contrast readable over every background
+  (check it in the screenshots).
+
+## Performance
+
+- Optimize images before adding them: JPEG for photos, ideally under ~150 KB and no
+  wider than about 1920px. `Media/` is about 2 MB today; don't let it balloon.
+- Keep JavaScript light. Avoid new libraries or CDN scripts without a clear reason, and
+  pin an exact version if one is truly needed.
+
+## SEO
+
+- Keep the page `<title>` and meta description accurate when the services or location
+  change ("DWI classes in Waco, Texas" is the key phrase).
+- Use a proper heading order inside each section.
+- There are no Open Graph or canonical tags yet. Add them once Glenn has his own domain,
+  using that domain's URL.
+- Keep section ids short and readable, since they appear in links like `/#payment`.
 
 ## Content rules
 
@@ -161,7 +216,28 @@ copy it to the mirror too.
   Get Glenn's go-ahead first. If the Supabase connector blocks it, give him the file and
   click-by-click SQL Editor steps.
 
-## Committing
+## Workflow
 
+- Before finishing, run the E2E and visual checks (above). For a small change, pass
+  just the changed sections to `--only`, but the full run always happens.
+- Don't refactor unrelated code.
+- Don't change Netlify settings, the Supabase project, keys or the Edge Function unless
+  the task needs it.
+- Flag risky changes to Glenn before making them: anything touching logins, payments,
+  security rules, the live database, or deleting content.
 - Commit messages are short plain-English sentences, e.g. "Add refund policy".
-- Run the E2E and visual checks (above) before every push to `main`. No exceptions.
+
+## Gotchas
+
+- `--rust`, `--rust-dark`, `--orange` and `--orange-dark` sound orange but are aliases
+  for the blues, left over from the first Alamo-style draft. Don't "fix" them to orange.
+- `index.html` still has the old demo account screens (`.acct-demo` banner and
+  `.demo-btn` buttons). They're hidden once a real login loads. Don't copy from them;
+  real account features use Supabase.
+- `profiles.is_admin` is a legacy column. Roles now come from `role` and
+  `permissions`, but the Edge Function still keeps `is_admin` in sync, so leave it.
+- `/mnt/project-files/website/a-different-story-netlify.zip` is an old drag-and-drop
+  upload from before GitHub was connected. Don't update or rely on it.
+- `Media/logo-full.png` (the full stacked logo) isn't used on the page yet; it's kept for
+  a bigger placement later. Background options Glenn turned down were never added to
+  the repo; only the project's shared folder still has some of them.
