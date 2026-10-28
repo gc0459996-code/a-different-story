@@ -18,7 +18,7 @@ create table if not exists public.classes (
   course text not null check (course in ('education', 'intervention')),
   dates text not null,               -- e.g. 'Mon–Wed, Nov 2–4'
   times text not null,               -- e.g. '6:00–10:00 pm'
-  location text not null default 'In person, Waco, TX',
+  location text not null default 'Live online (Zoom)',
   sessions int not null default 3,   -- number of class meetings
   seats int not null default 16,
   status text not null default 'open' check (status in ('open', 'closed')),

@@ -129,5 +129,9 @@ do $$ begin
   end if;
 end $$;
 
+-- All classes are online: new classes default to Zoom, and older in-person classes are relabeled.
+alter table public.classes alter column location set default 'Live online (Zoom)';
+update public.classes set location = 'Live online (Zoom)' where location ilike 'in person%';
+
 -- Quick check: this should list your account as admin.
 select email, role, permissions from public.profiles where role <> 'student';
