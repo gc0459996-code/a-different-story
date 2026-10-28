@@ -26,6 +26,7 @@
   --muted:#64748B;
   --grey:#F7FAFC;
   --white:#FFFFFF;
+  --header-bg:#EEF4FB;
   --hero:#0F172A;
   --line:#CBD5E1;
   --ph-bg:#fff1b8; --ph-fg:#6b4d00;
@@ -69,7 +70,7 @@ p{margin:0}
 @media (max-width:640px){.topbar .wrap{justify-content:center;gap:6px 20px;font-size:.85rem}}
 
 /* Header */
-.header{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--white);box-shadow:0 6px 14px rgba(0,0,0,.18)}
+.header{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--header-bg);box-shadow:0 6px 14px rgba(0,0,0,.18)}
 .header .wrap{display:flex;align-items:center;gap:24px;min-height:84px;padding-block:10px;flex-wrap:wrap}
 .logo{display:flex;align-items:center;gap:12px;text-decoration:none;margin-right:auto}
 .logo span{font:800 1.45rem/1 "Poppins",system-ui,sans-serif;color:#0F2A48;letter-spacing:.03em;text-transform:uppercase}
@@ -392,7 +393,7 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
 .acct[hidden]{display:none}
 .acct-demo{background:var(--gold);color:#422006;font-size:.9rem;padding:8px 16px;text-align:center}
 .acct-demo b{font-weight:700}
-.acct-top{background:#fff;border-bottom:1px solid var(--line)}
+.acct-top{background:var(--header-bg);border-bottom:1px solid var(--line)}
 .acct-top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:14px;flex-wrap:wrap}
 .acct-top .who{display:flex;align-items:center;gap:10px;font-weight:600}
 .acct-top .av{width:38px;height:38px;border-radius:50%;background:var(--primary);color:#fff;display:grid;place-items:center;font-weight:700}
