@@ -85,9 +85,9 @@ footer .logo .logo-badge img{height:46px;width:auto}
 @media (max-width:480px){.logo span{font-size:1.05rem}.logo .logo-mark{height:46px}.header .btn{padding:11px 14px;font-size:.92rem}}
 
 /* Hero */
-.hero{--hero-img:url("Media/hero-classroom.jpg");background:linear-gradient(90deg,rgba(15,23,42,.86) 0%,rgba(15,23,42,.62) 45%,rgba(15,23,42,.12) 100%),var(--hero-img) right center/cover no-repeat,var(--hero);color:var(--white);padding-block:clamp(64px,9vw,120px);overflow:hidden}
+.hero{--bg-img:url("Media/hero-classroom.jpg");background:linear-gradient(90deg,rgba(15,23,42,.86) 0%,rgba(15,23,42,.62) 45%,rgba(15,23,42,.12) 100%),var(--bg-img) right center/cover no-repeat,var(--hero);color:var(--white);padding-block:clamp(64px,9vw,120px);overflow:hidden}
 .hero .wrap{display:grid;grid-template-columns:minmax(0,760px);gap:40px;align-items:center}
-@media (max-width:700px){.hero{background-image:linear-gradient(rgba(15,23,42,.8),rgba(15,23,42,.72)),var(--hero-img)!important}}
+@media (max-width:700px){.hero{background-image:linear-gradient(rgba(15,23,42,.8),rgba(15,23,42,.72)),var(--bg-img)!important}}
 .hero h1{text-shadow:0 2px 18px rgba(15,23,42,.5);color:var(--white);font-size:clamp(2.4rem,5.4vw,4.3rem);font-weight:700;line-height:1.15}
 .hero .intro{font-size:clamp(1.05rem,1.6vw,1.35rem);margin-top:26px}
 .hero .intro b{font-weight:700}
@@ -296,7 +296,7 @@ footer .ph{background:var(--gold);color:var(--ink)}
 @media (max-width:880px){.loc{grid-template-columns:1fr}}
 
 /* FAQ with office photo */
-.faq-photo{--faq-img:url("Media/faq-office.jpg");background:linear-gradient(90deg,rgba(15,23,42,.55) 0%,rgba(15,23,42,.15) 55%,rgba(15,23,42,0) 100%),var(--faq-img) right center/cover no-repeat,#0F172A}
+.faq-photo{--bg-img:url("Media/faq-office.jpg");background:linear-gradient(90deg,rgba(15,23,42,.55) 0%,rgba(15,23,42,.15) 55%,rgba(15,23,42,0) 100%),var(--bg-img) right center/cover no-repeat,#0F172A}
 .faq-photo .sec-title{text-align:left;max-width:640px}
 .faq-photo h2{color:var(--white)}
 .faq-photo .faq{margin-inline:0;max-width:640px}
@@ -305,21 +305,21 @@ footer .ph{background:var(--gold);color:var(--ink)}
 .faq-photo summary{color:var(--white)}
 .faq-photo summary::after{color:var(--gold)}
 .faq-photo details p{color:#E2E8F0}
-@media (max-width:900px){.faq-photo{background:linear-gradient(rgba(15,23,42,.82),rgba(15,23,42,.82)),var(--faq-img) 70% center/cover no-repeat,#0F172A}.faq-photo .faq,.faq-photo .sec-title{max-width:none}}
+@media (max-width:900px){.faq-photo{background:linear-gradient(rgba(15,23,42,.82),rgba(15,23,42,.82)),var(--bg-img) 70% center/cover no-repeat,#0F172A}.faq-photo .faq,.faq-photo .sec-title{max-width:none}}
 
 /* Made Simple with soft light background */
-.how-photo{background:url("Media/bg-soft-light.jpg") center/cover no-repeat,#13265a}
+.how-photo{--bg-img:url("Media/bg-soft-light.jpg");background:var(--bg-img) center/cover no-repeat,#13265a}
 .how-photo .orange-title,.how-photo h3{color:var(--white)}
 .how-photo .steps p{color:#DBEAFE}
 .how-photo .steps svg path{fill:var(--gold)}
 
 /* About with wave background */
-.about-photo{background:linear-gradient(90deg,rgba(255,255,255,.82) 0%,rgba(255,255,255,.7) 45%,rgba(255,255,255,0) 62%),url("Media/about-wave.jpg") center/cover no-repeat,#F7FAFC}
+.about-photo{--bg-img:url("Media/about-wave.jpg");background:linear-gradient(90deg,rgba(255,255,255,.82) 0%,rgba(255,255,255,.7) 45%,rgba(255,255,255,0) 62%),var(--bg-img) center/cover no-repeat,#F7FAFC}
 .about-photo .about-card{box-shadow:0 10px 30px rgba(15,23,42,.12)}
-@media (max-width:880px){.about-photo{background:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.55)),url("Media/about-wave.jpg") 70% center/cover no-repeat,#F7FAFC}}
+@media (max-width:880px){.about-photo{background:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.55)),var(--bg-img) 70% center/cover no-repeat,#F7FAFC}}
 
 /* Services with light background */
-.services-photo{background:url("Media/bg-road.jpg") center/cover no-repeat,#13265a}
+.services-photo{--bg-img:url("Media/bg-road.jpg");background:var(--bg-img) center/cover no-repeat,#13265a}
 .services-photo .sec-title h2{color:var(--white)}
 .services-photo .sec-title p{color:#DBEAFE}
 .services-photo .sec-title .eyebrow{color:var(--gold)}
@@ -327,35 +327,35 @@ footer .ph{background:var(--gold);color:var(--ink)}
 .services-photo .card{border:0;box-shadow:0 20px 50px rgba(0,0,0,.3)}
 
 /* Enroll & Pay with light wave background */
-.pay-photo{background:linear-gradient(90deg,rgba(255,255,255,.8) 0%,rgba(255,255,255,.6) 40%,rgba(255,255,255,0) 60%),url("Media/payment-light.jpg") center/cover no-repeat,#F7FAFC}
+.pay-photo{--bg-img:url("Media/payment-light.jpg");background:linear-gradient(90deg,rgba(255,255,255,.8) 0%,rgba(255,255,255,.6) 40%,rgba(255,255,255,0) 60%),var(--bg-img) center/cover no-repeat,#F7FAFC}
 .pay-photo form{border:0;box-shadow:0 20px 50px rgba(15,23,42,.15)}
 .pay-photo .paybal{border:0;box-shadow:0 10px 30px rgba(15,23,42,.10)}
 
 /* Online Course with light background */
-.online-photo{background:linear-gradient(rgba(11,22,56,.3),rgba(11,22,56,.3)),url("Media/online-classroom.jpg") center/cover no-repeat,#13265a}
+.online-photo{--bg-img:url("Media/online-classroom.jpg");background:linear-gradient(rgba(11,22,56,.3),rgba(11,22,56,.3)),var(--bg-img) center/cover no-repeat,#13265a}
 .online-photo .online-text h2{color:var(--white)}
 .online-photo .online-text .eyebrow{color:var(--gold)}
 .online-photo .online-text p{color:#DBEAFE}
 .online-photo .ocard{border:0;box-shadow:0 10px 30px rgba(15,23,42,.10)}
 
 /* Before You Pay with wave background */
-.verify-photo{background:url("Media/verify-wave.jpg") center/cover no-repeat,#F7FAFC}
+.verify-photo{--bg-img:url("Media/verify-wave.jpg");background:var(--bg-img) center/cover no-repeat,#F7FAFC}
 .verify-photo .card{border:0;box-shadow:0 10px 30px rgba(15,23,42,.12)}
 
 /* class schedule background */
-.schedule-photo{background:linear-gradient(rgba(11,22,56,.45),rgba(11,22,56,.45)),url("Media/schedule-classroom.jpg") center/cover no-repeat,#13265a}
+.schedule-photo{--bg-img:url("Media/schedule-classroom.jpg");background:linear-gradient(rgba(11,22,56,.45),rgba(11,22,56,.45)),var(--bg-img) center/cover no-repeat,#13265a}
 .schedule-photo h2{color:var(--white)}
 .schedule-photo .sec-title p,.schedule-photo .wrap > p{color:#DBEAFE}
 .schedule-photo .tbl{box-shadow:0 10px 30px rgba(0,0,0,.3)}
 
 /* what to bring background */
-.bring-photo{background:linear-gradient(270deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,.35) 30%,rgba(255,255,255,0) 55%),url("Media/verify-wave.jpg") center/cover no-repeat,#F7FAFC}
+.bring-photo{--bg-img:url("Media/verify-wave.jpg");background:linear-gradient(270deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,.35) 30%,rgba(255,255,255,0) 55%),var(--bg-img) center/cover no-repeat,#F7FAFC}
 .bring-photo .tbl{box-shadow:0 10px 30px rgba(15,23,42,.12)}
 .bring-photo .tbl{background:var(--white);border-radius:10px}
 .bring-photo .tbl td{color:var(--ink)}
 
 /* testimonials background */
-.reviews-photo{background:linear-gradient(rgba(11,22,56,.5),rgba(11,22,56,.5)),url("Media/reviews-desk.jpg") center/cover no-repeat,#13265a}
+.reviews-photo{--bg-img:url("Media/reviews-desk.jpg");background:linear-gradient(rgba(11,22,56,.5),rgba(11,22,56,.5)),var(--bg-img) center/cover no-repeat,#13265a}
 .reviews-photo .review{box-shadow:0 10px 30px rgba(0,0,0,.3)}
 
 /* login */
@@ -511,6 +511,36 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
 .acct-note{color:#DBEAFE;margin-top:14px;font-size:.92rem}
 .enroll-acct{font-size:.92rem;color:var(--body);margin:0 0 10px}
 .enroll-acct a{color:var(--primary);font-weight:600}
+/* admin Edit site page */
+.site-ed{display:grid;gap:22px;max-width:980px}
+.site-card{background:#fff;border-radius:10px;padding:22px;display:grid;gap:14px;box-shadow:0 10px 30px rgba(0,0,0,.3);min-width:0}
+.site-card h2{margin:0;font-size:1.25rem}
+.site-card .hint{margin:0;color:var(--muted);font-size:.9rem}
+.site-card label{display:grid;gap:5px;font-size:.88rem;font-weight:600;color:var(--ink);min-width:0}
+.site-card label small{font-weight:400;color:var(--muted)}
+.site-card input,.site-card textarea,.site-card select{width:100%;min-width:0;padding:10px;border:1px solid var(--line);border-radius:6px;font:.95rem var(--font);background:#fff;color:var(--ink)}
+.site-card textarea{resize:vertical;min-height:72px}
+.site-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.site-foot{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.site-foot .lmsg{margin:0;flex:1 1 220px}
+.site-card .btn{padding:12px 18px;font-size:.9rem}
+.site-item{display:block;border:1px solid var(--line);border-radius:8px;padding:14px;margin:0;min-width:0}
+.site-item > * + *{margin-top:10px}
+.site-item > legend + *{margin-top:0}
+.site-item legend{font-weight:600;font-size:.9rem;padding:0 4px}
+.site-item-tools{display:flex;gap:8px;flex-wrap:wrap}
+.site-item-tools button,.site-photo button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:6px 10px;font:600 .82rem var(--font);color:var(--primary);cursor:pointer}
+.site-item-tools button:hover,.site-photo button:hover{background:#EFF6FF}
+.site-photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.site-photo{border:1px solid var(--line);border-radius:8px;overflow:hidden;display:grid;align-content:start}
+.site-photo img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#E2E8F0}
+.site-photo > div{padding:10px 12px 12px;display:grid;gap:8px}
+.site-photo b{font-size:.92rem}
+.site-photo .pill{justify-self:start}
+.site-photo label.btn{color:var(--white);display:inline-flex;font-size:.82rem;padding:9px 12px;justify-content:center;cursor:pointer}
+.site-photo input[type=file]{position:absolute;width:1px;height:1px;opacity:0}
+.site-photo label.btn:focus-within{outline:3px solid var(--primary);outline-offset:2px}
+.site-photo .lmsg{font-size:.82rem;padding:6px 8px}
 </style>
 </head>
 <body>
@@ -519,8 +549,8 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
 
 <div class="topbar">
   <div class="wrap">
-    <span><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>Call: <b><span class="ph">(254) ___-____</span></b></span>
-    <span><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm9 7.2L4 7.3V8l8 5 8-5v-.7z"/></svg>Email: <b><span class="ph">info@adifferentstory___.com</span></b></span>
+    <span><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>Call: <b><span class="ph" data-site="phone">(254) ___-____</span></b></span>
+    <span><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm9 7.2L4 7.3V8l8 5 8-5v-.7z"/></svg>Email: <b><span class="ph" data-site="email">info@adifferentstory___.com</span></b></span>
   </div>
 </div>
 
@@ -548,10 +578,10 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
 <div class="hero" id="home">
   <div class="wrap">
     <div>
-      <h1>Need a DWI Class in Waco, Texas?</h1>
-      <p class="intro"><b>A Different Story</b> is your local, state-licensed school for <b>DWI Education and DWI Intervention</b>, with every class taught live online.</p>
+      <h1 data-site="hero_title">Need a DWI Class in Waco, Texas?</h1>
+      <p class="intro" data-site="hero_intro"><b>A Different Story</b> is your local, state-licensed school for <b>DWI Education and DWI Intervention</b>, with every class taught live online.</p>
       <p class="kicker">TDLR licensed · DWI Education &amp; DWI Intervention · Live online</p>
-      <p class="sub">We help you meet your court and probation requirements, protect your driver license, and move forward with respect and without judgment.</p>
+      <p class="sub" data-site="hero_sub">We help you meet your court and probation requirements, protect your driver license, and move forward with respect and without judgment.</p>
       <p class="kicker">Your next chapter starts here</p>
       <div class="ctas">
         <a class="btn" href="#payment">Enroll &amp; Pay Online <span class="arr">➜</span></a>
@@ -565,7 +595,7 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
   <div class="wrap">
     <div class="badge">
       <svg viewBox="0 0 96 96" aria-hidden="true"><path d="M48 6l34 12v26c0 22-14 38-34 46C28 82 14 66 14 44V18z" fill="#1D4ED8"/><path d="M48 14l26 9v21c0 17-10 29-26 36-16-7-26-19-26-36V23z" fill="#ffffff"/><text x="48" y="54" text-anchor="middle" font-family="Poppins, Arial" font-weight="800" font-size="17" fill="#1D4ED8">TDLR</text></svg>
-      <b>TDLR Licensed<small>Provider <span class="ph">#_____</span></small></b>
+      <b>TDLR Licensed<small>Provider <span class="ph" data-site="tdlr">#_____</span></small></b>
     </div>
     <div class="badge">
       <svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="42" fill="#0F766E"/><rect x="28" y="44" width="40" height="28" rx="4" fill="#fff"/><path d="M36 44v-8a12 12 0 0 1 24 0v8" stroke="#fff" stroke-width="6" fill="none"/><circle cx="48" cy="57" r="4" fill="#0F766E"/></svg>
@@ -637,7 +667,7 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
           <li>Recognizing a problem and where to get help</li>
           <li>Decision making and planning ahead</li>
         </ul>
-        <div class="meta"><span><b>Deadline:</b> usually within 180 days of being placed on probation</span><span><b>Fee:</b> <span class="ph">$___</span></span></div>
+        <div class="meta"><span><b>Deadline:</b> usually within 180 days of being placed on probation</span><span><b>Fee:</b> <span class="ph" data-site="price_education">$___</span></span></div>
         <a class="btn full" href="#payment">Enroll Now <span class="arr">➜</span></a>
       </article>
       <article class="card dotted">
@@ -651,7 +681,7 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
           <li>Personal action plan and community support resources</li>
           <li>Texas laws for repeat offenses</li>
         </ul>
-        <div class="meta"><span><b>Deadline:</b> usually within 180 days of being placed on probation</span><span><b>Fee:</b> <span class="ph">$___</span></span></div>
+        <div class="meta"><span><b>Deadline:</b> usually within 180 days of being placed on probation</span><span><b>Fee:</b> <span class="ph" data-site="price_intervention">$___</span></span></div>
         <a class="btn full" href="#payment">Enroll Now <span class="arr">➜</span></a>
       </article>
     </div>
@@ -667,15 +697,15 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
     <div class="tbl">
       <table>
         <thead><tr><th>Class</th><th>Dates</th><th>Time</th><th>Fee</th><th>Seats</th></tr></thead>
-        <tbody>
-          <tr><td>DWI Education</td><td><span class="ph">Mon–Wed, Nov 2–4</span></td><td><span class="ph">6:00–10:00 pm</span></td><td><span class="ph">$___</span></td><td><span class="open">Open</span></td></tr>
-          <tr><td>DWI Education</td><td><span class="ph">Sat, Nov 14, 21, 28</span></td><td><span class="ph">9:00 am–1:00 pm</span></td><td><span class="ph">$___</span></td><td><span class="open">Open</span></td></tr>
-          <tr><td>DWI Intervention</td><td><span class="ph">Tue &amp; Thu, starts Nov 3</span></td><td><span class="ph">6:00–9:00 pm</span></td><td><span class="ph">$___</span></td><td><span class="open">Open</span></td></tr>
-          <tr><td>DWI Education</td><td><span class="ph">Mon–Wed, Dec 7–9</span></td><td><span class="ph">6:00–10:00 pm</span></td><td><span class="ph">$___</span></td><td><span class="open">Open</span></td></tr>
+        <tbody id="schedRows">
+          <tr><td>DWI Education</td><td><span class="ph">Mon–Wed, Nov 2–4</span></td><td><span class="ph">6:00–10:00 pm</span></td><td><span class="ph" data-site="price_education">$___</span></td><td><span class="open">Open</span></td></tr>
+          <tr><td>DWI Education</td><td><span class="ph">Sat, Nov 14, 21, 28</span></td><td><span class="ph">9:00 am–1:00 pm</span></td><td><span class="ph" data-site="price_education">$___</span></td><td><span class="open">Open</span></td></tr>
+          <tr><td>DWI Intervention</td><td><span class="ph">Tue &amp; Thu, starts Nov 3</span></td><td><span class="ph">6:00–9:00 pm</span></td><td><span class="ph" data-site="price_intervention">$___</span></td><td><span class="open">Open</span></td></tr>
+          <tr><td>DWI Education</td><td><span class="ph">Mon–Wed, Dec 7–9</span></td><td><span class="ph">6:00–10:00 pm</span></td><td><span class="ph" data-site="price_education">$___</span></td><td><span class="open">Open</span></td></tr>
         </tbody>
       </table>
     </div>
-    <p class="note">Example dates shown until the real schedule is set. Fee includes class materials and your state certificate. All sales are final, with a 30-day money back guarantee if your court does not accept your certificate (<a href="#refund-policy">see refund policy</a>). Transfers: <span class="ph">reschedule policy</span>.</p>
+    <p class="note"><span data-site="schedule_note">Example dates shown until the real schedule is set.</span> Fee includes class materials and your state certificate. All sales are final, with a 30-day money back guarantee if your court does not accept your certificate (<a href="#refund-policy">see refund policy</a>). Transfers: <span class="ph">reschedule policy</span>.</p>
   </div>
 </section>
 
@@ -736,13 +766,13 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
       <article class="card dotted">
         <span class="num">01</span>
         <h3>Verify the TDLR License</h3>
-        <p>Every DWI program in Texas must be licensed by TDLR. Look up any provider on the TDLR website before you pay. Our provider number is <span class="ph">#_____</span>.</p>
+        <p>Every DWI program in Texas must be licensed by TDLR. Look up any provider on the TDLR website before you pay. Our provider number is <span class="ph" data-site="tdlr">#_____</span>.</p>
         <a class="btn full" href="https://www.tdlr.texas.gov/LicenseSearch/" target="_blank" rel="noopener">Verify Now <span class="arr">➜</span></a>
       </article>
       <article class="card dotted">
         <span class="num">02</span>
         <h3>Speak to a Real Person</h3>
-        <p>A trustworthy school has a real phone number, a TDLR license you can look up and people who answer. Call us at <span class="ph">(254) ___-____</span> with any question before you enroll.</p>
+        <p>A trustworthy school has a real phone number, a TDLR license you can look up and people who answer. Call us at <span class="ph" data-site="phone">(254) ___-____</span> with any question before you enroll.</p>
       </article>
       <article class="card dotted">
         <span class="num">03</span>
@@ -775,7 +805,7 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
       <p class="eyebrow">Make Payment</p>
       <h2>Enroll &amp; Pay Online</h2>
       <p>Fill out the form and you'll go to a secure checkout to pay by card. We'll email your confirmation and class details.</p>
-      <p>Prefer to enroll by phone? Call <span class="ph">(254) ___-____</span>.</p>
+      <p>Prefer to enroll by phone? Call <span class="ph" data-site="phone">(254) ___-____</span>.</p>
       <div class="paybal">
         <h3>Already enrolled?</h3>
         <p>Pay a remaining balance, a reschedule fee or a replacement certificate.</p>
@@ -821,9 +851,9 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
 <section class="faq-photo" id="faq">
   <div class="wrap">
     <div class="sec-title center"><h2>Frequently Asked Questions</h2></div>
-    <div class="faq">
+    <div class="faq" id="faqList">
       <details><summary>Which class do I need?</summary><p>A first DWI conviction with probation usually requires the 12-hour DWI Education Program. A second or later DWI usually requires the 32-hour DWI Intervention Program. Your court order or probation officer will tell you which one. Call us if you're unsure.</p></details>
-      <details><summary>Is this class approved by the State of Texas?</summary><p>Yes. A Different Story is licensed by the Texas Department of Licensing and Regulation (TDLR) to teach DWI Education and DWI Intervention. Our provider number is <span class="ph">#_____</span>.</p></details>
+      <details><summary>Is this class approved by the State of Texas?</summary><p>Yes. A Different Story is licensed by the Texas Department of Licensing and Regulation (TDLR) to teach DWI Education and DWI Intervention. Our provider number is <span class="ph" data-site="tdlr">#_____</span>.</p></details>
       <details><summary>Can I take the class before my court date?</summary><p>Yes. Many people complete DWI Education before going to court. Check with your attorney first to make sure it fits your case.</p></details>
       <details><summary>Will this class get my suspended license back?</summary><p>Completing the DWI Education Program is what DPS requires to reinstate a license suspended for not finishing it. You may also need to pay a reinstatement fee to DPS. If your license is suspended now, ask the court about an occupational license so you can drive legally in the meantime.</p></details>
       <details><summary>Are the classes online?</summary><p>Yes. Every class is taught live over Zoom by a TDLR-licensed instructor, on a set schedule. It isn't a recorded video. You'll need a phone, tablet or computer with a camera and a steady internet connection, and your camera must stay on for the whole session.</p></details>
@@ -843,9 +873,9 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
       <p>We're based in Waco and teach every class live online, so you can join from anywhere in Texas.</p>
     </div>
     <div class="locinfo contact-info">
-      <div><h3>Call</h3><p><span class="ph">(254) ___-____</span></p></div>
-      <div><h3>Email</h3><p><span class="ph">info@adifferentstory___.com</span></p></div>
-      <div><h3>Office Hours</h3><p><span class="ph">Mon–Fri, 9 am–5 pm</span><br><span class="note">Classes run evenings and weekends</span></p></div>
+      <div><h3>Call</h3><p><span class="ph" data-site="phone">(254) ___-____</span></p></div>
+      <div><h3>Email</h3><p><span class="ph" data-site="email">info@adifferentstory___.com</span></p></div>
+      <div><h3>Office Hours</h3><p><span class="ph" data-site="office_hours">Mon–Fri, 9 am–5 pm</span><br><span class="note">Classes run evenings and weekends</span></p></div>
     </div>
   </div>
 </section>
@@ -856,7 +886,7 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
     <a class="logo" href="#home"><span class="logo-badge"><img src="Media/logo-mark.png" alt="" width="40" height="46"></span><span>A Different Story</span></a>
     <p>DWI Education and DWI Intervention classes · Waco, Texas</p>
     <div class="tdlr">
-      <p>A Different Story is licensed by the Texas Department of Licensing and Regulation, Provider <span class="ph">#_____</span>. Complaints about this program may be directed to the Texas Department of Licensing and Regulation, P.O. Box 12157, Austin, Texas 78711, 1-800-803-9202, <a href="https://www.tdlr.texas.gov" target="_blank" rel="noopener">www.tdlr.texas.gov</a>.</p>
+      <p>A Different Story is licensed by the Texas Department of Licensing and Regulation, Provider <span class="ph" data-site="tdlr">#_____</span>. Complaints about this program may be directed to the Texas Department of Licensing and Regulation, P.O. Box 12157, Austin, Texas 78711, 1-800-803-9202, <a href="https://www.tdlr.texas.gov" target="_blank" rel="noopener">www.tdlr.texas.gov</a>.</p>
     </div>
     <p class="flinks"><a href="#terms" id="termsOpen">Terms &amp; Conditions</a><a href="#refund-policy">Refund Policy</a></p>
     <p>© 2026 A Different Story. Information on this site is general and is not legal advice.</p>
@@ -948,7 +978,7 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
     <p>These terms, and any dispute related to them or to our classes, are governed by the laws of the State of Texas. Any dispute will be handled in the courts of McLennan County, Texas.</p>
 
     <h3>17. Contact us</h3>
-    <p>A Different Story, Waco, Texas. <span class="ph">Phone</span> · <span class="ph">Email</span> · <span class="ph">Address</span></p>
+    <p>A Different Story, Waco, Texas. <span class="ph" data-site="phone">Phone</span> · <span class="ph" data-site="email">Email</span> · <span class="ph">Address</span></p>
   </div>
 </dialog>
 
@@ -993,6 +1023,7 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
   <div class="acct-top"><div class="wrap">
     <div class="who"><span class="av" id="acctAv">S</span><span id="acctName">Sample Student</span></div>
     <div class="acct-actions">
+      <button type="button" id="acctEditSite" hidden>Edit site</button>
       <button type="button" id="acctMsgs" hidden>Messages<span class="mbadge" id="acctMsgsBadge" hidden></span></button>
       <button type="button" id="acctSwitch">View as admin</button>
       <button type="button" class="solid" id="acctBack">Back to website</button>
@@ -1039,6 +1070,7 @@ footer .flinks{display:flex;gap:18px;flex-wrap:wrap}
   </main>
 
   <main class="wrap acct-main" id="acctMessages" hidden></main>
+  <main class="wrap acct-main" id="acctSite" hidden></main>
   <main class="wrap acct-main" id="acctAdmin" hidden>
     <h1>Admin dashboard</h1>
     <p class="sub">Classes, enrollments, payments and certificates.</p>
@@ -1195,6 +1227,7 @@ const loginDlg=document.getElementById("loginDlg"),loginMsg=document.getElementB
 const loginOpen=document.getElementById("loginOpen"),loginSubmit=document.getElementById("loginSubmit");
 let acctView="student";
 const acctMessages=document.getElementById("acctMessages"),acctMsgs=document.getElementById("acctMsgs");
+const acctSite=document.getElementById("acctSite"),acctEditSite=document.getElementById("acctEditSite");
 const acct=document.getElementById("acct"),acctStudent=document.getElementById("acctStudent"),acctAdmin=document.getElementById("acctAdmin"),acctSwitch=document.getElementById("acctSwitch");
 const esc=t=>String(t??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const COURSE={education:"DWI Education (12 hours)",intervention:"DWI Intervention (32 hours)"};
@@ -1262,7 +1295,8 @@ loginForm.addEventListener("submit",async e=>{
 
 function openAcct(admin){
   acct.hidden=false;document.body.style.overflow="hidden";acct.scrollTop=0;
-  acctStudent.hidden=admin;acctAdmin.hidden=!admin;acctMessages.hidden=true;
+  acctStudent.hidden=admin;acctAdmin.hidden=!admin;acctMessages.hidden=true;acctSite.hidden=true;
+  acctEditSite.hidden=!(admin&&sb&&roleOf(profile)==="admin");acctEditSite.textContent="Edit site";
   if(typeof stopChat==="function"&&sb)stopChat();
   acctView=admin?"admin":"student";
   acct.classList.toggle("student-bg",!admin);acct.classList.toggle("admin-bg",admin);
@@ -1526,9 +1560,9 @@ async function updateMsgBadge(){
   b.hidden=!!error||!count;b.textContent=count||"";
 }
 async function openMessages(studentId){
-  const fromAdmin=!acctAdmin.hidden||acctView==="admin";
+  const fromAdmin=!acctAdmin.hidden||acctView==="admin"||acctView==="site";
   stopChat();
-  acctStudent.hidden=true;acctAdmin.hidden=true;acctMessages.hidden=false;acctView="messages";acct.scrollTop=0;
+  acctStudent.hidden=true;acctAdmin.hidden=true;acctSite.hidden=true;acctEditSite.hidden=true;acctMessages.hidden=false;acctView="messages";acct.scrollTop=0;
   acctSwitch.hidden=true;setMsgsButton(fromAdmin);
   const staff=staffInbox();
   if(!staff){
@@ -1619,9 +1653,201 @@ async function attachEnrollment(){
   try{await sb.from("enrollments").insert({student_id:me.id,class_id:Number(sessionSel.value)})}catch(_){}
 }
 
+// Site content the admin changes on the Edit site page. Saved in the Supabase table site_content
+// (see site-editor-setup.sql). Anything not saved there keeps the built-in text and photos in this file.
+const SITE_PHOTOS={home:["Top of the page","Media/hero-classroom.jpg"],how:["Made Simple steps","Media/bg-soft-light.jpg"],about:["About Us","Media/about-wave.jpg"],
+  services:["Court Ordered DWI Classes","Media/bg-road.jpg"],schedule:["Class Schedule & Fees","Media/schedule-classroom.jpg"],requirements:["What You Need & What to Expect","Media/verify-wave.jpg"],
+  testimonials:["What Our Students Say","Media/reviews-desk.jpg"],verify:["3 Things to Check","Media/verify-wave.jpg"],online:["Online Classes","Media/online-classroom.jpg"],
+  payment:["Enroll & Pay Online","Media/payment-light.jpg"],faq:["Frequently Asked Questions","Media/faq-office.jpg"]};
+const SITE_FIELDS={
+  hero:[["hero_title","Headline"],["hero_intro","Intro","area"],["hero_sub","Second paragraph","area"]],
+  contact:[["phone","Phone number"],["email","Email","email"],["office_hours","Office hours"],["tdlr","TDLR provider number"]],
+  prices:[["price_education","DWI Education fee ($)","price"],["price_intervention","DWI Intervention fee ($)","price"]]
+};
+const SITE_CACHE="ads-site-content",SITE_PRICES={...CONFIG.prices};
+const siteEls=[...document.querySelectorAll("[data-site]")].map(el=>({el,key:el.dataset.site,html:el.innerHTML,ph:el.classList.contains("ph")}));
+const faqList=document.getElementById("faqList"),faqOrig=[...faqList.querySelectorAll("details:not(#refund-policy)")];
+const schedRows=document.getElementById("schedRows"),schedOrig=[...schedRows.children];
+let siteContent={};
+const money=n=>"$"+(Number.isInteger(n)?n:n.toFixed(2));
+const siteDefault=key=>{const d=siteEls.find(x=>x.key===key);if(!d)return {text:"",ph:false};const t=document.createElement("div");t.innerHTML=d.html;return {text:t.textContent.trim(),ph:d.ph}};
+const sitePrice=v=>{const n=Number(v);return v!==""&&v!=null&&isFinite(n)&&n>0?n:null};
+const safePhoto=v=>typeof v==="string"&&/^https:\/\/[^\s"'()\\]+$/.test(v)?v:null;
+function siteText(key){
+  if(key.startsWith("price_")){const n=CONFIG.prices[key.slice(6)];return n?money(n):null}
+  const v=siteContent[key];if(typeof v!=="string"||!v.trim())return null;
+  return key==="tdlr"?"#"+v.trim().replace(/^#\s*/,""):v.trim();
+}
+const faqParas=a=>String(a).trim().split(/\n\s*\n/).map(p=>`<p>${esc(p.trim()).replace(/\n/g,"<br>")}</p>`).join("");
+// Puts saved content on the page. Anything missing goes back to the built-in version.
+function applySite(content){
+  siteContent=content&&typeof content==="object"?content:{};
+  CONFIG.prices={education:sitePrice(siteContent.price_education)??SITE_PRICES.education,intervention:sitePrice(siteContent.price_intervention)??SITE_PRICES.intervention};
+  siteEls.forEach(({el,key,html,ph})=>{const t=siteText(key);if(t!=null){el.textContent=t;el.classList.remove("ph")}else{el.innerHTML=html;el.classList.toggle("ph",ph)}});
+  const refund=document.getElementById("refund-policy"),faqs=Array.isArray(siteContent.faqs)?siteContent.faqs.filter(f=>f&&String(f.q||"").trim()&&String(f.a||"").trim()):[];
+  faqList.querySelectorAll("details:not(#refund-policy)").forEach(d=>d.remove());
+  (faqs.length?faqs.map(f=>{const d=document.createElement("details");d.innerHTML=`<summary>${esc(f.q)}</summary>${faqParas(f.a)}`;return d}):faqOrig).forEach(d=>faqList.insertBefore(d,refund));
+  Object.keys(SITE_PHOTOS).forEach(id=>{const el=document.getElementById(id),u=safePhoto(siteContent["photo_"+id]);if(!el)return;u?el.style.setProperty("--bg-img",`url("${u}")`):el.style.removeProperty("--bg-img")});
+  refresh();
+}
+// The public Class Schedule table lists the open classes from Supabase, once they've loaded.
+const siteRefresh=refresh;
+refresh=function(){siteRefresh();renderSchedule()};
+function renderSchedule(){
+  if(!dbClasses){if(schedRows.children[0]!==schedOrig[0])schedRows.replaceChildren(...schedOrig);return}
+  schedRows.innerHTML=dbClasses.map(c=>{const n=CONFIG.prices[c.course];return `<tr><td>${esc(COURSE[c.course]?.split(" (")[0]||"DWI class")}</td><td>${esc(c.dates)}</td><td>${esc(c.times)}</td><td>${n?money(n):'<span class="ph">$___</span>'}</td><td><span class="open">Open</span></td></tr>`}).join("")||`<tr><td colspan="5">No open classes right now. Please call us for the next dates.</td></tr>`;
+}
+function cacheSite(){try{localStorage.setItem(SITE_CACHE,JSON.stringify(siteContent))}catch(_){}}
+async function loadSite(){
+  if(!sb)return false;
+  const {data,error}=await sb.from("site_content").select("key,value");
+  if(error||!data)return false;
+  applySite(Object.fromEntries(data.map(r=>[r.key,r.value])));cacheSite();return true;
+}
+try{const c=JSON.parse(localStorage.getItem(SITE_CACHE)||"null");if(c)applySite(c)}catch(_){}
+
+// Admin: the Edit site page
+acctEditSite.addEventListener("click",()=>acctView==="site"?showAcct(true):openSiteEditor());
+let siteClasses=[];
+async function openSiteEditor(){
+  if(!sb||roleOf(profile)!=="admin")return;
+  stopChat();
+  acctStudent.hidden=true;acctAdmin.hidden=true;acctMessages.hidden=true;acctSite.hidden=false;acctView="site";acct.scrollTop=0;
+  acctSwitch.hidden=true;acctMsgs.hidden=true;acctEditSite.textContent="Back to dashboard";
+  acctSite.innerHTML=`<h1>Edit site</h1><p class="sub">Loading…</p>`;
+  const [ok,cl]=await Promise.all([loadSite(),sb.from("classes").select("*").order("id")]);
+  siteClasses=cl.data||[];
+  const val=k=>siteContent[k]==null?"":String(siteContent[k]);
+  const field=([key,label,kind])=>{const d=siteDefault(key),v=val(key)||(d.ph||kind==="price"?"":d.text);
+    const ph=d.ph?`Not set yet. Leave blank to keep the yellow placeholder.`:`Leave blank to use the original text.`;
+    return kind==="area"?`<label>${label}<textarea name="${key}" rows="3" placeholder="${esc(ph)}">${esc(v)}</textarea></label>`
+      :`<label>${label}<input name="${key}" ${kind==="price"?`type="number" min="0" step="0.01" inputmode="decimal"`:kind==="email"?`type="email"`:`type="text"`} value="${esc(v)}" placeholder="${esc(kind==="price"?"Not set yet":ph)}"></label>`};
+  const foot=(goto)=>`<div class="site-foot"><button class="btn" type="submit">Save</button><button class="btn btn-ghost" type="button" data-goto="${goto}">See it on the site</button><p class="lmsg" role="status"></p></div>`;
+  const faqs=Array.isArray(siteContent.faqs)&&siteContent.faqs.length?siteContent.faqs:defaultFaqs();
+  acctSite.innerHTML=`<h1>Edit site</h1><p class="sub">Change the website's key details. Each Save goes live on the site right away.</p>
+  ${ok?"":`<p class="lmsg show err">The Edit site page isn't set up in Supabase yet, so changes can't be saved. Run site-editor-setup.sql in the Supabase SQL Editor first.</p>`}
+  <div class="site-ed">
+    <form class="site-card" data-card="hero" novalidate><h2>Headline &amp; intro</h2><p class="hint">The big heading and text at the top of the home page.</p>${SITE_FIELDS.hero.map(field).join("")}${foot("home")}</form>
+    <form class="site-card" data-card="contact" novalidate><h2>Contact &amp; license</h2><p class="hint">Shown in the top bar, the Contact section, the footer, the FAQ and the Terms. The TDLR number appears wherever the site mentions your provider number.</p><div class="site-row">${SITE_FIELDS.contact.map(field).join("")}</div>${foot("contact")}</form>
+    <form class="site-card" data-card="prices" novalidate><h2>Prices</h2><p class="hint">Shown on the class cards, the schedule and the enroll form's total. Online payment links are set up separately.</p><div class="site-row">${SITE_FIELDS.prices.map(field).join("")}</div>${foot("services")}</form>
+    <form class="site-card" data-card="schedule" novalidate><h2>Class schedule</h2><p class="hint">Open classes show in the Class Schedule and in the enroll form. Close a class to take it off the site; its students stay enrolled.</p>
+      <div id="siteClassList" class="site-ed">${siteClasses.map(classItem).join("")||`<p class="hint">No classes yet. Add one below.</p>`}</div>
+      <div class="site-item-tools"><button type="button" id="siteAddClass">+ Add a class</button></div>
+      ${field(["schedule_note","Note under the schedule","area"])}${foot("schedule")}</form>
+    <form class="site-card" data-card="faq" novalidate><h2>Frequently asked questions</h2><p class="hint">Leave a blank line in an answer to start a new paragraph. The refund question always stays last and matches the Terms &amp; Conditions, so it isn't changed here.</p>
+      <div id="siteFaqList" class="site-ed">${faqs.map(faqItem).join("")}</div>
+      <div class="site-item-tools"><button type="button" id="siteAddFaq">+ Add a question</button><button type="button" id="siteFaqReset">Use the original questions</button></div>${foot("faq")}</form>
+    <section class="site-card" aria-labelledby="sitePhotosTitle"><h2 id="sitePhotosTitle">Photos</h2><p class="hint">Section background photos. Pick one with a similar light or dark feel to the original so the text on top stays easy to read. Large photos are shrunk automatically.</p>
+      <div class="site-photos">${Object.entries(SITE_PHOTOS).map(([id,[name,def]])=>{const u=safePhoto(siteContent["photo_"+id]);return `<div class="site-photo" data-photo="${id}">
+        <img src="${esc(u||def)}" alt="" loading="lazy"><div><b>${esc(name)}</b>${u?pill("ok","Your photo"):pill("no","Original photo")}
+        <label class="btn">Change photo<input type="file" accept="image/jpeg,image/png,image/webp" aria-label="Change the ${esc(name)} photo"></label>
+        ${u?`<button type="button" data-photo-reset>Use the original photo</button>`:""}<button type="button" data-goto="${id}">See it on the site</button><p class="lmsg" role="status"></p></div></div>`}).join("")}</div></section>
+  </div>`;
+  acctSite.querySelectorAll("form[data-card]").forEach(f=>f.addEventListener("submit",e=>{e.preventDefault();saveSiteCard(f)}));
+  acctSite.querySelectorAll("[data-goto]").forEach(b=>b.addEventListener("click",()=>{closeAcct();document.getElementById(b.dataset.goto)?.scrollIntoView({block:"start"})}));
+  const faqBox=document.getElementById("siteFaqList"),classBox=document.getElementById("siteClassList");
+  document.getElementById("siteAddFaq").addEventListener("click",()=>{faqBox.insertAdjacentHTML("beforeend",faqItem({q:"",a:""}));faqBox.lastElementChild.querySelector("input").focus()});
+  document.getElementById("siteFaqReset").addEventListener("click",()=>{faqBox.innerHTML=defaultFaqs(true).map(faqItem).join("")});
+  faqBox.addEventListener("click",e=>{const b=e.target.closest("button[data-move]");if(!b)return;const it=b.closest(".site-item");
+    if(b.dataset.move==="up"&&it.previousElementSibling)it.after(it.previousElementSibling);else if(b.dataset.move==="down"&&it.nextElementSibling)it.before(it.nextElementSibling);else if(b.dataset.move==="remove")it.remove();
+    b.focus()});
+  document.getElementById("siteAddClass").addEventListener("click",()=>{classBox.querySelector("p.hint")?.remove();classBox.insertAdjacentHTML("beforeend",classItem({}));classBox.lastElementChild.querySelector("input").focus()});
+  acctSite.querySelectorAll(".site-photo input[type=file]").forEach(inp=>inp.addEventListener("change",()=>inp.files[0]&&uploadSitePhoto(inp.closest(".site-photo"),inp.files[0])));
+  acctSite.querySelectorAll("[data-photo-reset]").forEach(b=>b.addEventListener("click",async()=>{const card=b.closest(".site-photo");if(await writeSite({["photo_"+card.dataset.photo]:null},b,card.querySelector(".lmsg")))openSiteEditor()}));
+}
+// The FAQs as they are on the built-in page (or as currently shown), for prefilling the editor.
+function defaultFaqs(orig){
+  const src=orig?faqOrig:[...faqList.querySelectorAll("details:not(#refund-policy)")];
+  return src.map(d=>({q:d.querySelector("summary").textContent.trim(),a:[...d.querySelectorAll("p")].map(p=>p.textContent.trim()).join("\n\n")}));
+}
+let siteItemN=0;
+function faqItem(f){const n=++siteItemN;return `<fieldset class="site-item" data-faq>
+  <label>Question<input name="q${n}" value="${esc(f.q)}" maxlength="300"></label>
+  <label>Answer<textarea name="a${n}" rows="4" maxlength="4000">${esc(f.a)}</textarea></label>
+  <div class="site-item-tools"><button type="button" data-move="up">Move up</button><button type="button" data-move="down">Move down</button><button type="button" data-move="remove">Remove</button></div></fieldset>`}
+function classItem(c){const n=++siteItemN;return `<fieldset class="site-item" data-class-id="${c.id||""}"><legend>${c.id?esc(COURSE[c.course]?.split(" (")[0]||"Class")+" · "+esc(c.dates):"New class"}</legend><div class="site-row">
+  <label>Course<select name="course${n}" data-f="course"><option value="education"${c.course!=="intervention"?" selected":""}>DWI Education</option><option value="intervention"${c.course==="intervention"?" selected":""}>DWI Intervention</option></select></label>
+  <label>Dates<input name="dates${n}" data-f="dates" value="${esc(c.dates||"")}" placeholder="Mon–Wed, Jan 5–7"></label>
+  <label>Times<input name="times${n}" data-f="times" value="${esc(c.times||"")}" placeholder="6:00–10:00 pm"></label>
+  <label>Sessions<input name="sessions${n}" data-f="sessions" type="number" min="1" value="${c.sessions||3}"></label>
+  <label>Seats<input name="seats${n}" data-f="seats" type="number" min="1" value="${c.seats||16}"></label>
+  <label>Show on site<select name="status${n}" data-f="status"><option value="open"${c.status!=="closed"?" selected":""}>Open</option><option value="closed"${c.status==="closed"?" selected":""}>Closed (hidden)</option></select></label>
+  </div></fieldset>`}
+// Saves (or clears, when a value is null) site_content rows, then updates the live page.
+async function writeSite(changes,btn,msgEl){
+  const say=(t,k)=>{if(msgEl){msgEl.textContent=t;msgEl.className="lmsg show "+k}};
+  const up=Object.entries(changes).filter(([,v])=>v!=null).map(([key,value])=>({key,value})),del=Object.keys(changes).filter(k=>changes[k]==null);
+  btn.disabled=true;
+  try{
+    if(up.length){const {error}=await sb.from("site_content").upsert(up);if(error)throw error}
+    if(del.length){const {error}=await sb.from("site_content").delete().in("key",del);if(error)throw error}
+    const next={...siteContent};up.forEach(r=>next[r.key]=r.value);del.forEach(k=>delete next[k]);
+    applySite(next);cacheSite();
+    say("Saved. It's live on the site now.","ok");return true;
+  }catch(err){
+    const m=String(err.message||err);
+    say(/site_content|schema cache|does not exist/i.test(m)?"Couldn't save: the Edit site page isn't set up in Supabase yet (run site-editor-setup.sql).":/row-level security|permission/i.test(m)?"Couldn't save: only admins can change the site.":"Couldn't save: "+m,"err");return false;
+  }finally{btn.disabled=false}
+}
+async function saveSiteCard(f){
+  const card=f.dataset.card,btn=f.querySelector("button[type=submit]"),msgEl=f.querySelector(".site-foot .lmsg"),changes={};
+  const bad=t=>{msgEl.textContent=t;msgEl.className="lmsg show err"};
+  const text=key=>{const v=(f.elements[key]?.value||"").trim(),d=siteDefault(key);changes[key]=!v||(!d.ph&&v===d.text)?null:v};
+  if(SITE_FIELDS[card])for(const [key,,kind] of SITE_FIELDS[card]){
+    if(kind==="price"){const v=f.elements[key].value.trim();if(v&&sitePrice(v)==null)return bad("Prices must be a number above 0, like 100 or 349.50.");changes[key]=v?Math.round(Number(v)*100)/100:null}
+    else text(key);
+  }
+  if(card==="contact"&&changes.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(changes.email))return bad("Please enter a valid email, like info@example.com.");
+  if(card==="faq"){
+    const items=[...f.querySelectorAll("[data-faq]")].map(it=>({q:it.querySelector("input").value.trim(),a:it.querySelector("textarea").value.trim()}));
+    if(items.some(x=>!x.q!==!x.a))return bad("Each question needs an answer, and each answer needs a question.");
+    const list=items.filter(x=>x.q);if(!list.length)return bad("Keep at least one question, or click “Use the original questions”.");
+    changes.faqs=JSON.stringify(list)===JSON.stringify(defaultFaqs(true))?null:list;
+  }
+  if(card==="schedule"){
+    text("schedule_note");
+    const rows=[...f.querySelectorAll("[data-class-id]")].map(it=>{const r={id:Number(it.dataset.classId)||null};it.querySelectorAll("[data-f]").forEach(el=>r[el.dataset.f]=el.type==="number"?Number(el.value):el.value.trim());return r});
+    if(rows.some(r=>!r.dates||!r.times))return bad("Each class needs its dates and times.");
+    if(rows.some(r=>!(r.sessions>=1)||!(r.seats>=1)))return bad("Sessions and seats must be 1 or more.");
+    btn.disabled=true;
+    for(const r of rows){
+      const {id,...ch}=r,old=siteClasses.find(c=>c.id===id);
+      if(old&&Object.keys(ch).every(k=>old[k]===ch[k]))continue;
+      const {error}=old?await sb.from("classes").update(ch).eq("id",id):await sb.from("classes").insert(ch);
+      if(error){btn.disabled=false;return bad("Couldn't save the classes: "+error.message)}
+    }
+    btn.disabled=false;
+    await loadClasses();
+    const {data}=await sb.from("classes").select("*").order("id");siteClasses=data||siteClasses;
+    document.getElementById("siteClassList").innerHTML=siteClasses.map(classItem).join("");
+  }
+  await writeSite(changes,btn,msgEl);
+}
+// Shrinks a photo to at most 1920px wide, uploads it, and uses it as that section's background.
+async function uploadSitePhoto(card,file){
+  const id=card.dataset.photo,msgEl=card.querySelector(".lmsg"),lbl=card.querySelector("label.btn");
+  const say=(t,k)=>{msgEl.textContent=t;msgEl.className="lmsg show "+k};
+  if(!/^image\/(jpeg|png|webp)$/.test(file.type))return say("Please pick a JPG, PNG or WebP photo.","err");
+  say("Uploading…","");lbl.style.opacity=".6";
+  try{
+    const img=await createImageBitmap(file),scale=Math.min(1,1920/img.width),c=document.createElement("canvas");
+    c.width=Math.round(img.width*scale);c.height=Math.round(img.height*scale);c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+    const blob=await new Promise(r=>c.toBlob(r,"image/jpeg",.82));
+    const path=`${id}-${Date.now()}.jpg`,store=sb.storage.from("site-media");
+    const {error}=await store.upload(path,blob,{contentType:"image/jpeg",cacheControl:"31536000"});
+    if(error)throw error;
+    const url=store.getPublicUrl(path).data.publicUrl;
+    if(await writeSite({["photo_"+id]:url},card.querySelector("button"),msgEl)){
+      await openSiteEditor();
+      const m=acctSite.querySelector(`[data-photo="${id}"] .lmsg`);if(m){m.textContent="Saved. It's live on the site now.";m.className="lmsg show ok"}
+    }
+  }catch(err){say("Couldn't upload: "+(/bucket/i.test(String(err.message))?"the photo storage isn't set up in Supabase yet (run site-editor-setup.sql).":err.message||err),"err")}
+  finally{lbl.style.opacity=""}
+}
+
 if(sb){
   sb.auth.onAuthStateChange((ev)=>{if(ev==="PASSWORD_RECOVERY")openLogin("newpass")});
-  loadAccount(false);loadClasses();
+  loadAccount(false);loadClasses();loadSite();
 }else updateEnrollNote();
 
 // Open the refund policy when a link points to it
